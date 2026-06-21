@@ -67,7 +67,7 @@ npm.cmd audit --audit-level=moderate
 
 ## 当前状态
 
-当前 React 工程已经覆盖 14 个业务模块，主要数据仍来自 `jixiang-admin/src/hooks/useMockData.ts`。项目可构建、可 lint，但仍缺少真实 API 接入、权限认证、测试体系和部署配置。
+当前 React 工程已经覆盖 14 个业务模块，系统管理已具备组织架构、角色权限、账号回收站、操作日志、mock 登录和路由权限守卫骨架。项目可构建、可 lint、可测试；主要业务数据仍来自 `jixiang-admin/src/hooks/useMockData.ts`，下一阶段重点是真实 API 接入、写操作闭环和部署配置。
 
 首期推进请以 `PROJECT_HEALTH_CHECKLIST.md` 和 `DELIVERY_SCOPE.md` 为准。
 

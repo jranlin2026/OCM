@@ -143,3 +143,163 @@
 4. 列表页面统一引入 loading、empty、error 三种状态。
 5. 写操作完成后统一刷新列表，并记录操作日志。
 
+## 2026-06-21 权限与组织架构补充契约
+
+当前前端已完成 mock 登录、菜单过滤、路由权限守卫、组织架构和本地审计日志。后续接真实 API 时建议优先对齐以下字段。
+
+### AuthUser
+
+```json
+{
+  "id": "u-001",
+  "name": "林恩光",
+  "username": "admin",
+  "roleId": "role-admin",
+  "roleName": "企业管理员",
+  "departmentId": "dept-office",
+  "departmentName": "总经办",
+  "avatar": "林",
+  "permissionPaths": ["*"]
+}
+```
+
+### POST `/auth/login`
+
+请求：
+
+```json
+{
+  "username": "admin",
+  "password": "jixiang2026"
+}
+```
+
+响应 `data`：
+
+```json
+{
+  "token": "jwt-or-session-token",
+  "user": {
+    "id": "u-001",
+    "name": "林恩光",
+    "username": "admin",
+    "roleId": "role-admin",
+    "roleName": "企业管理员",
+    "departmentId": "dept-office",
+    "departmentName": "总经办",
+    "avatar": "林",
+    "permissionPaths": ["*"]
+  }
+}
+```
+
+### GET `/auth/me`
+
+返回当前登录用户，字段同 `AuthUser`。前端会用 `permissionPaths` 同时控制侧边栏展示和路由访问。
+
+### GET `/departments`
+
+返回组织树，建议字段：
+
+```json
+{
+  "id": "dept-sales",
+  "name": "销售部",
+  "parentId": "dept-root",
+  "children": [],
+  "sort": 40,
+  "enabled": true
+}
+```
+
+### GET `/users`
+
+查询参数：
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| `keyword` | string | 员工姓名、账号、手机号、邮箱、部门关键词 |
+| `departmentId` | string | 部门筛选 |
+| `status` | string | `active` / `disabled` / `left` |
+| `page` | number | 页码 |
+| `pageSize` | number | 每页数量 |
+
+员工字段建议：
+
+```json
+{
+  "id": "u-101",
+  "name": "张璞",
+  "title": "销售专员",
+  "departmentId": "dept-sales",
+  "departmentName": "销售部",
+  "account": "13950040440",
+  "phone": "13950040440",
+  "email": "sales@example.com",
+  "status": "active",
+  "roleIds": ["role-sales"],
+  "tags": []
+}
+```
+
+### 组织与账号写操作
+
+| 方法 | 路径 | 说明 |
+| --- | --- | --- |
+| POST | `/departments` | 新增部门 |
+| PUT | `/departments/:id` | 更新部门 |
+| POST | `/users/import` | 批量导入员工 |
+| POST | `/users/:id/move` | 移动员工到部门 |
+| POST | `/users/:id/disable` | 禁用账号 |
+| POST | `/users/:id/enable` | 解禁账号 |
+| POST | `/users/:id/offboard` | 办理离职，进入账号回收站 |
+
+### GET `/recycle-accounts`
+
+字段建议：
+
+```json
+{
+  "id": "r-001",
+  "userId": "u-201",
+  "name": "吴珊",
+  "title": "销售专员",
+  "departmentName": "销售部",
+  "account": "18205922447",
+  "offboardedAt": "2026-06-08T09:11:10",
+  "operator": "林恩光"
+}
+```
+
+操作接口：
+
+| 方法 | 路径 | 说明 |
+| --- | --- | --- |
+| POST | `/recycle-accounts/:id/restore` | 重新启用账号 |
+| DELETE | `/recycle-accounts/:id` | 彻底删除账号 |
+
+### GET `/operation-logs`
+
+字段建议：
+
+```json
+{
+  "id": "log-001",
+  "user": "刘洋",
+  "action": "拒绝访问",
+  "module": "权限",
+  "detail": "财务访问 /settings/roles 被拒绝",
+  "ip": "127.0.0.1",
+  "level": "warning",
+  "createdAt": "2026-06-21T13:31:00"
+}
+```
+
+查询参数：
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| `keyword` | string | 操作人、动作、模块、详情关键词 |
+| `level` | string | `info` / `warning` / `danger` |
+| `page` | number | 页码 |
+| `pageSize` | number | 每页数量 |

@@ -95,3 +95,47 @@ rg "TODO|FIXME|any|@ts-ignore|dangerouslySetInnerHTML|console\.log" jixiang-admi
 8. 已完成第一版：补测试基线并纳入 CI。
 9. 拆分 `useMockData.ts`。
 10. 做桌面端主流程 QA；移动端单独排期。
+
+## 8. 2026-06-21 13:35 项目负责人更新
+
+### 已完成
+
+- 仓库已同步到 `https://github.com/jranlin2026/OCM.git`，当前 `main` 包含两轮新增提交：
+  - `212a31f Add organization permission management prototype`
+  - `483fe66 Add mock auth guard and audit logs`
+- 系统管理已升级为组织权限骨架：
+  - `/settings/users`：员工 & 部门，支持组织树筛选和关键词搜索。
+  - `/settings/roles`：角色权限，支持角色切换、成员表和权限标签展示。
+  - `/settings/recycle-bin`：账号回收站，支持关键词搜索。
+  - `/settings/logs`：操作日志，支持级别筛选和关键词搜索。
+- 已新增 mock 登录与路由权限守卫：
+  - `/login` 登录页。
+  - 企业管理员、销售经理、财务三类演示账号。
+  - 按角色过滤侧边栏菜单。
+  - 未登录访问业务页会跳转登录。
+  - 无权限访问会展示 403 页面。
+- 已新增本地审计日志：
+  - 记录登录、退出、登录失败、拒绝访问。
+  - 日志 ID 已做唯一化，避免 React key 重复警告。
+  - 重复拒绝访问日志已做短时间去重。
+
+### 最新验证
+
+- `npm.cmd run test`：通过，5 个测试文件 / 14 个用例。
+- `npm.cmd run lint`：通过。
+- `npm.cmd run build`：通过。
+- 浏览器冒烟：
+  - 财务账号登录后只能看到财务允许的菜单。
+  - 财务账号访问 `/settings/roles` 会进入 403。
+  - 管理员可进入 `/settings/logs` 查看登录、退出、拒绝访问记录。
+  - 新标签日志页控制台无应用 error。
+
+### 当前 P0 状态调整
+
+| 检查项 | 当前状态 | 下一步 |
+| --- | --- | --- |
+| 权限与登录 | 已完成 mock 骨架 | 接真实 `/auth/login`、`/auth/me`、菜单权限接口 |
+| 组织架构 | 已完成演示骨架 | 增加真实新增、移动、禁用、离职、恢复账号流程 |
+| 操作日志 | 已完成本地审计骨架 | 写操作接 API 后统一记录服务端审计日志 |
+| API 接入 | 文档草案已有，需更新细节 | 拆 `src/services` 模块并逐页替换 mock 数据 |
+| Mock 数据治理 | 待优化 | 优先拆分 `useMockData.ts`，避免单文件继续膨胀 |
