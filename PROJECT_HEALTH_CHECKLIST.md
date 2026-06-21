@@ -129,6 +129,7 @@ rg "TODO|FIXME|any|@ts-ignore|dangerouslySetInnerHTML|console\.log" jixiang-admi
   - 财务账号访问 `/settings/roles` 会进入 403。
   - 管理员可进入 `/settings/logs` 查看登录、退出、拒绝访问记录。
   - 新标签日志页控制台无应用 error。
+  - 57 条业务路由全量扫描通过，无空白页、无路由错跳、无控制台 error。
 
 ### 当前 P0 状态调整
 
