@@ -5,15 +5,25 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/NotificationsOutlined';
+import LogoutIcon from '@mui/icons-material/LogoutOutlined';
+import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '@/stores/appStore';
+import { useAuthStore } from '@/stores/authStore';
 import { useNavigation } from '@/hooks/useNavigation';
 import { getCurrentDate } from '@/utils/formatters';
 import { colors } from '@/theme/tokens';
 
 export default function Topbar() {
-  const { toggleSidebar, user } = useAppStore();
+  const { toggleSidebar } = useAppStore();
+  const { user, logout } = useAuthStore();
+  const navigate = useNavigate();
   const { currentTitle } = useNavigation();
   const today = getCurrentDate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login', { replace: true });
+  };
 
   return (
     <Box
@@ -68,8 +78,14 @@ export default function Topbar() {
       </Typography>
 
       <Tooltip title="通知" arrow>
-        <IconButton size="small" sx={{ color: colors.textSecondary }}>
+        <IconButton size="small" aria-label="通知" sx={{ color: colors.textSecondary }}>
           <NotificationsIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
+
+      <Tooltip title="退出登录" arrow>
+        <IconButton size="small" aria-label="退出登录" onClick={handleLogout} sx={{ color: colors.textSecondary }}>
+          <LogoutIcon fontSize="small" />
         </IconButton>
       </Tooltip>
 
@@ -84,7 +100,7 @@ export default function Topbar() {
           cursor: 'pointer',
         }}
       >
-        {user.avatar}
+        {user?.avatar}
       </Avatar>
     </Box>
   );

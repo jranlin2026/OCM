@@ -1,11 +1,16 @@
 import Box from '@mui/material/Box';
+import type { ReactNode } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import { useAppStore } from '@/stores/appStore';
 import { colors } from '@/theme/tokens';
 
-export default function AppLayout() {
+interface Props {
+  children?: ReactNode;
+}
+
+export default function AppLayout({ children }: Props) {
   const { sidebarCollapsed } = useAppStore();
 
   return (
@@ -23,7 +28,7 @@ export default function AppLayout() {
       >
         <Topbar />
         <Box sx={{ p: 3, flex: 1 }}>
-          <Outlet />
+          {children ?? <Outlet />}
         </Box>
       </Box>
     </Box>

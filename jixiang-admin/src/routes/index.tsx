@@ -2,9 +2,10 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { lazy, Suspense, type ReactNode } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import AppLayout from '@/layouts/AppLayout';
+import ProtectedLayout from './ProtectedLayout';
 import { colors } from '@/theme/tokens';
 
+const LoginPage = lazy(() => import('@/pages/LoginPage'));
 const DashboardPage = lazy(() => import('@/pages/dashboard/DashboardPage'));
 const ProductMatrixPage = lazy(() => import('@/pages/products/ProductMatrixPage'));
 
@@ -108,9 +109,10 @@ function withSuspense(node: ReactNode) {
 }
 
 export const router = createBrowserRouter([
+  { path: '/login', element: withSuspense(<LoginPage />) },
   {
     path: '/',
-    element: <AppLayout />,
+    element: <ProtectedLayout />,
     children: [
       { index: true, element: <Navigate to="/dashboard" replace /> },
       { path: 'dashboard', element: withSuspense(<DashboardPage />) },

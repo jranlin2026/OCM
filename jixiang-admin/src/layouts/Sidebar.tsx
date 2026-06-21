@@ -5,18 +5,22 @@ import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { filterNavSectionsForUser } from '@/auth/auth';
 import { useAppStore } from '@/stores/appStore';
+import { useAuthStore } from '@/stores/authStore';
 import { navSections } from '@/routes/navItems';
 import { colors } from '@/theme/tokens';
 import NavSection from '@/components/layout/NavSection';
 import NavItem from '@/components/layout/NavItem';
 
 export default function Sidebar() {
-  const { sidebarCollapsed, user } = useAppStore();
+  const { sidebarCollapsed } = useAppStore();
+  const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const sidebarWidth = sidebarCollapsed ? 64 : 240;
+  const visibleNavSections = filterNavSectionsForUser(navSections, user);
 
   // NavItem 内部已自行判断 active 状态，Sidebar 不需要依赖 pathname
   // 因此导航菜单只在 sidebarCollapsed 变化时才重新渲染
@@ -96,7 +100,7 @@ export default function Sidebar() {
           py: 1,
         }}
       >
-        {navSections.map((section) => (
+        {visibleNavSections.map((section) => (
           <Box key={section.title}>
             {(section.title === '拓展运营' || section.title === '服务与合规' || section.title === '系统管理') && !sidebarCollapsed && (
               <Divider sx={{ borderColor: colors.divider, mx: 2, my: 0.5 }} />
@@ -142,7 +146,7 @@ export default function Sidebar() {
                 fontWeight: 700,
               }}
             >
-              {user.avatar}
+              {user?.avatar}
             </Avatar>
             <Box sx={{ minWidth: 0 }}>
               <Typography
@@ -156,7 +160,7 @@ export default function Sidebar() {
                   textOverflow: 'ellipsis',
                 }}
               >
-                {user.name}
+                {user?.name}
               </Typography>
               <Typography
                 sx={{
@@ -165,7 +169,7 @@ export default function Sidebar() {
                   lineHeight: 1.3,
                 }}
               >
-                {user.role}
+                {user?.roleName}
               </Typography>
             </Box>
           </Box>
