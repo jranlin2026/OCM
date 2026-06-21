@@ -28,6 +28,7 @@
 | 测试基线 | 待做 | 前端负责人 | 添加 Vitest/Testing Library 或 Playwright，至少覆盖路由、核心表格、搜索筛选 |
 | 部署配置 | 待做 | 运维/前端 | 确认构建产物托管方式、环境变量、API 代理、404 fallback |
 | 数据字典 | 待做 | 产品/后端 | 从 mock 数据中抽取实体：产品、订单、代理、合同、培训、数据看板等 |
+| 首期交付范围 | 已完成第一版 | 项目负责人 | 已新增 `DELIVERY_SCOPE.md`，后续按评审结果更新 |
 
 ## 3. P1 重要优化
 
@@ -38,8 +39,8 @@
 | 路由文件拆分 | 待优化 | `src/routes/index.tsx` 约 10KB，集中 import 所有页面 | 路由模块化，并结合 `React.lazy` |
 | 移动端布局 | 待优化 | 侧栏固定宽度，主内容 `ml: 240px/64px` | 小屏改成抽屉式导航，内容区取消固定左边距 |
 | 组件性能 | 待优化 | 页面数量多，当前无懒加载/Suspense | 重页面和图表区按需加载，列表增加虚拟化评估 |
-| 文档入口 | 待优化 | 有设计文档，但缺统一 README | 增加根目录 README，说明启动、构建、目录和交付范围 |
-| CI | 待优化 | 当前无 GitHub Actions | 加入 build + lint + audit 的最小 CI |
+| 文档入口 | 已完成第一版 | 已新增根目录 `README.md` | 后续随部署/API 方案继续补充 |
+| CI | 已完成第一版 | 已新增 `.github/workflows/ci.yml` | 当前覆盖 install、lint、build，audit 先保留为人工检查 |
 
 ## 4. P2 后续治理
 
@@ -56,6 +57,8 @@
 
 - React 工程：`jixiang-admin`
 - 静态原型：根目录 `prototype-*.html`，共 56 个
+- 项目入口文档：`README.md`
+- 首期范围文档：`DELIVERY_SCOPE.md`
 - 核心页面目录：`dashboard`、`products`、`project`、`sales`、`agent`、`acquisition`、`cases`、`training`、`materials`、`delivery`、`policies`、`brand`、`data`、`settings`
 - 关键共享层：
   - 主题：`jixiang-admin/src/theme`
@@ -80,12 +83,11 @@ rg "TODO|FIXME|any|@ts-ignore|dangerouslySetInnerHTML|console\.log" jixiang-admi
 
 ## 7. 建议推进顺序
 
-1. 补根目录 README，固定启动、构建、部署、目录说明。
-2. 确认首期模块范围，给每个模块标记：可交付 / 需接 API / 仅原型。
-3. 拆分 `useMockData.ts`，同步形成实体数据字典。
-4. 新建 API contract 文档，和后端对齐接口。
-5. 加最小 CI：lint + build。
+1. 已完成：补根目录 README，固定启动、构建、部署、目录说明。
+2. 已完成第一版：确认首期模块范围，给每个模块标记：可演示 / 待接 API / 仅原型。
+3. 已完成第一版：加最小 CI：lint + build。
+4. 拆分 `useMockData.ts`，同步形成实体数据字典。
+5. 新建 API contract 文档，和后端对齐接口。
 6. 处理 Vite/esbuild 安全告警。
 7. 做路由懒加载和分包，降低首包。
 8. 做桌面端主流程 QA；移动端单独排期。
-
