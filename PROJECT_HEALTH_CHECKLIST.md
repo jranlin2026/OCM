@@ -9,12 +9,12 @@
 | 维度 | 状态 | 证据 | 结论 |
 | --- | --- | --- | --- |
 | 仓库保存 | 通过 | 已推送 `main`，提交 `29e93c5 Initial project save` | 已具备版本管理基线 |
-| 构建 | 通过，带警告 | `npm.cmd run build` 成功 | 可打包，但首包过大 |
+| 构建 | 通过 | `npm.cmd run build` 成功 | 已完成路由懒加载，首包警告已消除 |
 | Lint | 通过 | `npm.cmd run lint` 成功 | 基础代码规范可用 |
-| 依赖安全 | 通过 | Vite 已升级到 8.0.16，`npm.cmd audit --audit-level=moderate` 为 0 vulnerabilities | 安全基线已恢复 |
+| 依赖安全 | 通过 | Vite 已升级到 7.3.5，`npm.cmd audit --audit-level=moderate` 通过；仅剩开发服务器场景的 low severity esbuild 提示 | moderate/high 安全基线已恢复 |
 | 页面覆盖 | 较完整 | 14 个业务模块，128 个 TSX 页面/组件文件 | 已超过普通原型阶段 |
 | 数据来源 | 待改造 | 47 个 mock hook，业务页面未接真实 API | 主要瓶颈是数据层 |
-| 测试体系 | 缺失 | 未发现 test/vitest/jest/playwright 配置 | 上线前必须补测试 |
+| 测试体系 | 已完成第一版 | `npm.cmd run test`，2 个测试文件 / 5 个用例通过 | 已纳入 CI，后续继续补页面与交互测试 |
 | 移动端 | 有明显缺口 | 固定 240px 侧栏，小屏挤压内容 | 桌面后台优先，移动端需专项改造 |
 
 ## 2. P0 必做项
@@ -24,8 +24,8 @@
 | 明确交付范围 | 待做 | 产品/项目负责人 | 标记哪些模块是首期可交付，哪些只是展示原型 |
 | API 接入方案 | 已完成第一版 | 前后端负责人 | 已新增 `API_CONTRACT.md`，后续按后端评审调整 |
 | 权限与登录 | 待做 | 前端/后端 | 设计账号、角色、菜单权限、接口鉴权与登录态持久化 |
-| 安全漏洞处理 | 已完成 | 前端负责人 | 已升级 Vite 8.0.16 与 `@vitejs/plugin-react` 6.0.2，并通过 lint/build/audit |
-| 测试基线 | 待做 | 前端负责人 | 添加 Vitest/Testing Library 或 Playwright，至少覆盖路由、核心表格、搜索筛选 |
+| 安全漏洞处理 | 已完成 | 前端负责人 | 已升级 Vite 7.3.5 与 `@vitejs/plugin-react` 5.2.0，并通过 lint/build/audit moderate 基线 |
+| 测试基线 | 已完成第一版 | 前端负责人 | 已添加 Vitest、Testing Library、导航配置测试和 mock 数据完整性测试 |
 | 部署配置 | 待做 | 运维/前端 | 确认构建产物托管方式、环境变量、API 代理、404 fallback |
 | 数据字典 | 已完成第一版 | 产品/后端 | 已新增 `DATA_DICTIONARY.md`，后续随接口和数据库模型细化 |
 | 首期交付范围 | 已完成第一版 | 项目负责人 | 已新增 `DELIVERY_SCOPE.md`，后续按评审结果更新 |
@@ -34,13 +34,13 @@
 
 | 检查项 | 状态 | 证据 | 动作 |
 | --- | --- | --- | --- |
-| 首包体积 | 待优化 | 构建 JS 约 1.13MB，Vite 提示超过 500KB | 路由懒加载、手动分包 MUI/Recharts、按需加载重页面 |
+| 首包体积 | 已优化第一版 | 主入口约 403KB，页面已按路由拆分，Vite 不再提示首包超限 | 后续可继续拆 Recharts 等重依赖 |
 | Mock 数据拆分 | 待优化 | `src/hooks/useMockData.ts` 约 110KB | 按业务模块拆到 `src/mocks/{module}.ts` |
 | 路由文件拆分 | 待优化 | `src/routes/index.tsx` 约 10KB，集中 import 所有页面 | 路由模块化，并结合 `React.lazy` |
 | 移动端布局 | 待优化 | 侧栏固定宽度，主内容 `ml: 240px/64px` | 小屏改成抽屉式导航，内容区取消固定左边距 |
-| 组件性能 | 待优化 | 页面数量多，当前无懒加载/Suspense | 重页面和图表区按需加载，列表增加虚拟化评估 |
+| 组件性能 | 已优化第一版 | 已添加路由级 lazy + Suspense fallback | 后续评估列表虚拟化与图表按需加载 |
 | 文档入口 | 已完成第一版 | 已新增根目录 `README.md` | 后续随部署/API 方案继续补充 |
-| CI | 已完成第一版 | 已新增 `.github/workflows/ci.yml` | 当前覆盖 install、lint、build，audit 先保留为人工检查 |
+| CI | 已完成第一版 | 已新增 `.github/workflows/ci.yml` | 当前覆盖 install、lint、test、build，audit 先保留为人工检查 |
 
 ## 4. P2 后续治理
 
@@ -90,7 +90,8 @@ rg "TODO|FIXME|any|@ts-ignore|dangerouslySetInnerHTML|console\.log" jixiang-admi
 3. 已完成第一版：加最小 CI：lint + build。
 4. 已完成第一版：形成实体数据字典。
 5. 已完成第一版：新建 API contract 文档，和后端对齐接口。
-6. 已完成：处理 Vite/esbuild 安全告警。
-7. 拆分 `useMockData.ts`。
-8. 做路由懒加载和分包，降低首包。
-9. 做桌面端主流程 QA；移动端单独排期。
+6. 已完成：处理 Vite/esbuild moderate/high 安全基线；剩余 low severity 开发服务器提示等待上游修复。
+7. 已完成第一版：做路由懒加载和分包，降低首包。
+8. 已完成第一版：补测试基线并纳入 CI。
+9. 拆分 `useMockData.ts`。
+10. 做桌面端主流程 QA；移动端单独排期。

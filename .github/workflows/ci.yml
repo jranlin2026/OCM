@@ -10,7 +10,7 @@ on:
 
 jobs:
   web:
-    name: Lint and build
+    name: Lint, test and build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -32,6 +32,9 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+      - name: Test
+        run: npm run test
 
       - name: Build
         run: npm run build

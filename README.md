@@ -78,7 +78,8 @@ npm.cmd audit --audit-level=moderate
 ```powershell
 cd jixiang-admin
 npm.cmd run lint
+npm.cmd run test
 npm.cmd run build
 ```
 
-GitHub Actions 会在 `main` 分支 push 或 pull request 时自动执行 lint 和 build。
+GitHub Actions 会在 `main` 分支 push 或 pull request 时自动执行 lint、test 和 build。
