@@ -18,6 +18,8 @@ npm.cmd install
 npm.cmd run dev
 ```
 
+如需对接后端服务，可复制 `jixiang-admin/.env.example` 为本地 `.env`，并调整 `VITE_API_BASE_URL`。
+
 默认 Vite 会优先使用 `5173` 端口；如果本机已有其他服务占用，会自动切换到下一个端口，例如 `5174`。
 
 ## 常用命令
