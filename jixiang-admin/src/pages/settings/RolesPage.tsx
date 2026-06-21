@@ -1,85 +1,168 @@
 import { useMemo, useState } from 'react';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
-import SectionHeader from '@/components/ui/SectionHeader';
+import Stack from '@mui/material/Stack';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
 import SearchInput from '@/components/ui/SearchInput';
-import ContentCard from '@/components/ui/ContentCard';
+import SectionHeader from '@/components/ui/SectionHeader';
 import StatusBadge from '@/components/ui/StatusBadge';
+import { useOrganizationData } from '@/hooks/useOrganizationData';
 import { colors } from '@/theme/tokens';
-import { formatDate } from '@/utils/formatters';
+import SettingsSplitPanel from './components/SettingsSplitPanel';
 
-interface RoleRecord {
-  id: string;
-  name: string;
-  description: string;
-  permissions: string[];
-  userCount: number;
-  status: string;
-  createdAt: string;
-}
-
-const mockData: RoleRecord[] = [
-  { id: 'R-001', name: '超级管理员', description: '拥有系统全部权限，可管理所有模块和用户', permissions: ['全部模块', '用户管理', '角色管理', '系统设置', '数据查看', '数据导出'], userCount: 1, status: 'active', createdAt: '2024-01-01' },
-  { id: 'R-002', name: '销售经理', description: '管理销售成交模块，可查看和编辑话术、诊断、报价等', permissions: ['销售成交', '项目认知', '数据驾驶舱', '客户报备'], userCount: 3, status: 'active', createdAt: '2024-02-01' },
-  { id: 'R-003', name: '招商专员', description: '管理招商代理模块，可查看代理商和佣金数据', permissions: ['招商代理', '获客引流', '案例见证'], userCount: 2, status: 'active', createdAt: '2024-03-01' },
-  { id: 'R-004', name: '运营专员', description: '管理运营相关模块，含获客、内容、数据等', permissions: ['获客引流', '内容素材', '数据运营', '培训赋能'], userCount: 4, status: 'active', createdAt: '2024-03-10' },
-  { id: 'R-005', name: '内容编辑', description: '管理内容素材和案例模块', permissions: ['内容素材', '案例见证', '品牌资产'], userCount: 2, status: 'active', createdAt: '2024-04-20' },
-  { id: 'R-006', name: '财务', description: '查看佣金结算和定价策略，不可编辑', permissions: ['佣金结算(只读)', '定价策略(只读)', '数据驾驶舱(只读)'], userCount: 1, status: 'inactive', createdAt: '2024-06-01' },
-  { id: 'R-007', name: '代理商', description: '外部代理商角色，仅可查看自己的数据和素材', permissions: ['内容素材(只读)', '培训赋能', '个人佣金'], userCount: 6, status: 'active', createdAt: '2024-05-15' },
-];
+const roleActions = ['编辑角色权限', '删除角色', '复制角色', '添加成员', '移除成员'];
 
 export default function RolesPage() {
+  const { departments, users, roles } = useOrganizationData();
+  const [selectedRoleId, setSelectedRoleId] = useState(roles[0].id);
   const [search, setSearch] = useState('');
-  const filtered = useMemo(() => mockData.filter((i) => !search || i.name.includes(search) || i.description.includes(search)), [search]);
+
+  const selectedRole = roles.find((role) => role.id === selectedRoleId) ?? roles[0];
+  const departmentMap = useMemo(() => new Map(departments.map((department) => [department.id, department])), [departments]);
+  const roleMembers = users.filter((user) => user.roleId === selectedRole.id);
+  const filteredRoles = roles.filter((role) => !search || role.name.includes(search) || role.description.includes(search));
 
   return (
     <Box>
-      <SectionHeader title="角色管理" />
-      <Box sx={{ mb: 3 }}>
-        <SearchInput placeholder="搜索角色..." value={search} onChange={setSearch} />
-      </Box>
-      <Grid container spacing={2.5}>
-        {filtered.map((role) => (
-          <Grid item xs={12} sm={6} md={4} key={role.id}>
-            <ContentCard>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5 }}>
-                <Typography sx={{ fontSize: '1rem', fontWeight: 600, color: colors.textPrimary }}>{role.name}</Typography>
-                <StatusBadge status={role.status === 'active' ? 'published' : 'draft'} size="small" />
-              </Box>
-              <Typography sx={{ fontSize: '0.8125rem', color: colors.textSecondary, lineHeight: 1.6, mb: 2 }}>
-                {role.description}
+      <SectionHeader title="角色权限" />
+      <SettingsSplitPanel
+        sidebar={(
+          <Box>
+            <Box sx={{ p: 2, borderBottom: `1px solid ${colors.border}` }}>
+              <SearchInput placeholder="搜索角色" value={search} onChange={setSearch} />
+            </Box>
+            <Stack sx={{ p: 1 }}>
+              {filteredRoles.map((role) => {
+                const count = users.filter((user) => user.roleId === role.id).length;
+                const selected = role.id === selectedRoleId;
+                return (
+                  <Button
+                    key={role.id}
+                    onClick={() => setSelectedRoleId(role.id)}
+                    fullWidth
+                    sx={roleButtonSx(selected)}
+                    startIcon={<i className="fa-solid fa-user-shield" />}
+                  >
+                    {role.name}（{count}人）
+                  </Button>
+                );
+              })}
+            </Stack>
+          </Box>
+        )}
+      >
+        <Box>
+          <Box
+            sx={{
+              px: 2.5,
+              py: 1.75,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 2,
+              borderBottom: `1px solid ${colors.border}`,
+              flexWrap: 'wrap',
+            }}
+          >
+            <Box>
+              <Typography sx={{ color: colors.textPrimary, fontWeight: 600 }}>
+                {selectedRole.name}（{roleMembers.length}人）
               </Typography>
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 2 }}>
-                {role.permissions.map((perm) => (
-                  <Chip
-                    key={perm}
-                    label={perm}
-                    size="small"
-                    sx={{
-                      fontSize: '0.6875rem',
-                      height: 22,
-                      backgroundColor: perm.includes('只读') ? colors.surfaceElevated : colors.goldSubtle,
-                      color: perm.includes('只读') ? colors.textTertiary : colors.gold,
-                      border: `1px solid ${perm.includes('只读') ? colors.border : colors.borderGold}`,
-                    }}
-                  />
+              <Typography sx={{ color: colors.textTertiary, fontSize: '0.75rem', mt: 0.5 }}>
+                {selectedRole.description}
+              </Typography>
+            </Box>
+            <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
+              {roleActions.map((label, index) => (
+                <Button key={label} variant="outlined" size="small" disabled={index === 4} sx={toolbarButtonSx}>
+                  {label}
+                </Button>
+              ))}
+            </Stack>
+          </Box>
+          <Box sx={{ px: 2.5, py: 1.5, borderBottom: `1px solid ${colors.border}` }}>
+            <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
+              {selectedRole.permissions.map((permission) => (
+                <Chip key={permission} label={permission} size="small" sx={permissionChipSx(permission.includes('只读'))} />
+              ))}
+            </Stack>
+          </Box>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow sx={{ backgroundColor: colors.bgSecondary }}>
+                  <TableCell sx={headCellSx}>姓名</TableCell>
+                  <TableCell sx={headCellSx}>职务</TableCell>
+                  <TableCell sx={headCellSx}>部门</TableCell>
+                  <TableCell sx={headCellSx}>账号</TableCell>
+                  <TableCell sx={headCellSx}>状态</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {roleMembers.map((user) => (
+                  <TableRow key={user.id} sx={{ '&:nth-of-type(odd)': { backgroundColor: colors.surfaceHover } }}>
+                    <TableCell>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                        <Avatar sx={{ width: 30, height: 30, backgroundColor: colors.gold, color: colors.textOnGold, fontSize: '0.8125rem', fontWeight: 700 }}>
+                          {user.avatar}
+                        </Avatar>
+                        <Typography sx={{ color: colors.textPrimary, fontSize: '0.8125rem', fontWeight: 500 }}>{user.name}</Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell sx={bodyCellSx}>{user.title}</TableCell>
+                    <TableCell sx={bodyCellSx}>{departmentMap.get(user.departmentId)?.name}</TableCell>
+                    <TableCell sx={bodyCellSx}>{user.account}</TableCell>
+                    <TableCell>
+                      <StatusBadge status={user.status === 'active' ? 'published' : 'draft'} size="small" />
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pt: 1.5, borderTop: `1px solid ${colors.border}` }}>
-                <Typography sx={{ fontSize: '0.75rem', color: colors.textTertiary }}>
-                  <i className="fa-solid fa-users" style={{ marginRight: 6 }} />
-                  {role.userCount} 位用户
-                </Typography>
-                <Typography sx={{ fontSize: '0.6875rem', color: colors.textTertiary }}>
-                  创建于 {formatDate(role.createdAt)}
-                </Typography>
-              </Box>
-            </ContentCard>
-          </Grid>
-        ))}
-      </Grid>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+      </SettingsSplitPanel>
     </Box>
   );
+}
+
+function roleButtonSx(selected: boolean) {
+  return {
+    justifyContent: 'flex-start',
+    px: 1.5,
+    py: 1,
+    borderRadius: 1,
+    color: selected ? colors.gold : colors.textSecondary,
+    backgroundColor: selected ? colors.goldSubtle : 'transparent',
+    '&:hover': { backgroundColor: colors.surfaceHover },
+    '& .MuiButton-startIcon': { color: selected ? colors.gold : colors.textTertiary },
+  };
+}
+
+const toolbarButtonSx = {
+  color: colors.textSecondary,
+  borderColor: colors.borderStrong,
+  '&:hover': { borderColor: colors.gold, color: colors.gold, backgroundColor: colors.goldSubtle },
+  '&.Mui-disabled': { color: colors.textTertiary, borderColor: colors.border },
+};
+
+const headCellSx = { color: colors.textSecondary, fontSize: '0.8125rem', borderColor: colors.border };
+const bodyCellSx = { color: colors.textSecondary, fontSize: '0.8125rem', borderColor: colors.border };
+
+function permissionChipSx(readonly: boolean) {
+  return {
+    height: 22,
+    fontSize: '0.6875rem',
+    color: readonly ? colors.textTertiary : colors.gold,
+    backgroundColor: readonly ? colors.surfaceElevated : colors.goldSubtle,
+    border: `1px solid ${readonly ? colors.border : colors.borderGold}`,
+  };
 }

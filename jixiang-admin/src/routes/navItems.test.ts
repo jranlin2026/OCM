@@ -10,6 +10,7 @@ describe('navigation configuration', () => {
     expect(navPaths).toContain('/dashboard');
     expect(navPaths).toContain('/products');
     expect(navPaths).toContain('/settings/users');
+    expect(navPaths).toContain('/settings/recycle-bin');
 
     for (const path of navPaths) {
       expect(ROUTE_TITLES[path], `${path} should have a topbar title`).toBeTruthy();

@@ -55,8 +55,9 @@ export const ROUTE_TITLES: Record<string, string> = {
   '/materials/videos': '视频素材',
   '/delivery/survey': '客户调研',
   '/policies/reporting': '客户报备',
-  '/settings/users': '用户管理',
-  '/settings/roles': '角色管理',
+  '/settings/users': '员工 & 部门',
+  '/settings/roles': '角色权限',
+  '/settings/recycle-bin': '账号回收站',
   '/settings/logs': '操作日志',
 };
 

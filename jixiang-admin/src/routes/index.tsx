@@ -84,6 +84,7 @@ const VideosPage = lazy(() => import('@/pages/materials/VideosPage'));
 const SettingsLayout = lazy(() => import('@/pages/settings'));
 const UsersPage = lazy(() => import('@/pages/settings/UsersPage'));
 const RolesPage = lazy(() => import('@/pages/settings/RolesPage'));
+const RecycleBinPage = lazy(() => import('@/pages/settings/RecycleBinPage'));
 const LogsPage = lazy(() => import('@/pages/settings/LogsPage'));
 
 function RouteFallback() {
@@ -249,6 +250,7 @@ export const router = createBrowserRouter([
           { index: true, element: <Navigate to="/settings/users" replace /> },
           { path: 'users', element: withSuspense(<UsersPage />) },
           { path: 'roles', element: withSuspense(<RolesPage />) },
+          { path: 'recycle-bin', element: withSuspense(<RecycleBinPage />) },
           { path: 'logs', element: withSuspense(<LogsPage />) },
         ],
       },

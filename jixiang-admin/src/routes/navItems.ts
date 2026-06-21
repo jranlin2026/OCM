@@ -49,8 +49,9 @@ export const navSections: NavSection[] = [
   {
     title: '系统管理',
     items: [
-      { label: '用户管理', path: '/settings/users', icon: 'fa-solid fa-user-gear', phase: '1A' },
-      { label: '角色管理', path: '/settings/roles', icon: 'fa-solid fa-user-shield', phase: '1A' },
+      { label: '员工 & 部门', path: '/settings/users', icon: 'fa-solid fa-sitemap', phase: '1A' },
+      { label: '角色权限', path: '/settings/roles', icon: 'fa-solid fa-user-shield', phase: '1A' },
+      { label: '账号回收站', path: '/settings/recycle-bin', icon: 'fa-solid fa-user-clock', phase: '1A' },
       { label: '操作日志', path: '/settings/logs', icon: 'fa-solid fa-list-check', phase: '1A' },
     ],
   },
