@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { dashboardData } from '@/mocks/dashboard';
+import { products } from '@/mocks/products';
 import {
   ProductTier,
   ContentStatus,
   ScriptCategory,
   Priority,
   OrderStatus,
-  Product,
   FaqItem,
   Competitor,
   GuideStep,
@@ -70,65 +70,8 @@ export function useDashboardData() {
 
 /* ============= 产品矩阵 ============= */
 
-export function useProducts(): Product[] {
-  return useMemo(() => [
-    {
-      id: 'PROD-001',
-      name: '标准版',
-      price: 899,
-      tier: ProductTier.STANDARD,
-      description: '适合个人创业者，提供基础AI直播带货能力和话术模板，快速上手',
-      benefits: ['AI直播脚本生成', '基础话术模板库', '日度数据报表', '社群答疑支持'],
-      deliveryItems: ['直播账号搭建指导', '3套标准话术模板', '基础后台操作培训'],
-      status: ContentStatus.PUBLISHED,
-      sales: 586,
-      revenue: 526814,
-      createdAt: '2024-01-15',
-      updatedAt: '2024-12-10',
-    },
-    {
-      id: 'PROD-002',
-      name: '代理版',
-      price: 9800,
-      tier: ProductTier.AGENT,
-      description: '适合中小团队，AI驱动全流程销售赋能，含专属诊断与报价工具',
-      benefits: ['AI直播脚本+话术优化', '客户诊断工具', '竞品对比分析', '自动报价方案', '团队管理后台'],
-      deliveryItems: ['全平台账号搭建', '定制化话术培训', '客户诊断流程搭建', '团队使用培训'],
-      status: ContentStatus.PUBLISHED,
-      sales: 128,
-      revenue: 1254400,
-      createdAt: '2024-01-15',
-      updatedAt: '2024-12-08',
-    },
-    {
-      id: 'PROD-003',
-      name: '贴牌版',
-      price: 29800,
-      tier: ProductTier.OEM,
-      description: '适合成熟团队，OEM品牌定制，完整销售体系+品牌资产输出',
-      benefits: ['全套品牌定制', '专属CRM集成', '高级数据分析', 'API开放接口', '专属客户成功经理'],
-      deliveryItems: ['品牌系统定制', 'CRM系统对接', 'API接口文档', '全员培训+考核'],
-      status: ContentStatus.PUBLISHED,
-      sales: 35,
-      revenue: 1043000,
-      createdAt: '2024-03-01',
-      updatedAt: '2024-12-05',
-    },
-    {
-      id: 'PROD-004',
-      name: '合伙人版',
-      price: 159800,
-      tier: ProductTier.PARTNER,
-      description: '战略合作伙伴，区域独家授权，共享品牌增长红利',
-      benefits: ['区域独家授权', '品牌溢价分润', '联合市场推广', '优先产品体验权', '战略资源对接', '年度分红'],
-      deliveryItems: ['品牌授权全套文件', '市场推广物料包', '专属后台+数据看板', '季度战略复盘会'],
-      status: ContentStatus.PUBLISHED,
-      sales: 8,
-      revenue: 1278400,
-      createdAt: '2024-06-01',
-      updatedAt: '2024-12-01',
-    },
-  ], []);
+export function useProducts() {
+  return useMemo(() => products, []);
 }
 
 /* ============= FAQ ============= */
