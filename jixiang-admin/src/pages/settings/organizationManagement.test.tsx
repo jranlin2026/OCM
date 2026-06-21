@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import UsersPage from './UsersPage';
 import RolesPage from './RolesPage';
 import RecycleBinPage from './RecycleBinPage';
+import LogsPage from './LogsPage';
 
 afterEach(() => {
   cleanup();
@@ -41,5 +42,25 @@ describe('organization management pages', () => {
     expect(screen.getByText('账号回收站（1）')).toBeTruthy();
     expect(screen.getByText('吴珊')).toBeTruthy();
     expect(screen.queryByText('周倩')).toBeNull();
+  });
+
+  it('filters operation logs by keyword and level', () => {
+    render(<LogsPage />);
+
+    fireEvent.change(screen.getByPlaceholderText('搜索日志...'), {
+      target: { value: '权限' },
+    });
+
+    expect(screen.getAllByText(/操作日志/).length).toBeGreaterThan(0);
+    expect(screen.getByText('拒绝访问')).toBeTruthy();
+    expect(screen.queryByText('新增话术')).toBeNull();
+
+    fireEvent.change(screen.getByPlaceholderText('搜索日志...'), {
+      target: { value: '' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: '危险' }));
+
+    expect(screen.queryByText('拒绝访问')).toBeNull();
+    expect(screen.getByText('登录失败')).toBeTruthy();
   });
 });
