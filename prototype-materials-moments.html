@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<!--
+  Design System: 极享AI口播智能体 (JIXIANG-AI)
+  Template: dashboard (内容素材中心)
+  File: prototype-materials-moments.html — 朋友圈素材
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极享AI — 朋友圈素材</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* ============================================================
+   1. Design Tokens
+   ============================================================ */
+:root {
+  --color-bg-primary: #0F0F1A;
+  --color-bg-secondary: #1A1A2E;
+  --color-surface: #1E1E32;
+  --color-surface-hover: #252540;
+  --color-surface-elevated: #2A2A3C;
+  --color-gold: #D4A853;
+  --color-gold-hover: #E0B96A;
+  --color-gold-active: #C49A42;
+  --color-gold-muted: rgba(212,168,83,0.2);
+  --color-gold-subtle: rgba(212,168,83,0.08);
+  --color-text-primary: #F5F5F7;
+  --color-text-secondary: #A0A0B8;
+  --color-text-tertiary: #6B6B82;
+  --color-text-on-gold: #0F0F1A;
+  --color-border: #2E2E44;
+  --color-border-strong: #3D3D58;
+  --color-border-gold: rgba(212,168,83,0.25);
+  --color-divider: #2A2A40;
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+  --color-info: #3B82F6;
+  --color-tier-blue: #3B82F6;
+  --color-tier-green: #22C55E;
+  --color-tier-purple: #A855F7;
+  --color-tier-gold: #F59E0B;
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 20px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --space-3xl: 48px;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  --font-metric: 'Inter', 'SF Pro Display', sans-serif;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 20px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.35);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
+  --shadow-xl: 0 25px 50px rgba(0,0,0,0.5);
+  --shadow-gold: 0 0 12px rgba(212,168,83,0.2);
+}
+
+/* ============================================================
+   2. Reset & Base
+   ============================================================ */
+*, *::before, *::after {
+  margin: 0; padding: 0; box-sizing: border-box;
+}
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-tertiary); }
+
+a { color: inherit; text-decoration: none; }
+
+/* ============================================================
+   3. Layout
+   ============================================================ */
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: var(--color-bg-secondary);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
+}
+.sidebar-brand {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-lg);
+  border-bottom: 1px solid var(--color-divider);
+  gap: var(--space-sm);
+  flex-shrink: 0;
+}
+.sidebar-brand .brand-icon {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-hover));
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--color-text-on-gold);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.sidebar-brand .brand-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+.sidebar-brand .brand-text span {
+  color: var(--color-gold);
+}
+.sidebar-nav {
+  flex: 1;
+  padding: var(--space-md) var(--space-sm);
+  overflow-y: auto;
+}
+.nav-section {
+  margin-bottom: var(--space-xl);
+}
+.nav-section-title {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0 var(--space-sm);
+  margin-bottom: var(--space-xs);
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 var(--space-sm) 0 var(--space-md);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  gap: var(--space-sm);
+  position: relative;
+}
+.nav-item i {
+  width: 20px;
+  text-align: center;
+  font-size: 15px;
+  color: var(--color-text-tertiary);
+  transition: color 0.15s ease;
+}
+.nav-item:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+.nav-item:hover i {
+  color: var(--color-text-secondary);
+}
+.nav-item.active {
+  background: var(--color-gold-subtle);
+  color: var(--color-gold);
+  font-weight: 500;
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  background: var(--color-gold);
+  border-radius: 0 2px 2px 0;
+}
+.nav-item.active i {
+  color: var(--color-gold);
+}
+.nav-item .nav-badge {
+  margin-left: auto;
+  background: var(--color-danger);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 0 6px;
+  height: 18px;
+  line-height: 18px;
+  border-radius: 9px;
+  min-width: 18px;
+  text-align: center;
+}
+.nav-item .nav-badge.info {
+  background: var(--color-info);
+}
+.sidebar-footer {
+  padding: var(--space-md) var(--space-sm);
+  border-top: 1px solid var(--color-divider);
+  flex-shrink: 0;
+}
+.user-mini {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: var(--space-xs) var(--space-sm);
+  gap: var(--space-sm);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: background 0.15s ease;
+}
+.user-mini:hover {
+  background: var(--color-surface-hover);
+}
+.user-mini-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-tier-purple));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-on-gold);
+  flex-shrink: 0;
+}
+.user-mini-info { flex: 1; min-width: 0; }
+.user-mini-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); line-height: 1.2; }
+.user-mini-role { font-size: 11px; color: var(--color-text-tertiary); line-height: 1.2; }
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  margin-left: 240px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top Bar */
+.topbar {
+  height: 64px;
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-xl);
+  gap: var(--space-md);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.topbar-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+.topbar-title span {
+  color: var(--color-gold);
+}
+.topbar-spacer { flex: 1; }
+.topbar-date {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+}
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+.topbar-btn {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-size: 16px;
+  position: relative;
+}
+.topbar-btn:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-strong);
+  color: var(--color-text-primary);
+}
+.topbar-btn .dot {
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 8px; height: 8px;
+  background: var(--color-danger);
+  border-radius: 50%;
+  border: 2px solid var(--color-bg-secondary);
+}
+.topbar-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-tier-blue));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-on-gold);
+  cursor: pointer;
+  margin-left: var(--space-xs);
+}
+
+/* Content Area */
+.content-area {
+  padding: var(--space-xl);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   4. Page Header
+   ============================================================ */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-xs);
+}
+.page-header h1 {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+.page-header h1 span {
+  color: var(--color-gold);
+}
+.page-header p {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin-top: var(--space-2xs);
+}
+.header-actions {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+/* ============================================================
+   5. Filters / Date Tabs
+   ============================================================ */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+.filter-tab {
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.filter-tab:hover {
+  border-color: var(--color-border-strong);
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+}
+.filter-tab.active {
+  background: var(--color-gold-muted);
+  border-color: var(--color-border-gold);
+  color: var(--color-gold);
+}
+.filter-tab i {
+  margin-right: var(--space-2xs);
+  font-size: 12px;
+}
+.filter-search {
+  position: relative;
+  margin-left: auto;
+}
+.filter-search input {
+  width: 240px;
+  height: 36px;
+  padding: 0 var(--space-sm) 0 36px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-size: 13px;
+  outline: none;
+  transition: all 0.15s ease;
+  font-family: var(--font-sans);
+}
+.filter-search input::placeholder {
+  color: var(--color-text-tertiary);
+}
+.filter-search input:focus {
+  border-color: var(--color-border-gold);
+  background: var(--color-surface-hover);
+}
+.filter-search i {
+  position: absolute;
+  left: var(--space-sm);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-tertiary);
+  font-size: 14px;
+}
+
+/* ============================================================
+   6. Date Group
+   ============================================================ */
+.date-group {
+  margin-bottom: var(--space-2xl);
+}
+.date-group:last-child {
+  margin-bottom: 0;
+}
+.date-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-divider);
+}
+.date-header .date-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+.date-header .date-count {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  background: var(--color-surface);
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+}
+.date-header .date-badge {
+  font-size: 11px;
+  color: var(--color-gold);
+  background: var(--color-gold-subtle);
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border-gold);
+}
+
+/* ============================================================
+   7. Moment Cards
+   ============================================================ */
+.moments-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+.moment-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.moment-card:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-md);
+}
+.moment-card-content {
+  padding: var(--space-lg);
+  display: flex;
+  gap: var(--space-md);
+}
+.moment-preview {
+  width: 120px;
+  height: 120px;
+  min-width: 120px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--space-xs);
+  color: var(--color-text-tertiary);
+  font-size: 28px;
+  overflow: hidden;
+  position: relative;
+}
+.moment-preview .preview-label {
+  font-size: 10px;
+  color: var(--color-text-tertiary);
+  font-weight: 500;
+}
+.moment-preview.preview-image {
+  font-size: 0;
+}
+.moment-preview.preview-image svg {
+  width: 100%;
+  height: 100%;
+}
+.moment-text {
+  flex: 1;
+  min-width: 0;
+}
+.moment-text .moment-copy {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-sm);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.moment-text .moment-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  margin-bottom: var(--space-sm);
+}
+.moment-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-gold-subtle);
+  color: var(--color-gold);
+  border: 1px solid var(--color-border-gold);
+}
+.moment-tag.type-video {
+  background: rgba(59,130,246,0.1);
+  color: var(--color-tier-blue);
+  border-color: rgba(59,130,246,0.2);
+}
+.moment-tag.type-image {
+  background: rgba(34,197,94,0.1);
+  color: var(--color-tier-green);
+  border-color: rgba(34,197,94,0.2);
+}
+.moment-text .moment-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+}
+.moment-text .moment-meta i {
+  font-size: 12px;
+  margin-right: var(--space-2xs);
+}
+.moment-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-sm) var(--space-lg);
+  border-top: 1px solid var(--color-divider);
+  background: var(--color-bg-primary);
+}
+.moment-action-btn {
+  height: 32px;
+  padding: 0 var(--space-sm);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-family: var(--font-sans);
+}
+.moment-action-btn:hover {
+  background: var(--color-surface);
+  border-color: var(--color-border-strong);
+  color: var(--color-text-primary);
+}
+.moment-action-btn.primary {
+  background: var(--color-gold-muted);
+  border-color: var(--color-border-gold);
+  color: var(--color-gold);
+}
+.moment-action-btn.primary:hover {
+  background: var(--color-gold);
+  color: var(--color-text-on-gold);
+}
+.moment-action-btn i {
+  font-size: 12px;
+}
+.moment-action-btn .spacer {
+  margin-left: auto;
+}
+
+/* ============================================================
+   8. Create Button
+   ============================================================ */
+.btn-primary {
+  height: 36px;
+  padding: 0 var(--space-lg);
+  border-radius: var(--radius-md);
+  border: none;
+  background: var(--color-gold);
+  color: var(--color-text-on-gold);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-sans);
+}
+.btn-primary:hover {
+  background: var(--color-gold-hover);
+  box-shadow: var(--shadow-gold);
+}
+.btn-primary i {
+  font-size: 13px;
+}
+
+/* ============================================================
+   9. Responsive
+   ============================================================ */
+@media (max-width: 1200px) {
+  .moments-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 768px) {
+  .sidebar { width: 60px; }
+  .sidebar-brand .brand-text,
+  .sidebar-nav .nav-item span,
+  .sidebar-nav .nav-section-title,
+  .sidebar-nav .nav-item .nav-badge,
+  .sidebar-footer .user-mini-info,
+  .sidebar-footer .user-mini i { display: none; }
+  .sidebar-brand { justify-content: center; padding: 0; }
+  .sidebar-nav .nav-item { justify-content: center; padding: 0; height: 48px; }
+  .sidebar-nav .nav-item i { margin: 0; }
+  .sidebar-nav .nav-item.active::before { left: auto; right: 0; top: 0; transform: none; width: 3px; height: 100%; }
+  .sidebar-footer .user-mini { justify-content: center; }
+  .main-content { margin-left: 60px; }
+  .moments-grid { grid-template-columns: 1fr; }
+  .moment-card-content { flex-direction: column; }
+  .moment-preview { width: 100%; height: 180px; min-width: auto; }
+  .filter-search { width: 100%; margin-left: 0; margin-top: var(--space-xs); }
+  .filter-search input { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- ==========================================================
+       Sidebar
+  ========================================================== -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">极</div>
+      <div class="brand-text"><span>极享</span>AI</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">核心管理</div>
+        <a class="nav-item"><i class="fas fa-chart-pie"></i><span>数据驾驶舱</span></a>
+        <a class="nav-item"><i class="fas fa-th-large"></i><span>产品矩阵</span></a>
+        <a class="nav-item"><i class="fas fa-handshake"></i><span>销售成交</span><span class="nav-badge">12</span></a>
+        <a class="nav-item"><i class="fas fa-user-tie"></i><span>招商代理</span></a>
+        <a class="nav-item"><i class="fas fa-bullhorn"></i><span>营销推广</span></a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">内容中心</div>
+        <a class="nav-item active"><i class="fas fa-images"></i><span>内容素材中心</span></a>
+        <a class="nav-item"><i class="fas fa-star"></i><span>案例见证中心</span></a>
+        <a class="nav-item"><i class="fas fa-graduation-cap"></i><span>培训赋能中心</span></a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">运营管理</div>
+        <a class="nav-item"><i class="fas fa-users"></i><span>客户管理</span></a>
+        <a class="nav-item"><i class="fas fa-file-invoice"></i><span>订单管理</span></a>
+        <a class="nav-item"><i class="fas fa-robot"></i><span>AI 智能体</span></a>
+        <a class="nav-item"><i class="fas fa-phone-alt"></i><span>呼叫中心</span></a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">系统</div>
+        <a class="nav-item"><i class="fas fa-cog"></i><span>系统设置</span></a>
+        <a class="nav-item"><i class="fas fa-file-alt"></i><span>操作日志</span></a>
+        <a class="nav-item"><i class="fas fa-question-circle"></i><span>帮助中心</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-mini">
+        <div class="user-mini-avatar">张</div>
+        <div class="user-mini-info">
+          <div class="user-mini-name">张明远</div>
+          <div class="user-mini-role">运营总监</div>
+        </div>
+        <i class="fas fa-ellipsis-v" style="font-size:14px;color:var(--color-text-tertiary);"></i>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==========================================================
+       Main Content
+  ========================================================== -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-title"><span>内容</span>素材中心</div>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-date"><i class="far fa-calendar-alt"></i> 2025年3月24日 周一</div>
+      <div class="topbar-actions">
+        <button class="topbar-btn"><i class="far fa-bell"></i><span class="dot"></span></button>
+        <button class="topbar-btn"><i class="far fa-question-circle"></i></button>
+        <div class="topbar-avatar">张</div>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <div class="content-area">
+      <!-- Page Header -->
+      <div class="page-header">
+        <div>
+          <h1>朋友圈<span>素材</span></h1>
+          <p>管理每日朋友圈推广文案，一键复制发布</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn-primary"><i class="fas fa-plus"></i>新建素材</button>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <button class="filter-tab active"><i class="fas fa-list"></i>全部</button>
+        <button class="filter-tab"><i class="fas fa-image"></i>图文</button>
+        <button class="filter-tab"><i class="fas fa-video"></i>视频</button>
+        <button class="filter-tab"><i class="fas fa-link"></i>链接</button>
+        <div class="filter-search">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="搜索文案内容...">
+        </div>
+      </div>
+
+      <!-- Date Group: Today -->
+      <div class="date-group">
+        <div class="date-header">
+          <span class="date-label">今天 · 3月24日</span>
+          <span class="date-count">3条</span>
+          <span class="date-badge"><i class="far fa-clock"></i> 待发布</span>
+        </div>
+        <div class="moments-grid">
+          <div class="moment-card">
+            <div class="moment-card-content">
+              <div class="moment-preview">
+                <i class="fas fa-image"></i>
+                <span class="preview-label">海报预览</span>
+              </div>
+              <div class="moment-text">
+                <div class="moment-tags">
+                  <span class="moment-tag type-image"><i class="fas fa-image"></i> 图文</span>
+                  <span class="moment-tag"><i class="fas fa-tag"></i> 产品推广</span>
+                </div>
+                <div class="moment-copy">
+                  【AI口播新工具】还在为短视频口播头疼？极享AI口播智能体来了！一键生成专业口播文案，AI语音克隆让你的声音完美复刻，支持多语言多场景。现在注册即送7天免费体验👉
+                </div>
+                <div class="moment-meta">
+                  <span><i class="far fa-eye"></i> 预计曝光 1.2w</span>
+                  <span><i class="far fa-thumbs-up"></i> 昨日同类转化率 3.2%</span>
+                </div>
+              </div>
+            </div>
+            <div class="moment-actions">
+              <button class="moment-action-btn primary"><i class="fas fa-copy"></i> 复制文案</button>
+              <button class="moment-action-btn"><i class="fas fa-edit"></i></button>
+              <button class="moment-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+            </div>
+          </div>
+
+          <div class="moment-card">
+            <div class="moment-card-content">
+              <div class="moment-preview">
+                <i class="fas fa-video"></i>
+                <span class="preview-label">视频预览</span>
+              </div>
+              <div class="moment-text">
+                <div class="moment-tags">
+                  <span class="moment-tag type-video"><i class="fas fa-video"></i> 短视频</span>
+                  <span class="moment-tag"><i class="fas fa-tag"></i> 客户见证</span>
+                </div>
+                <div class="moment-copy">
+                  【客户真实反馈】做了3年电商的王姐，用了极享AI口播智能体之后，每天只需要花20分钟就能产出10条高质量口播视频。一个月粉丝从200涨到1.2万！你也想试试吗？👇
+                </div>
+                <div class="moment-meta">
+                  <span><i class="far fa-eye"></i> 预计曝光 2.8w</span>
+                  <span><i class="far fa-clock"></i> 建议 18:00 发布</span>
+                </div>
+              </div>
+            </div>
+            <div class="moment-actions">
+              <button class="moment-action-btn primary"><i class="fas fa-copy"></i> 复制文案</button>
+              <button class="moment-action-btn"><i class="fas fa-edit"></i></button>
+              <button class="moment-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+            </div>
+          </div>
+
+          <div class="moment-card">
+            <div class="moment-card-content">
+              <div class="moment-preview">
+                <i class="fas fa-link"></i>
+                <span class="preview-label">链接预览</span>
+              </div>
+              <div class="moment-text">
+                <div class="moment-tags">
+                  <span class="moment-tag"><i class="fas fa-link"></i> 小程序</span>
+                  <span class="moment-tag"><i class="fas fa-tag"></i> 限时活动</span>
+                </div>
+                <div class="moment-copy">
+                  【限时福利】极享AI口播智能体合伙人计划正式启动！推荐好友使用即可享受高达30%的佣金分成。无需技术背景，零成本起步，立即扫码成为合伙人👉
+                </div>
+                <div class="moment-meta">
+                  <span><i class="far fa-eye"></i> 预计曝光 5.6w</span>
+                  <span><i class="fas fa-tag"></i> 转化目标：合伙人注册</span>
+                </div>
+              </div>
+            </div>
+            <div class="moment-actions">
+              <button class="moment-action-btn primary"><i class="fas fa-copy"></i> 复制文案</button>
+              <button class="moment-action-btn"><i class="fas fa-edit"></i></button>
+              <button class="moment-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Date Group: Yesterday -->
+      <div class="date-group">
+        <div class="date-header">
+          <span class="date-label">昨天 · 3月23日</span>
+          <span class="date-count">4条</span>
+          <span class="date-badge" style="color:var(--color-success);background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);"><i class="fas fa-check-circle"></i> 已发布</span>
+        </div>
+        <div class="moments-grid">
+          <div class="moment-card">
+            <div class="moment-card-content">
+              <div class="moment-preview">
+                <i class="fas fa-image"></i>
+                <span class="preview-label">海报预览</span>
+              </div>
+              <div class="moment-text">
+                <div class="moment-tags">
+                  <span class="moment-tag type-image"><i class="fas fa-image"></i> 图文</span>
+                  <span class="moment-tag"><i class="fas fa-tag"></i> 功能科普</span>
+                </div>
+                <div class="moment-copy">
+                  【你真的了解AI口播吗？】极享AI口播智能体核心功能盘点：智能文案生成、AI语音克隆、多语言支持、实时提词器、数据分析看板。让你的口播效率提升10倍！
+                </div>
+                <div class="moment-meta">
+                  <span><i class="fas fa-chart-bar"></i> 实际曝光 1.8w</span>
+                  <span><i class="fas fa-thumbs-up"></i> 互动率 4.5%</span>
+                </div>
+              </div>
+            </div>
+            <div class="moment-actions">
+              <button class="moment-action-btn primary"><i class="fas fa-copy"></i> 复制文案</button>
+              <button class="moment-action-btn"><i class="fas fa-chart-bar"></i> 数据</button>
+              <button class="moment-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+            </div>
+          </div>
+
+          <div class="moment-card">
+            <div class="moment-card-content">
+              <div class="moment-preview">
+                <i class="fas fa-video"></i>
+                <span class="preview-label">视频预览</span>
+              </div>
+              <div class="moment-text">
+                <div class="moment-tags">
+                  <span class="moment-tag type-video"><i class="fas fa-video"></i> 短视频</span>
+                  <span class="moment-tag"><i class="fas fa-tag"></i> 行业趋势</span>
+                </div>
+                <div class="moment-copy">
+                  【2025年短视频趋势】AI口播正在改变内容创作方式。数据显示，使用AI辅助口播的创作者，内容产出效率提升8倍，完播率提升40%。你的竞争对手已经在用了！
+                </div>
+                <div class="moment-meta">
+                  <span><i class="fas fa-chart-bar"></i> 实际曝光 3.2w</span>
+                  <span><i class="fas fa-thumbs-up"></i> 互动率 3.8%</span>
+                </div>
+              </div>
+            </div>
+            <div class="moment-actions">
+              <button class="moment-action-btn primary"><i class="fas fa-copy"></i> 复制文案</button>
+              <button class="moment-action-btn"><i class="fas fa-chart-bar"></i> 数据</button>
+              <button class="moment-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+            </div>
+          </div>
+
+          <div class="moment-card">
+            <div class="moment-card-content">
+              <div class="moment-preview">
+                <i class="fas fa-image"></i>
+                <span class="preview-label">海报预览</span>
+              </div>
+              <div class="moment-text">
+                <div class="moment-tags">
+                  <span class="moment-tag type-image"><i class="fas fa-image"></i> 图文</span>
+                  <span class="moment-tag"><i class="fas fa-tag"></i> 使用教程</span>
+                </div>
+                <div class="moment-copy">
+                  【新手必看】极享AI口播智能体从0到1操作指南：注册→创建项目→生成文案→选择音色→录制口播→发布到平台。6步搞定高品质口播视频！
+                </div>
+                <div class="moment-meta">
+                  <span><i class="fas fa-chart-bar"></i> 实际曝光 2.1w</span>
+                  <span><i class="fas fa-thumbs-up"></i> 互动率 5.2%</span>
+                </div>
+              </div>
+            </div>
+            <div class="moment-actions">
+              <button class="moment-action-btn primary"><i class="fas fa-copy"></i> 复制文案</button>
+              <button class="moment-action-btn"><i class="fas fa-chart-bar"></i> 数据</button>
+              <button class="moment-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+            </div>
+          </div>
+
+          <div class="moment-card">
+            <div class="moment-card-content">
+              <div class="moment-preview">
+                <i class="fas fa-image"></i>
+                <span class="preview-label">海报预览</span>
+              </div>
+              <div class="moment-text">
+                <div class="moment-tags">
+                  <span class="moment-tag type-image"><i class="fas fa-image"></i> 图文</span>
+                  <span class="moment-tag"><i class="fas fa-tag"></i> 促销活动</span>
+                </div>
+                <div class="moment-copy">
+                  【周年庆特惠】极享AI口播智能体周年庆来了！年度会员限时5折，额外赠送30天使用时长。前100名下单再送AI语音定制服务。活动仅剩3天！
+                </div>
+                <div class="moment-meta">
+                  <span><i class="fas fa-chart-bar"></i> 实际曝光 4.5w</span>
+                  <span><i class="fas fa-thumbs-up"></i> 互动率 6.1%</span>
+                </div>
+              </div>
+            </div>
+            <div class="moment-actions">
+              <button class="moment-action-btn primary"><i class="fas fa-copy"></i> 复制文案</button>
+              <button class="moment-action-btn"><i class="fas fa-chart-bar"></i> 数据</button>
+              <button class="moment-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Date Group: March 21 -->
+      <div class="date-group">
+        <div class="date-header">
+          <span class="date-label">3月21日 · 周五</span>
+          <span class="date-count">2条</span>
+          <span class="date-badge" style="color:var(--color-success);background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);"><i class="fas fa-check-circle"></i> 已发布</span>
+        </div>
+        <div class="moments-grid">
+          <div class="moment-card">
+            <div class="moment-card-content">
+              <div class="moment-preview">
+                <i class="fas fa-image"></i>
+                <span class="preview-label">海报预览</span>
+              </div>
+              <div class="moment-text">
+                <div class="moment-tags">
+                  <span class="moment-tag type-image"><i class="fas fa-image"></i> 图文</span>
+                  <span class="moment-tag"><i class="fas fa-tag"></i> 招商加盟</span>
+                </div>
+                <div class="moment-copy">
+                  【招募城市合伙人】极享AI口播智能体面向全国招募城市合伙人！提供全套培训体系、营销物料、技术支持。月入5万+的真实案例等你来了解。
+                </div>
+                <div class="moment-meta">
+                  <span><i class="fas fa-chart-bar"></i> 实际曝光 3.8w</span>
+                  <span><i class="fas fa-thumbs-up"></i> 互动率 4.2%</span>
+                </div>
+              </div>
+            </div>
+            <div class="moment-actions">
+              <button class="moment-action-btn primary"><i class="fas fa-copy"></i> 复制文案</button>
+              <button class="moment-action-btn"><i class="fas fa-chart-bar"></i> 数据</button>
+              <button class="moment-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+            </div>
+          </div>
+
+          <div class="moment-card">
+            <div class="moment-card-content">
+              <div class="moment-preview">
+                <i class="fas fa-video"></i>
+                <span class="preview-label">视频预览</span>
+              </div>
+              <div class="moment-text">
+                <div class="moment-tags">
+                  <span class="moment-tag type-video"><i class="fas fa-video"></i> 短视频</span>
+                  <span class="moment-tag"><i class="fas fa-tag"></i> 产品对比</span>
+                </div>
+                <div class="moment-copy">
+                  【AI口播工具横评】市面5款AI口播工具深度对比：极享AI口播智能体在文案质量、音色自然度、多语言支持三个维度全面领先。点击查看完整测评报告。
+                </div>
+                <div class="moment-meta">
+                  <span><i class="fas fa-chart-bar"></i> 实际曝光 2.5w</span>
+                  <span><i class="fas fa-thumbs-up"></i> 互动率 4.8%</span>
+                </div>
+              </div>
+            </div>
+            <div class="moment-actions">
+              <button class="moment-action-btn primary"><i class="fas fa-copy"></i> 复制文案</button>
+              <button class="moment-action-btn"><i class="fas fa-chart-bar"></i> 数据</button>
+              <button class="moment-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

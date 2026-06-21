@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<!--
+  Design System: 极享AI口播智能体
+  Template: dashboard-custom
+  File: prototype-policies-compliance.html — 宣传红线
+  Module: 10 - 政策合同中心
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极享AI — 宣传红线</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+  --color-bg-primary: #0F0F1A; --color-bg-secondary: #1A1A2E; --color-surface: #1E1E32;
+  --color-surface-hover: #252540; --color-surface-elevated: #2A2A3C;
+  --color-gold: #D4A853; --color-gold-hover: #E0B96A; --color-gold-active: #C49A42;
+  --color-gold-muted: rgba(212,168,83,0.2); --color-gold-subtle: rgba(212,168,83,0.08);
+  --color-text-primary: #F5F5F7; --color-text-secondary: #A0A0B8; --color-text-tertiary: #6B6B82;
+  --color-text-on-gold: #0F0F1A;
+  --color-border: #2E2E44; --color-border-strong: #3D3D58; --color-border-gold: rgba(212,168,83,0.25);
+  --color-divider: #2A2A40;
+  --color-success: #22C55E; --color-warning: #F59E0B; --color-danger: #EF4444; --color-info: #3B82F6;
+  --color-tier-blue: #3B82F6; --color-tier-green: #22C55E; --color-tier-purple: #A855F7; --color-tier-gold: #F59E0B;
+  --space-2xs:4px;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:20px;--space-xl:24px;--space-2xl:32px;
+  --font-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --radius-sm:4px;--radius-md:8px;--radius-lg:12px;--radius-xl:16px;--radius-pill:20px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.3);--shadow-md:0 4px 12px rgba(0,0,0,.35);--shadow-lg:0 8px 24px rgba(0,0,0,.4);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:16px;-webkit-font-smoothing:antialiased;}
+body{font-family:var(--font-body);background:var(--color-bg-primary);color:var(--color-text-primary);line-height:1.6;min-height:100vh;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--color-border-strong);border-radius:3px;}
+.layout{display:flex;min-height:100vh;}
+.sidebar{width:240px;min-height:100vh;background:var(--color-bg-secondary);border-right:1px solid var(--color-border);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:100;}
+.sidebar-brand{height:64px;display:flex;align-items:center;padding:0 var(--space-lg);border-bottom:1px solid var(--color-divider);gap:var(--space-sm);flex-shrink:0;}
+.sidebar-brand .brand-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--color-gold),var(--color-gold-hover));border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--color-text-on-gold);font-weight:700;flex-shrink:0;}
+.sidebar-brand .brand-text{font-size:16px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.01em;}
+.sidebar-brand .brand-text span{color:var(--color-gold);}
+.sidebar-nav{flex:1;padding:var(--space-md) var(--space-sm);overflow-y:auto;}
+.nav-section{margin-bottom:var(--space-xl);}
+.nav-section-title{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.06em;padding:0 var(--space-sm);margin-bottom:var(--space-xs);}
+.nav-item{display:flex;align-items:center;height:44px;padding:0 var(--space-sm) 0 var(--space-md);border-radius:var(--radius-md);color:var(--color-text-secondary);text-decoration:none;font-size:14px;font-weight:400;cursor:pointer;transition:all 0.15s ease;gap:var(--space-sm);position:relative;}
+.nav-item i{width:20px;text-align:center;font-size:15px;color:var(--color-text-tertiary);transition:color 0.15s ease;}
+.nav-item:hover{background:var(--color-surface-hover);color:var(--color-text-primary);}
+.nav-item:hover i{color:var(--color-text-secondary);}
+.nav-item.active{background:var(--color-gold-subtle);color:var(--color-gold);font-weight:500;}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:20px;background:var(--color-gold);border-radius:0 2px 2px 0;}
+.nav-item.active i{color:var(--color-gold);}
+.nav-item .nav-badge{margin-left:auto;background:var(--color-danger);color:#fff;font-size:11px;font-weight:600;padding:0 6px;height:18px;line-height:18px;border-radius:9px;min-width:18px;text-align:center;}
+.nav-item .nav-badge.info{background:var(--color-info);}
+.sidebar-footer{padding:var(--space-md) var(--space-sm);border-top:1px solid var(--color-divider);flex-shrink:0;}
+.nav-item.user-item{height:48px;padding:var(--space-xs) var(--space-sm);}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--color-gold),var(--color-tier-purple));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--color-text-on-gold);flex-shrink:0;}
+.user-info{flex:1;min-width:0;}
+.user-name{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.2;}
+.user-role{font-size:11px;color:var(--color-text-tertiary);line-height:1.2;}
+.main-content{flex:1;margin-left:240px;min-height:100vh;display:flex;flex-direction:column;}
+.topbar{height:64px;background:var(--color-bg-secondary);border-bottom:1px solid var(--color-border);display:flex;align-items:center;padding:0 var(--space-xl);gap:var(--space-md);position:sticky;top:0;z-index:50;}
+.topbar-title{font-size:18px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.01em;}
+.topbar-title span{color:var(--color-gold);}
+.topbar-spacer{flex:1;}
+.topbar-date{font-size:13px;color:var(--color-text-tertiary);}
+.topbar-actions{display:flex;align-items:center;gap:var(--space-xs);}
+.topbar-btn{width:36px;height:36px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s ease;font-size:16px;position:relative;}
+.topbar-btn:hover{background:var(--color-surface-hover);border-color:var(--color-border-strong);color:var(--color-text-primary);}
+.topbar-btn .dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--color-danger);border-radius:50%;border:2px solid var(--color-bg-secondary);}
+.topbar-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--color-gold),var(--color-tier-blue));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--color-text-on-gold);cursor:pointer;margin-left:var(--space-xs);}
+.content-area{padding:var(--space-xl);flex:1;display:flex;flex-direction:column;gap:var(--space-lg);max-width:1440px;width:100%;margin:0 auto;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-lg);}
+.section-header h2{font-size:20px;font-weight:600;}
+.section-header h2 span{color:var(--color-gold);}
+.btn{display:inline-flex;align-items:center;gap:var(--space-xs);padding:0 var(--space-lg);height:36px;border-radius:var(--radius-md);font-size:14px;font-weight:500;border:none;cursor:pointer;transition:all 0.15s ease;}
+.btn-primary{background:var(--color-gold);color:var(--color-text-on-gold);}
+.btn-primary:hover{background:var(--color-gold-hover);}
+.btn-secondary{background:var(--color-surface);color:var(--color-text-secondary);border:1px solid var(--color-border);}
+.btn-secondary:hover{background:var(--color-surface-hover);border-color:var(--color-border-strong);color:var(--color-text-primary);}
+.btn-sm{height:30px;padding:0 var(--space-md);font-size:13px;}
+.btn-danger{background:var(--color-danger);color:#fff;}.btn-danger:hover{background:#dc2626;}
+.tag{display:inline-flex;align-items:center;font-size:12px;font-weight:500;padding:2px 10px;border-radius:var(--radius-pill);}
+.tag-red{color:var(--color-danger);background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);}
+.tag-green{color:var(--color-tier-green);background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);}
+.tag-blue{color:var(--color-tier-blue);background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);}
+.tag-gold{color:var(--color-tier-gold);background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);}
+.data-table{width:100%;border-collapse:collapse;}
+.data-table thead th{font-size:12px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.03em;text-align:left;padding:var(--space-sm) var(--space-md);background:var(--color-surface-hover);border-bottom:1px solid var(--color-divider);}
+.data-table thead th:first-child{border-radius:var(--radius-md) 0 0 var(--radius-md);}
+.data-table thead th:last-child{border-radius:0 var(--radius-md) var(--radius-md) 0;}
+.data-table tbody tr{border-bottom:1px solid var(--color-divider);transition:background 0.15s;}
+.data-table tbody tr:hover{background:var(--color-surface-hover);}
+.data-table tbody td{padding:var(--space-sm) var(--space-md);font-size:14px;color:var(--color-text-primary);vertical-align:middle;}
+.data-table tbody td .time{color:var(--color-text-tertiary);font-size:12px;}
+.table-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-lg);}
+.table-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-md);}
+.table-card-title{font-size:16px;font-weight:600;display:flex;align-items:center;gap:var(--space-sm);}
+.forbidden-item{display:flex;align-items:flex-start;gap:var(--space-sm);padding:var(--space-md);background:var(--color-bg-secondary);border-left:3px solid var(--color-danger);border-radius:0 var(--radius-md) var(--radius-md) 0;margin-bottom:var(--space-sm);}
+.forbidden-item .fi-icon{width:24px;height:24px;border-radius:50%;background:rgba(239,68,68,0.15);color:var(--color-danger);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px;}
+.forbidden-item .fi-text{font-size:14px;color:var(--color-text-primary);flex:1;}
+.forbidden-item .fi-text .fi-desc{font-size:12px;color:var(--color-text-tertiary);margin-top:2px;}
+@media(max-width:1024px){
+  .sidebar{width:64px;}.sidebar-brand .brand-text,.nav-item span,.nav-section-title,.nav-item .nav-badge,.sidebar-footer .nav-item span,.user-info{display:none;}
+  .sidebar-brand{justify-content:center;padding:0;}.nav-item{justify-content:center;padding:0;}
+  .nav-item.active::before{left:auto;right:0;top:0;transform:none;width:3px;height:100%;}.nav-item i{width:auto;}
+  .sidebar-footer .nav-item{justify-content:center;padding:0;}
+  .nav-item.user-item{justify-content:center;}.main-content{margin-left:64px;}
+}
+@media(max-width:768px){.topbar-date{display:none;}}
+@media(max-width:480px){.sidebar{width:0;overflow:hidden;}.main-content{margin-left:0;}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="brand-icon">极</div><div class="brand-text"><span>极享</span>AI</div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section"><div class="nav-section-title">核心管理</div>
+        <a class="nav-item"><i class="fas fa-chart-pie"></i><span>数据驾驶舱</span></a>
+        <a class="nav-item"><i class="fas fa-th-large"></i><span>产品矩阵</span></a>
+        <a class="nav-item"><i class="fas fa-handshake"></i><span>销售成交</span><span class="nav-badge">12</span></a>
+        <a class="nav-item"><i class="fas fa-user-tie"></i><span>招商代理</span></a>
+        <a class="nav-item"><i class="fas fa-bullhorn"></i><span>营销推广</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">运营管理</div>
+        <a class="nav-item"><i class="fas fa-users"></i><span>客户管理</span></a>
+        <a class="nav-item"><i class="fas fa-file-invoice"></i><span>订单管理</span><span class="nav-badge info">5</span></a>
+        <a class="nav-item"><i class="fas fa-truck"></i><span>交付服务中心</span></a>
+        <a class="nav-item active"><i class="fas fa-file-contract"></i><span>政策合同中心</span></a>
+        <a class="nav-item"><i class="fas fa-copyright"></i><span>品牌资产中心</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">数据与增长</div>
+        <a class="nav-item"><i class="fas fa-chart-line"></i><span>数据运营中心</span></a>
+        <a class="nav-item"><i class="fas fa-robot"></i><span>AI 智能体</span></a>
+        <a class="nav-item"><i class="fas fa-phone-alt"></i><span>呼叫中心</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">系统</div>
+        <a class="nav-item"><i class="fas fa-cog"></i><span>系统设置</span></a>
+        <a class="nav-item"><i class="fas fa-file-alt"></i><span>操作日志</span></a>
+        <a class="nav-item"><i class="fas fa-question-circle"></i><span>帮助中心</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer"><div class="nav-item user-item"><div class="user-avatar">张</div><div class="user-info"><div class="user-name">张明远</div><div class="user-role">超级管理员</div></div><i class="fas fa-ellipsis-v" style="font-size:14px;"></i></div></div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <h1 class="topbar-title"><span>宣传</span>红线</h1>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-date"><i class="far fa-calendar-alt" style="margin-right:6px;"></i>2025年7月15日 周三</div>
+      <div class="topbar-actions">
+        <button class="topbar-btn" title="通知"><i class="far fa-bell"></i><span class="dot"></span></button>
+        <button class="topbar-btn" title="消息"><i class="far fa-envelope"></i></button>
+        <button class="topbar-btn" title="学习记录"><i class="fas fa-book"></i></button>
+        <div class="topbar-avatar">张</div>
+      </div>
+    </header>
+
+    <div class="content-area">
+      <div class="section-header">
+        <h2>宣传 <span>红线手册</span></h2>
+        <div style="display:flex;gap:var(--space-sm);align-items:center;">
+          <span style="font-size:12px;color:var(--color-text-tertiary);"><i class="fas fa-users"></i> 已确认 32/48 人</span>
+          <button class="btn btn-primary"><i class="fas fa-check-double"></i>确认已学习</button>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:var(--space-lg);">
+        <div>
+          <div class="table-card" style="margin-bottom:var(--space-md);">
+            <div class="table-card-header">
+              <div class="table-card-title"><i class="fas fa-ban" style="color:var(--color-danger);"></i>禁止话术清单</div>
+              <span style="font-size:12px;color:var(--color-text-tertiary);">共 12 条 · 红色为绝对禁止</span>
+            </div>
+            <div class="forbidden-item">
+              <div class="fi-icon"><i class="fas fa-times"></i></div>
+              <div class="fi-text">保证100%赚钱/稳赚不赔<div class="fi-desc">例："用了我们的系统，月入十万不是梦"</div></div>
+            </div>
+            <div class="forbidden-item">
+              <div class="fi-icon"><i class="fas fa-times"></i></div>
+              <div class="fi-text">承诺具体收益/回报率<div class="fi-desc">例："保证转化率提升300%"</div></div>
+            </div>
+            <div class="forbidden-item">
+              <div class="fi-icon"><i class="fas fa-times"></i></div>
+              <div class="fi-text">虚假宣称官方背<div class="fi-desc">例："抖音官方合作伙伴"（需核实）</div></div>
+            </div>
+            <div class="forbidden-item">
+              <div class="fi-icon"><i class="fas fa-times"></i></div>
+              <div class="fi-text">贬低竞争对手<div class="fi-desc">例："XX公司的产品根本不行"</div></div>
+            </div>
+            <div class="forbidden-item">
+              <div class="fi-icon"><i class="fas fa-times"></i></div>
+              <div class="fi-text">夸大AI能力<div class="fi-desc">例："完全代替人工，无需任何操作"</div></div>
+            </div>
+            <div class="forbidden-item">
+              <div class="fi-icon"><i class="fas fa-times"></i></div>
+              <div class="fi-text">虚假客户案例/数据<div class="fi-desc">例："我们的客户XX一个月赚了50万"</div></div>
+            </div>
+          </div>
+
+          <div style="background:var(--color-gold-subtle);border:1px solid var(--color-border-gold);border-radius:var(--radius-lg);padding:var(--space-lg);">
+            <div style="font-size:14px;font-weight:600;margin-bottom:var(--space-sm);display:flex;align-items:center;gap:var(--space-xs);">
+              <i class="fas fa-lightbulb" style="color:var(--color-gold);"></i>合规宣传指引
+            </div>
+            <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.7;">
+              <p>✔ 使用"可能"、"有助于"、"在部分案例中"等合规表述</p>
+              <p>✔ 引用数据时注明来源和统计周期</p>
+              <p>✔ 客户案例需脱敏并取得授权</p>
+              <p>✔ 涉及收益相关内容需增加风险提示</p>
+              <p>✔ 所有宣传物料需经法务审核后方可发布</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="table-card" style="margin-bottom:var(--space-md);">
+            <div class="table-card-header">
+              <div class="table-card-title"><i class="fas fa-book-open" style="color:var(--color-gold);"></i>学习记录</div>
+            </div>
+            <table class="data-table">
+              <thead><tr><th>姓名</th><th>部门</th><th>确认时间</th><th>状态</th></tr></thead>
+              <tbody>
+                <tr><td>张明远</td><td>管理组</td><td>2025-07-14</td><td><span class="tag tag-green">已确认</span></td></tr>
+                <tr><td>王丽华</td><td>销售部</td><td>2025-07-14</td><td><span class="tag tag-green">已确认</span></td></tr>
+                <tr><td>李明</td><td>销售部</td><td>2025-07-13</td><td><span class="tag tag-green">已确认</span></td></tr>
+                <tr><td>赵雪</td><td>市场部</td><td>2025-07-12</td><td><span class="tag tag-green">已确认</span></td></tr>
+                <tr><td>陈浩</td><td>销售部</td><td>—</td><td><span class="tag tag-blue">待确认</span></td></tr>
+                <tr><td>刘洋</td><td>销售部</td><td>—</td><td><span class="tag tag-blue">待确认</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-lg);">
+            <div style="font-size:14px;font-weight:600;margin-bottom:var(--space-sm);display:flex;align-items:center;gap:var(--space-xs);">
+              <i class="fas fa-exclamation-triangle" style="color:var(--color-gold);"></i>违规处理机制
+            </div>
+            <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.8;">
+              <p><strong style="color:var(--color-danger);">一级违规</strong> — 发现首次：警告 + 重新学习</p>
+              <p><strong style="color:var(--color-warning);">二级违规</strong> — 再次发现：通报批评 + 扣除绩效 500元</p>
+              <p><strong style="color:var(--color-danger);">三级违规</strong> — 严重违规：停岗培训 + 扣除绩效 2000元</p>
+              <p style="margin-top:var(--space-sm);padding:var(--space-sm);background:rgba(239,68,68,0.08);border-radius:var(--radius-sm);">
+                <i class="fas fa-phone-alt" style="color:var(--color-gold);"></i> 违规举报热线：400-888-XXXX 转 法务部
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

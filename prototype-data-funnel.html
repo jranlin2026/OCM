@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<!--
+  Design System: 极享AI口播智能体
+  Template: dashboard-custom
+  File: prototype-data-funnel.html — 转化漏斗
+  Module: 12 - 数据运营中心
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极享AI — 转化漏斗</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+  --color-bg-primary: #0F0F1A; --color-bg-secondary: #1A1A2E; --color-surface: #1E1E32;
+  --color-surface-hover: #252540; --color-surface-elevated: #2A2A3C;
+  --color-gold: #D4A853; --color-gold-hover: #E0B96A; --color-gold-active: #C49A42;
+  --color-gold-muted: rgba(212,168,83,0.2); --color-gold-subtle: rgba(212,168,83,0.08);
+  --color-text-primary: #F5F5F7; --color-text-secondary: #A0A0B8; --color-text-tertiary: #6B6B82;
+  --color-text-on-gold: #0F0F1A;
+  --color-border: #2E2E44; --color-border-strong: #3D3D58; --color-border-gold: rgba(212,168,83,0.25);
+  --color-divider: #2A2A40;
+  --color-success: #22C55E; --color-warning: #F59E0B; --color-danger: #EF4444; --color-info: #3B82F6;
+  --color-tier-blue: #3B82F6; --color-tier-green: #22C55E; --color-tier-purple: #A855F7; --color-tier-gold: #F59E0B;
+  --space-2xs:4px;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:20px;--space-xl:24px;--space-2xl:32px;
+  --font-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --radius-sm:4px;--radius-md:8px;--radius-lg:12px;--radius-xl:16px;--radius-pill:20px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.3);--shadow-md:0 4px 12px rgba(0,0,0,.35);--shadow-lg:0 8px 24px rgba(0,0,0,.4);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:16px;-webkit-font-smoothing:antialiased;}
+body{font-family:var(--font-body);background:var(--color-bg-primary);color:var(--color-text-primary);line-height:1.6;min-height:100vh;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--color-border-strong);border-radius:3px;}
+.layout{display:flex;min-height:100vh;}
+.sidebar{width:240px;min-height:100vh;background:var(--color-bg-secondary);border-right:1px solid var(--color-border);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:100;}
+.sidebar-brand{height:64px;display:flex;align-items:center;padding:0 var(--space-lg);border-bottom:1px solid var(--color-divider);gap:var(--space-sm);flex-shrink:0;}
+.sidebar-brand .brand-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--color-gold),var(--color-gold-hover));border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--color-text-on-gold);font-weight:700;flex-shrink:0;}
+.sidebar-brand .brand-text{font-size:16px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.01em;}
+.sidebar-brand .brand-text span{color:var(--color-gold);}
+.sidebar-nav{flex:1;padding:var(--space-md) var(--space-sm);overflow-y:auto;}
+.nav-section,.nav-section-title,.nav-item,.nav-item i,.nav-item:hover,.nav-item.active,.nav-item.active::before,.nav-item.active i,.nav-item .nav-badge,.sidebar-footer,.nav-item.user-item,.user-avatar,.user-info,.user-name,.user-role{/*inherited*/}
+.main-content{flex:1;margin-left:240px;min-height:100vh;display:flex;flex-direction:column;}
+.topbar{height:64px;background:var(--color-bg-secondary);border-bottom:1px solid var(--color-border);display:flex;align-items:center;padding:0 var(--space-xl);gap:var(--space-md);position:sticky;top:0;z-index:50;}
+.topbar-title{font-size:18px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.01em;}
+.topbar-title span{color:var(--color-gold);}
+.topbar-spacer{flex:1;}
+.topbar-date{font-size:13px;color:var(--color-text-tertiary);}
+.topbar-actions{display:flex;align-items:center;gap:var(--space-xs);}
+.topbar-btn,.topbar-btn:hover,.topbar-btn .dot,.topbar-avatar{/*inherited*/}
+.content-area{padding:var(--space-xl);flex:1;display:flex;flex-direction:column;gap:var(--space-lg);max-width:1440px;width:100%;margin:0 auto;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-lg);}
+.section-header h2{font-size:20px;font-weight:600;}
+.section-header h2 span{color:var(--color-gold);}
+.btn{display:inline-flex;align-items:center;gap:var(--space-xs);padding:0 var(--space-lg);height:36px;border-radius:var(--radius-md);font-size:14px;font-weight:500;border:none;cursor:pointer;transition:all 0.15s ease;}
+.btn-primary{background:var(--color-gold);color:var(--color-text-on-gold);}
+.btn-primary:hover{background:var(--color-gold-hover);}
+.btn-secondary{background:var(--color-surface);color:var(--color-text-secondary);border:1px solid var(--color-border);}
+.btn-sm{height:30px;padding:0 var(--space-md);font-size:13px;}
+.tag{display:inline-flex;align-items:center;font-size:12px;font-weight:500;padding:2px 10px;border-radius:var(--radius-pill);}
+.tag-green{color:var(--color-tier-green);background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);}
+.funnel-diagram{display:flex;flex-direction:column;align-items:center;gap:var(--space-xs);padding:var(--space-xl);}
+.funnel-bar{display:flex;align-items:center;justify-content:center;border-radius:var(--radius-md);padding:var(--space-md);color:var(--color-text-on-gold);font-weight:600;font-size:16px;position:relative;min-height:52px;transition:all 0.2s;}
+.funnel-bar:hover{filter:brightness(1.15);transform:scale(1.02);}
+.funnel-bar .fb-label{position:absolute;left:var(--space-lg);font-size:14px;font-weight:500;}
+.funnel-bar .fb-value{font-size:18px;font-weight:700;}
+.funnel-bar .fb-rate{position:absolute;right:var(--space-lg);font-size:13px;font-weight:400;opacity:0.9;}
+.funnel-connector{width:2px;height:12px;background:var(--color-divider);}
+.funnel-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-md);}
+.stat-card{background:var(--color-bg-secondary);border:1px solid var(--color-divider);border-radius:var(--radius-lg);padding:var(--space-lg);text-align:center;}
+.stat-card .sc-value{font-size:28px;font-weight:700;color:var(--color-gold);line-height:1.2;}
+.stat-card .sc-label{font-size:13px;color:var(--color-text-secondary);margin-top:var(--space-2xs);}
+.stat-card .sc-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;}
+@media(max-width:1024px){
+  .sidebar{width:64px;}.sidebar-brand .brand-text,.nav-item span,.nav-section-title,.nav-item .nav-badge,.sidebar-footer .nav-item span,.user-info{display:none;}
+  .sidebar-brand{justify-content:center;padding:0;}.nav-item{justify-content:center;padding:0;}
+  .nav-item.active::before{left:auto;right:0;top:0;transform:none;width:3px;height:100%;}.nav-item i{width:auto;}
+  .sidebar-footer .nav-item{justify-content:center;padding:0;}
+  .nav-item.user-item{justify-content:center;}.main-content{margin-left:64px;}
+  .funnel-stats{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:768px){.topbar-date{display:none;}}
+@media(max-width:480px){.sidebar{width:0;overflow:hidden;}.main-content{margin-left:0;}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="brand-icon">极</div><div class="brand-text"><span>极享</span>AI</div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section"><div class="nav-section-title">核心管理</div>
+        <a class="nav-item"><i class="fas fa-chart-pie"></i><span>数据驾驶舱</span></a>
+        <a class="nav-item"><i class="fas fa-th-large"></i><span>产品矩阵</span></a>
+        <a class="nav-item"><i class="fas fa-handshake"></i><span>销售成交</span><span class="nav-badge">12</span></a>
+        <a class="nav-item"><i class="fas fa-user-tie"></i><span>招商代理</span></a>
+        <a class="nav-item"><i class="fas fa-bullhorn"></i><span>营销推广</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">运营管理</div>
+        <a class="nav-item"><i class="fas fa-users"></i><span>客户管理</span></a>
+        <a class="nav-item"><i class="fas fa-file-invoice"></i><span>订单管理</span><span class="nav-badge info">5</span></a>
+        <a class="nav-item"><i class="fas fa-truck"></i><span>交付服务中心</span></a>
+        <a class="nav-item"><i class="fas fa-file-contract"></i><span>政策合同中心</span></a>
+        <a class="nav-item"><i class="fas fa-copyright"></i><span>品牌资产中心</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">数据与增长</div>
+        <a class="nav-item active"><i class="fas fa-chart-line"></i><span>数据运营中心</span></a>
+        <a class="nav-item"><i class="fas fa-robot"></i><span>AI 智能体</span></a>
+        <a class="nav-item"><i class="fas fa-phone-alt"></i><span>呼叫中心</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">系统</div>
+        <a class="nav-item"><i class="fas fa-cog"></i><span>系统设置</span></a>
+        <a class="nav-item"><i class="fas fa-file-alt"></i><span>操作日志</span></a>
+        <a class="nav-item"><i class="fas fa-question-circle"></i><span>帮助中心</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer"><div class="nav-item user-item"><div class="user-avatar">张</div><div class="user-info"><div class="user-name">张明远</div><div class="user-role">超级管理员</div></div><i class="fas fa-ellipsis-v" style="font-size:14px;"></i></div></div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <h1 class="topbar-title"><span>转化</span>漏斗</h1>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-date"><i class="far fa-calendar-alt" style="margin-right:6px;"></i>2025年7月15日 周三</div>
+      <div class="topbar-actions">
+        <button class="topbar-btn" title="通知"><i class="far fa-bell"></i><span class="dot"></span></button>
+        <button class="topbar-btn" title="消息"><i class="far fa-envelope"></i></button>
+        <button class="topbar-btn" title="导出"><i class="fas fa-download"></i></button>
+        <div class="topbar-avatar">张</div>
+      </div>
+    </header>
+
+    <div class="content-area">
+      <div class="section-header">
+        <h2>近30天 · <span>转化漏斗</span></h2>
+        <div style="display:flex;gap:var(--space-sm);">
+          <button class="btn btn-secondary"><i class="fas fa-calendar-alt"></i>6/16 - 7/15</button>
+          <button class="btn btn-secondary"><i class="fas fa-filter"></i>按产品</button>
+        </div>
+      </div>
+
+      <div class="funnel-diagram">
+        <div class="funnel-bar" style="width:100%;background:var(--color-gold);"><span class="fb-label">线索获取</span><span class="fb-value">1,284</span><span class="fb-rate">100%</span></div>
+        <div class="funnel-connector"></div>
+        <div class="funnel-bar" style="width:82%;background:var(--color-tier-blue);"><span class="fb-label">添加微信</span><span class="fb-value">899</span><span class="fb-rate">70.0%</span></div>
+        <div class="funnel-connector"></div>
+        <div class="funnel-bar" style="width:65%;background:var(--color-tier-green);"><span class="fb-label">深度诊断</span><span class="fb-value">547</span><span class="fb-rate">42.6%</span></div>
+        <div class="funnel-connector"></div>
+        <div class="funnel-bar" style="width:48%;background:var(--color-tier-purple);"><span class="fb-label">升单意向</span><span class="fb-value">328</span><span class="fb-rate">25.5%</span></div>
+        <div class="funnel-connector"></div>
+        <div class="funnel-bar" style="width:35%;background:var(--color-tier-gold);"><span class="fb-label">成交转化</span><span class="fb-value">196</span><span class="fb-rate">15.3%</span></div>
+      </div>
+
+      <div class="funnel-stats">
+        <div class="stat-card"><div class="sc-value">70.0%</div><div class="sc-label">加微率</div><div class="sc-sub">线索 → 微信</div></div>
+        <div class="stat-card"><div class="sc-value">60.8%</div><div class="sc-label">诊断率</div><div class="sc-sub">微信 → 诊断</div></div>
+        <div class="stat-card"><div class="sc-value">60.0%</div><div class="sc-label">意向率</div><div class="sc-sub">诊断 → 意向</div></div>
+        <div class="stat-card"><div class="sc-value">59.8%</div><div class="sc-label">成交率</div><div class="sc-sub">意向 → 成交</div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);">
+        <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-lg);">
+          <div style="font-size:15px;font-weight:600;margin-bottom:var(--space-md);display:flex;align-items:center;gap:var(--space-sm);"><i class="fas fa-chart-bar" style="color:var(--color-gold);"></i>各产品线转化对比</div>
+          <table class="data-table" style="width:100%;border-collapse:collapse;">
+            <thead><tr><th style="font-size:12px;font-weight:500;color:var(--color-text-tertiary);text-align:left;padding:var(--space-sm) var(--space-md);background:var(--color-surface-hover);">产品线</th><th style="font-size:12px;font-weight:500;color:var(--color-text-tertiary);text-align:left;padding:var(--space-sm) var(--space-md);background:var(--color-surface-hover);">线索</th><th style="font-size:12px;font-weight:500;color:var(--color-text-tertiary);text-align:left;padding:var(--space-sm) var(--space-md);background:var(--color-surface-hover);">成交</th><th style="font-size:12px;font-weight:500;color:var(--color-text-tertiary);text-align:left;padding:var(--space-sm) var(--space-md);background:var(--color-surface-hover);">转化率</th></tr></thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--color-divider);"><td style="padding:var(--space-sm) var(--space-md);font-size:14px;">899 系列</td><td style="padding:var(--space-sm) var(--space-md);font-size:14px;">652</td><td style="padding:var(--space-sm) var(--space-md);font-size:14px;">82</td><td style="padding:var(--space-sm) var(--space-md);font-size:14px;"><span class="tag tag-green">12.6%</span></td></tr>
+              <tr style="border-bottom:1px solid var(--color-divider);"><td style="padding:var(--space-sm) var(--space-md);font-size:14px;">训练营系列</td><td style="padding:var(--space-sm) var(--space-md);font-size:14px;">386</td><td style="padding:var(--space-sm) var(--space-md);font-size:14px;">72</td><td style="padding:var(--space-sm) var(--space-md);font-size:14px;"><span class="tag tag-green">18.7%</span></td></tr>
+              <tr style="border-bottom:1px solid var(--color-divider);"><td style="padding:var(--space-sm) var(--space-md);font-size:14px;">B端定制</td><td style="padding:var(--space-sm) var(--space-md);font-size:14px;">186</td><td style="padding:var(--space-sm) var(--space-md);font-size:14px;">32</td><td style="padding:var(--space-sm) var(--space-md);font-size:14px;"><span class="tag tag-green">17.2%</span></td></tr>
+              <tr><td style="padding:var(--space-sm) var(--space-md);font-size:14px;">B端代运营</td><td style="padding:var(--space-sm) var(--space-md);font-size:14px;">60</td><td style="padding:var(--space-sm) var(--space-md);font-size:14px;">10</td><td style="padding:var(--space-sm) var(--space-md);font-size:14px;"><span class="tag tag-green">16.7%</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-lg);">
+          <div style="font-size:15px;font-weight:600;margin-bottom:var(--space-md);display:flex;align-items:center;gap:var(--space-sm);"><i class="fas fa-lightbulb" style="color:var(--color-gold);"></i>漏斗分析洞察</div>
+          <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.8;">
+            <p>📌 <strong style="color:var(--color-text-primary);">加微率 70%</strong> — 高于行业均值 58%，线索质量较好</p>
+            <p>📌 <strong style="color:var(--color-text-primary);">诊断到意向 60%</strong> — 有提升空间，建议优化诊断方案</p>
+            <p>📌 <strong style="color:var(--color-text-primary);">训练营转化率最高</strong> — 18.7%，建议加大推广力度</p>
+            <p>📌 <strong style="color:var(--color-text-primary);">整体流失瓶颈</strong> — 在"诊断→意向"阶段流失最多</p>
+          </div>
+          <div style="margin-top:var(--space-md);padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-md);">
+            <div style="font-size:14px;font-weight:600;color:var(--color-gold);margin-bottom:var(--space-xs);"><i class="fas fa-arrow-right"></i> 建议行动</div>
+            <div style="font-size:13px;color:var(--color-text-secondary);">优化诊断报告的可视化展示，增加案例对比模块，提升客户购买信心。预计可提升意向率 5-8%。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

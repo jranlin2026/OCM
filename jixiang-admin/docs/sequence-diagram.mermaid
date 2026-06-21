@@ -1,0 +1,152 @@
+sequenceDiagram
+    %% ==================== 通用页面加载流程 ====================
+    title 通用页面加载流程（以招商代理中心为例）
+
+    participant User as 用户
+    participant Sidebar as Sidebar
+    participant Router as React Router
+    participant Layout as AgentLayout
+    participant Page as AgentListPage
+    participant Mock as useMockData
+    participant UI as MUI组件
+
+    User->>Sidebar: 点击「招商代理」
+    Sidebar->>Router: navigate('/agent/list')
+    Router->>Layout: 渲染 AgentLayout
+    Layout->>Layout: 显示子页面Tab导航
+    Router->>Page: 渲染 AgentListPage
+    Page->>Mock: useAgentList()
+    Mock-->>Page: Agent[] (useMemo缓存)
+    Page->>Page: 搜索/过滤逻辑
+    Page->>UI: 渲染SearchInput + FilterChips
+    Page->>UI: 渲染AgentTable
+    Note over Page,UI: 使用 ContentCard / StatsCard 等共享组件
+    UI-->>User: 展示代理商列表
+
+    User->>Page: 点击某代理商行
+    Page->>UI: 打开AgentDetailDrawer
+    Note over Page,UI: 抽屉展示代理详情/协议/结算记录
+    UI-->>User: 展示代理商详情
+
+    %% ==================== 佣金结算审核流程 ====================
+    title 佣金结算审核流程
+
+    participant Admin as 管理员
+    participant SettlePage as SettlementListPage
+    participant SettleTable as SettlementTable
+    participant MockData as useSettlements
+
+    Admin->>SettlePage: 访问佣金结算页面
+    SettlePage->>MockData: useSettlements()
+    MockData-->>SettlePage: CommissionSettlement[]
+    SettlePage->>SettleTable: 渲染结算表格
+    SettleTable-->>Admin: 展示结算列表（含状态标签）
+
+    Admin->>SettleTable: 点击「审核」待结算单
+    SettleTable->>SettleTable: 弹出审核确认框
+    Note over SettleTable: 显示结算金额/佣金/订单明细
+    Admin->>SettleTable: 确认审核通过
+    SettleTable-->>Admin: 状态变更为「审核通过」
+
+    %% ==================== 获客短视频创建流程 ====================
+    title 短视频获客计划创建流程
+
+    participant Operator as 运营人员
+    participant VideoPage as ShortVideoPage
+    participant VideoCard as VideoPlanCard
+    participant Form as 创建表单
+
+    Operator->>VideoPage: 访问短视频获客页面
+    VideoPage->>VideoPage: useShortVideoPlans()
+    VideoPage->>VideoCard: 渲染计划卡片列表
+    VideoCard-->>Operator: 展示已发布/草稿计划
+    Note over VideoCard: 显示播放量/点赞/线索数
+
+    Operator->>VideoPage: 点击「新建计划」
+    VideoPage->>Form: 打开创建表单
+    Note over Form: 标题/平台/脚本/发布日期
+    Operator->>Form: 填写信息并保存
+    Form-->>VideoPage: 新增计划（草稿状态）
+    VideoPage-->>Operator: 列表刷新
+
+    %% ==================== 培训课程学习追踪流程 ====================
+    title 培训课程学习与进度追踪
+
+    participant Student as 学员
+    participant CoursePage as CourseListPage
+    participant CampPage as CampListPage
+    participant ProgressPage as ProgressPage
+    participant ProgressData as useStudentProgress
+
+    Student->>CoursePage: 浏览课程中心
+    CoursePage->>CoursePage: useCourses()
+    CoursePage-->>Student: 课程卡片列表（含章节/进度）
+
+    Student->>CampPage: 查看训练营
+    CampPage->>CampPage: useTrainingCamps()
+    CampPage-->>Student: 训练营列表及报名状态
+
+    Student->>ProgressPage: 查看学习进度
+    ProgressPage->>ProgressData: useStudentProgress()
+    ProgressData-->>ProgressPage: StudentProgress[]
+    ProgressPage-->>Student: 各课程/训练营完成进度
+
+    %% ==================== 运营数据看板流程 ====================
+    title 运营数据看板加载流程
+
+    participant Manager as 运营经理
+    participant DataPage as DataDashboardPage
+    participant ChartCard as ChartCard
+    participant KPIStats as KPIStatsRow
+    participant DataMock as useOperationDashboards
+
+    Manager->>DataPage: 访问运营看板
+    DataPage->>DataMock: useOperationDashboards()
+    DataMock-->>DataPage: OperationDashboard
+    DataPage->>KPIStats: 渲染4个KPI指标
+    KPIStats-->>Manager: 显示新增客户/签单额/活跃代理/投诉率
+    DataPage->>ChartCard: 渲染收入趋势图（折线图）
+    ChartCard-->>Manager: 显示月度收入趋势
+    DataPage->>ChartCard: 渲染产品收入占比（饼图）
+    ChartCard-->>Manager: 显示各产品版本收入占比
+    DataPage->>ChartCard: 渲染转化漏斗（漏斗图）
+    ChartCard-->>Manager: 显示获客到成交转化率
+
+    %% ==================== 交付SOP查看流程 ====================
+    title 交付SOP查看流程
+
+    participant Staff as 交付人员
+    participant SOPPage as SOPListPage
+    participant SOPCard as SOPCard
+    participant Timeline as SOPTimeline
+    participant SOPData as useDeliverySOPs
+
+    Staff->>SOPPage: 访问SOP管理
+    SOPPage->>SOPData: useDeliverySOPs()
+    SOPData-->>SOPPage: DeliverySOP[]
+    SOPPage->>SOPCard: 渲染SOP分类卡片
+    SOPCard-->>Staff: 显示SOP概览（标题/适用角色/天数）
+
+    Staff->>SOPPage: 点击某SOP
+    SOPPage->>Timeline: 渲染步骤时间线
+    Note over Timeline: 展示stepOrder/描述/负责人/时长/交付物/检查项
+    Timeline-->>Staff: 展开式时间线展示
+
+    %% ==================== 任务依赖图流程 ====================
+    title 开发依赖流程
+
+    participant T01 as T01: 基础设施
+    participant T02 as T02: Phase 1B
+    participant T03 as T03: Phase 2
+    participant T04 as T04: 集成1B
+    participant T05 as T05: 集成2
+
+    Note over T01: types + mockData + routes + navItems + constants
+    T01->>T02: 类型定义就绪
+    T01->>T03: 类型定义就绪
+    Note over T02: 招商代理 + 获客引流 + 案例见证 + 培训赋能
+    Note over T03: 交付服务 + 政策合同 + 品牌资产 + 数据运营
+    T02->>T04: 页面组件就绪
+    T03->>T05: 页面组件就绪
+    Note over T04: 路由集成 + 导航激活 + 端到端验证
+    Note over T05: 路由集成 + 导航激活 + 端到端验证

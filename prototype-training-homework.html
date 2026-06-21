@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--
+  Design System: 极享AI口播智能体 (JIXIANG-AI)
+  Template: dashboard (作业系统)
+  File: prototype-training-homework.html — 作业系统
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极享AI — 作业系统</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{--color-bg-primary:#0F0F1A;--color-bg-secondary:#1A1A2E;--color-surface:#1E1E32;--color-surface-hover:#252540;--color-surface-elevated:#2A2A3C;--color-gold:#D4A853;--color-gold-hover:#E0B96A;--color-gold-active:#C49A42;--color-gold-muted:rgba(212,168,83,0.2);--color-gold-subtle:rgba(212,168,83,0.08);--color-text-primary:#F5F5F7;--color-text-secondary:#A0A0B8;--color-text-tertiary:#6B6B82;--color-text-on-gold:#0F0F1A;--color-border:#2E2E44;--color-border-strong:#3D3D58;--color-border-gold:rgba(212,168,83,0.25);--color-divider:#2A2A40;--color-success:#22C55E;--color-warning:#F59E0B;--color-danger:#EF4444;--color-info:#3B82F6;--color-tier-blue:#3B82F6;--color-tier-green:#22C55E;--color-tier-purple:#A855F7;--space-2xs:4px;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:20px;--space-xl:24px;--space-2xl:32px;--font-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--font-mono:'JetBrains Mono','SF Mono','Fira Code',monospace;--radius-sm:4px;--radius-md:8px;--radius-lg:12px;--radius-xl:16px;--radius-pill:20px;--shadow-sm:0 1px 3px rgba(0,0,0,0.3);--shadow-md:0 4px 12px rgba(0,0,0,0.35);--shadow-lg:0 8px 24px rgba(0,0,0,0.4);--shadow-gold:0 0 12px rgba(212,168,83,0.2)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--font-sans);background:var(--color-bg-primary);color:var(--color-text-primary);line-height:1.6;min-height:100vh}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--color-border-strong);border-radius:3px}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:240px;min-height:100vh;background:var(--color-bg-secondary);border-right:1px solid var(--color-border);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:100}
+.sidebar-brand{height:64px;display:flex;align-items:center;padding:0 var(--space-lg);border-bottom:1px solid var(--color-divider);gap:var(--space-sm);flex-shrink:0}
+.sidebar-brand .brand-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--color-gold),var(--color-gold-hover));border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--color-text-on-gold);font-weight:700;flex-shrink:0}
+.sidebar-brand .brand-text{font-size:16px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.01em}
+.sidebar-brand .brand-text span{color:var(--color-gold)}
+.sidebar-nav{flex:1;padding:var(--space-md) var(--space-sm);overflow-y:auto}
+.nav-section{margin-bottom:var(--space-xl)}
+.nav-section-title{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.06em;padding:0 var(--space-sm);margin-bottom:var(--space-xs)}
+.nav-item{display:flex;align-items:center;height:44px;padding:0 var(--space-sm) 0 var(--space-md);border-radius:var(--radius-md);color:var(--color-text-secondary);font-size:14px;cursor:pointer;transition:all 0.15s ease;gap:var(--space-sm);position:relative}
+.nav-item i{width:20px;text-align:center;font-size:15px;color:var(--color-text-tertiary);transition:color 0.15s ease}
+.nav-item:hover{background:var(--color-surface-hover);color:var(--color-text-primary)}
+.nav-item:hover i{color:var(--color-text-secondary)}
+.nav-item.active{background:var(--color-gold-subtle);color:var(--color-gold);font-weight:500}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:20px;background:var(--color-gold);border-radius:0 2px 2px 0}
+.nav-item.active i{color:var(--color-gold)}
+.nav-item .nav-badge{margin-left:auto;background:var(--color-danger);color:#fff;font-size:11px;font-weight:600;padding:0 6px;height:18px;line-height:18px;border-radius:9px;min-width:18px;text-align:center}
+.sidebar-footer{padding:var(--space-md) var(--space-sm);border-top:1px solid var(--color-divider);flex-shrink:0}
+.user-mini{display:flex;align-items:center;height:48px;padding:var(--space-xs) var(--space-sm);gap:var(--space-sm);cursor:pointer;border-radius:var(--radius-md);transition:background 0.15s ease}
+.user-mini:hover{background:var(--color-surface-hover)}
+.user-mini-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--color-gold),var(--color-tier-purple));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--color-text-on-gold);flex-shrink:0}
+.user-mini-info{flex:1;min-width:0}.user-mini-name{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.2}.user-mini-role{font-size:11px;color:var(--color-text-tertiary);line-height:1.2}
+.main-content{flex:1;margin-left:240px;min-height:100vh;display:flex;flex-direction:column}
+.topbar{height:64px;background:var(--color-bg-secondary);border-bottom:1px solid var(--color-border);display:flex;align-items:center;padding:0 var(--space-xl);gap:var(--space-md);position:sticky;top:0;z-index:50}
+.topbar-title{font-size:18px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.01em}
+.topbar-title span{color:var(--color-gold)}.topbar-spacer{flex:1}
+.topbar-date{font-size:13px;color:var(--color-text-tertiary)}
+.topbar-actions{display:flex;align-items:center;gap:var(--space-xs)}
+.topbar-btn{width:36px;height:36px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s ease;font-size:16px;position:relative}
+.topbar-btn:hover{background:var(--color-surface-hover);border-color:var(--color-border-strong);color:var(--color-text-primary)}
+.topbar-btn .dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--color-danger);border-radius:50%;border:2px solid var(--color-bg-secondary)}
+.topbar-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--color-gold),var(--color-tier-blue));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--color-text-on-gold);cursor:pointer;margin-left:var(--space-xs)}
+.content-area{padding:var(--space-xl);flex:1;display:flex;flex-direction:column;gap:var(--space-lg);max-width:1440px;width:100%;margin:0 auto}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-xs)}
+.page-header h1{font-size:22px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.02em}
+.page-header h1 span{color:var(--color-gold)}
+.page-header p{font-size:14px;color:var(--color-text-secondary);margin-top:var(--space-2xs)}
+.header-actions{display:flex;gap:var(--space-sm);align-items:center}
+.btn-primary{height:36px;padding:0 var(--space-lg);border-radius:var(--radius-md);border:none;background:var(--color-gold);color:var(--color-text-on-gold);font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s ease;display:flex;align-items:center;gap:var(--space-xs);font-family:var(--font-sans)}
+.btn-primary:hover{background:var(--color-gold-hover);box-shadow:var(--shadow-gold)}
+
+/* Stats row */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-md)}
+.stat-mini-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-lg);display:flex;align-items:center;gap:var(--space-md)}
+.stat-mini-icon{width:40px;height:40px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.stat-mini-icon.blue{background:rgba(59,130,246,0.12);color:var(--color-tier-blue)}
+.stat-mini-icon.green{background:rgba(34,197,94,0.12);color:var(--color-success)}
+.stat-mini-icon.gold{background:var(--color-gold-subtle);color:var(--color-gold)}
+.stat-mini-icon.purple{background:rgba(168,85,247,0.12);color:var(--color-tier-purple)}
+.stat-mini-val{font-size:20px;font-weight:700;color:var(--color-text-primary);line-height:1.2}
+.stat-mini-label{font-size:12px;color:var(--color-text-tertiary)}
+
+/* Homework Table */
+.homework-table{width:100%;border-collapse:collapse;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden}
+.homework-table th{padding:var(--space-md) var(--space-md);text-align:left;font-size:12px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid var(--color-divider);background:var(--color-bg-primary)}
+.homework-table td{padding:var(--space-md);border-bottom:1px solid var(--color-divider);font-size:13px;color:var(--color-text-secondary)}
+.homework-table tr:last-child td{border-bottom:none}
+.homework-table tr:hover td{background:var(--color-surface-hover)}
+.homework-table .hw-title{font-weight:500;color:var(--color-text-primary)}
+.homework-table .hw-title .hw-course{font-size:11px;color:var(--color-text-tertiary);font-weight:400;display:block}
+.hw-status{padding:2px 10px;border-radius:var(--radius-pill);font-size:11px;font-weight:500;display:inline-block}
+.hw-status.pending{background:rgba(107,107,130,0.1);color:var(--color-text-tertiary);border:1px solid var(--color-border)}
+.hw-status.submitted{background:rgba(59,130,246,0.1);color:var(--color-tier-blue);border:1px solid rgba(59,130,246,0.2)}
+.hw-status.grading{background:rgba(245,158,11,0.1);color:var(--color-warning);border:1px solid rgba(245,158,11,0.2)}
+.hw-status.passed{background:rgba(34,197,94,0.1);color:var(--color-success);border:1px solid rgba(34,197,94,0.2)}
+.hw-status.rejected{background:rgba(239,68,68,0.1);color:var(--color-danger);border:1px solid rgba(239,68,68,0.2)}
+.hw-action-btn{width:28px;height:28px;border-radius:var(--radius-sm);border:1px solid var(--color-border);background:transparent;color:var(--color-text-tertiary);cursor:pointer;transition:all 0.15s ease;font-size:12px}
+.hw-action-btn:hover{background:var(--color-surface-hover);border-color:var(--color-border-strong);color:var(--color-text-secondary)}
+
+@media(max-width:768px){
+  .sidebar{width:60px}
+  .sidebar-brand .brand-text,.sidebar-nav .nav-item span,.sidebar-nav .nav-section-title,.sidebar-nav .nav-item .nav-badge,.sidebar-footer .user-mini-info,.sidebar-footer .user-mini i{display:none}
+  .sidebar-brand{justify-content:center;padding:0}
+  .sidebar-nav .nav-item{justify-content:center;padding:0;height:48px}
+  .sidebar-nav .nav-item i{margin:0}
+  .sidebar-nav .nav-item.active::before{left:auto;right:0;top:0;transform:none;width:3px;height:100%}
+  .sidebar-footer .user-mini{justify-content:center}
+  .main-content{margin-left:60px}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .homework-table{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="brand-icon">极</div><div class="brand-text"><span>极享</span>AI</div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section"><div class="nav-section-title">核心管理</div>
+        <a class="nav-item"><i class="fas fa-chart-pie"></i><span>数据驾驶舱</span></a>
+        <a class="nav-item"><i class="fas fa-th-large"></i><span>产品矩阵</span></a>
+        <a class="nav-item"><i class="fas fa-handshake"></i><span>销售成交</span><span class="nav-badge">12</span></a>
+        <a class="nav-item"><i class="fas fa-user-tie"></i><span>招商代理</span></a>
+        <a class="nav-item"><i class="fas fa-bullhorn"></i><span>营销推广</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">内容中心</div>
+        <a class="nav-item"><i class="fas fa-images"></i><span>内容素材中心</span></a>
+        <a class="nav-item"><i class="fas fa-star"></i><span>案例见证中心</span></a>
+        <a class="nav-item active"><i class="fas fa-graduation-cap"></i><span>培训赋能中心</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">运营管理</div>
+        <a class="nav-item"><i class="fas fa-users"></i><span>客户管理</span></a>
+        <a class="nav-item"><i class="fas fa-file-invoice"></i><span>订单管理</span></a>
+        <a class="nav-item"><i class="fas fa-robot"></i><span>AI 智能体</span></a>
+        <a class="nav-item"><i class="fas fa-phone-alt"></i><span>呼叫中心</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">系统</div>
+        <a class="nav-item"><i class="fas fa-cog"></i><span>系统设置</span></a>
+        <a class="nav-item"><i class="fas fa-file-alt"></i><span>操作日志</span></a>
+        <a class="nav-item"><i class="fas fa-question-circle"></i><span>帮助中心</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer"><div class="user-mini"><div class="user-mini-avatar">张</div><div class="user-mini-info"><div class="user-mini-name">张明远</div><div class="user-mini-role">运营总监</div></div><i class="fas fa-ellipsis-v" style="font-size:14px;color:var(--color-text-tertiary)"></i></div></div>
+  </aside>
+  <main class="main-content">
+    <header class="topbar">
+      <div class="topbar-title"><span>培训</span>赋能中心</div>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-date"><i class="far fa-calendar-alt"></i> 2025年3月24日 周一</div>
+      <div class="topbar-actions"><button class="topbar-btn"><i class="far fa-bell"></i><span class="dot"></span></button><button class="topbar-btn"><i class="far fa-question-circle"></i></button><div class="topbar-avatar">张</div></div>
+    </header>
+    <div class="content-area">
+      <div class="page-header">
+        <div><h1>作业<span>系统</span></h1><p>管理作业发布、批改与提交状态跟踪</p></div>
+        <div class="header-actions"><button class="btn-primary"><i class="fas fa-plus"></i> 发布作业</button></div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-mini-card"><div class="stat-mini-icon blue"><i class="fas fa-book-open"></i></div><div><div class="stat-mini-val">24</div><div class="stat-mini-label">总作业数</div></div></div>
+        <div class="stat-mini-card"><div class="stat-mini-icon green"><i class="fas fa-check-circle"></i></div><div><div class="stat-mini-val">86</div><div class="stat-mini-label">已批改</div></div></div>
+        <div class="stat-mini-card"><div class="stat-mini-icon gold"><i class="fas fa-clock"></i></div><div><div class="stat-mini-val">32</div><div class="stat-mini-label">待批改</div></div></div>
+        <div class="stat-mini-card"><div class="stat-mini-icon purple"><i class="fas fa-redo"></i></div><div><div class="stat-mini-val">12</div><div class="stat-mini-label">待修改</div></div></div>
+      </div>
+
+      <table class="homework-table">
+        <thead>
+          <tr><th>作业名称</th><th>所属课程</th><th>学员</th><th>提交时间</th><th>状态</th><th style="width:60px">操作</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="hw-title">第3课作业：用AI生成一条口播文案</span></td><td>新手入门 · 课程3</td><td>王小明</td><td>2025-03-24 14:30</td><td><span class="hw-status grading"><i class="fas fa-spinner"></i> 批改中</span></td><td><button class="hw-action-btn"><i class="fas fa-eye"></i></button></td></tr>
+          <tr><td><span class="hw-title">第3课作业：用AI生成一条口播文案</span></td><td>新手入门 · 课程3</td><td>李小红</td><td>2025-03-24 11:15</td><td><span class="hw-status passed"><i class="fas fa-check-circle"></i> 已通过</span></td><td><button class="hw-action-btn"><i class="fas fa-eye"></i></button></td></tr>
+          <tr><td><span class="hw-title">第3课作业：用AI生成一条口播文案</span></td><td>新手入门 · 课程3</td><td>赵大勇</td><td>2025-03-23 22:40</td><td><span class="hw-status rejected"><i class="fas fa-times-circle"></i> 需修改</span></td><td><button class="hw-action-btn"><i class="fas fa-eye"></i></button></td></tr>
+          <tr><td><span class="hw-title">第4课作业：文案优化与标签添加</span></td><td>新手入门 · 课程4</td><td>陈思思</td><td>2025-03-24 09:00</td><td><span class="hw-status submitted"><i class="fas fa-paper-plane"></i> 已提交</span></td><td><button class="hw-action-btn"><i class="fas fa-eye"></i></button></td></tr>
+          <tr><td><span class="hw-title">第4课作业：文案优化与标签添加</span></td><td>新手入门 · 课程4</td><td>张伟</td><td>—</td><td><span class="hw-status pending"><i class="far fa-clock"></i> 待提交</span></td><td><button class="hw-action-btn"><i class="fas fa-bell"></i></button></td></tr>
+          <tr><td><span class="hw-title">第2课作业：录制第一条AI口播视频</span></td><td>新手入门 · 课程2</td><td>刘娜</td><td>2025-03-22 16:20</td><td><span class="hw-status passed"><i class="fas fa-check-circle"></i> 已通过</span></td><td><button class="hw-action-btn"><i class="fas fa-eye"></i></button></td></tr>
+          <tr><td><span class="hw-title">第2课作业：录制第一条AI口播视频</span></td><td>新手入门 · 课程2</td><td>周杰</td><td>—</td><td><span class="hw-status pending"><i class="far fa-clock"></i> 待提交</span></td><td><button class="hw-action-btn"><i class="fas fa-bell"></i></button></td></tr>
+          <tr><td><span class="hw-title">第5课作业：制作一条产品推广口播</span></td><td>进阶提升 · 课程5</td><td>吴芳</td><td>2025-03-23 15:10</td><td><span class="hw-status grading"><i class="fas fa-spinner"></i> 批改中</span></td><td><button class="hw-action-btn"><i class="fas fa-eye"></i></button></td></tr>
+          <tr><td><span class="hw-title">第5课作业：制作一条产品推广口播</span></td><td>进阶提升 · 课程5</td><td>孙伟</td><td>2025-03-21 10:30</td><td><span class="hw-status rejected"><i class="fas fa-times-circle"></i> 需修改</span></td><td><button class="hw-action-btn"><i class="fas fa-eye"></i></button></td></tr>
+          <tr><td><span class="hw-title">第5课作业：制作一条产品推广口播</span></td><td>进阶提升 · 课程5</td><td>钱多多</td><td>—</td><td><span class="hw-status pending"><i class="far fa-clock"></i> 待提交</span></td><td><button class="hw-action-btn"><i class="fas fa-bell"></i></button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+</body>
+</html>

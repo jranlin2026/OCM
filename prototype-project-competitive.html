@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<!--
+  Design System: 极享AI口播智能体 (JIXIANG-AI)
+  Template: pricing-page (竞品对比型)
+  File: prototype-project-competitive.html — 竞品对比
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极享AI — 竞品对比</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+  --color-bg-primary: #0F0F1A; --color-bg-secondary: #1A1A2E; --color-surface: #1E1E32;
+  --color-surface-hover: #252540; --color-surface-elevated: #2A2A3C;
+  --color-gold: #D4A853; --color-gold-hover: #E0B96A; --color-gold-active: #C49A42;
+  --color-gold-muted: rgba(212,168,83,0.2); --color-gold-subtle: rgba(212,168,83,0.08);
+  --color-text-primary: #F5F5F7; --color-text-secondary: #A0A0B8; --color-text-tertiary: #6B6B82;
+  --color-text-on-gold: #0F0F1A;
+  --color-border: #2E2E44; --color-border-strong: #3D3D58; --color-border-gold: rgba(212,168,83,0.25);
+  --color-divider: #2A2A40;
+  --color-success: #22C55E; --color-warning: #F59E0B; --color-danger: #EF4444; --color-info: #3B82F6;
+  --color-tier-blue: #3B82F6; --color-tier-green: #22C55E; --color-tier-purple: #A855F7; --color-tier-gold: #F59E0B;
+  --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 20px;
+  --space-xl: 24px; --space-2xl: 32px; --space-3xl: 48px;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  --font-metric: 'Inter', 'SF Pro Display', sans-serif;
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-xl: 16px; --radius-pill: 20px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3); --shadow-md: 0 4px 12px rgba(0,0,0,0.35);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.4); --shadow-xl: 0 25px 50px rgba(0,0,0,0.5);
+  --shadow-gold: 0 0 12px rgba(212,168,83,0.2);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { font-family: var(--font-sans); background: var(--color-bg-primary); color: var(--color-text-primary); line-height: 1.6; min-height: 100vh; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-tertiary); }
+
+.layout { display: flex; min-height: 100vh; }
+.sidebar { width: 240px; min-height: 100vh; background: var(--color-bg-secondary); border-right: 1px solid var(--color-border); display: flex; flex-direction: column; position: fixed; left: 0; top: 0; bottom: 0; z-index: 100; }
+.sidebar-brand { height: 64px; display: flex; align-items: center; padding: 0 var(--space-lg); border-bottom: 1px solid var(--color-divider); gap: var(--space-sm); flex-shrink: 0; }
+.sidebar-brand .brand-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--color-gold), var(--color-gold-hover)); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--color-text-on-gold); font-weight: 700; flex-shrink: 0; }
+.sidebar-brand .brand-text { font-size: 16px; font-weight: 600; color: var(--color-text-primary); letter-spacing: -0.01em; }
+.sidebar-brand .brand-text span { color: var(--color-gold); }
+.sidebar-nav { flex: 1; padding: var(--space-md) var(--space-sm); overflow-y: auto; }
+.nav-section { margin-bottom: var(--space-xl); }
+.nav-section-title { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.06em; padding: 0 var(--space-sm); margin-bottom: var(--space-xs); }
+.nav-item { display: flex; align-items: center; height: 44px; padding: 0 var(--space-sm) 0 var(--space-md); border-radius: var(--radius-md); color: var(--color-text-secondary); text-decoration: none; font-size: 14px; font-weight: 400; cursor: pointer; transition: all 0.15s ease; gap: var(--space-sm); position: relative; }
+.nav-item i { width: 20px; text-align: center; font-size: 15px; color: var(--color-text-tertiary); transition: color 0.15s ease; }
+.nav-item:hover { background: var(--color-surface-hover); color: var(--color-text-primary); }
+.nav-item:hover i { color: var(--color-text-secondary); }
+.nav-item.active { background: var(--color-gold-subtle); color: var(--color-gold); font-weight: 500; }
+.nav-item.active::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 20px; background: var(--color-gold); border-radius: 0 2px 2px 0; }
+.nav-item.active i { color: var(--color-gold); }
+.nav-item .nav-badge { margin-left: auto; background: var(--color-danger); color: #fff; font-size: 11px; font-weight: 600; padding: 0 6px; height: 18px; line-height: 18px; border-radius: 9px; min-width: 18px; text-align: center; }
+.nav-item .nav-badge.info { background: var(--color-info); }
+.sidebar-footer { padding: var(--space-md) var(--space-sm); border-top: 1px solid var(--color-divider); flex-shrink: 0; }
+.nav-item.user-item { height: 48px; padding: var(--space-xs) var(--space-sm); }
+.user-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--color-gold), var(--color-tier-purple)); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--color-text-on-gold); flex-shrink: 0; }
+.user-info { flex: 1; min-width: 0; }
+.user-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); line-height: 1.2; }
+.user-role { font-size: 11px; color: var(--color-text-tertiary); line-height: 1.2; }
+
+.main-content { flex: 1; margin-left: 240px; min-height: 100vh; display: flex; flex-direction: column; }
+.topbar { height: 64px; background: var(--color-bg-secondary); border-bottom: 1px solid var(--color-border); display: flex; align-items: center; padding: 0 var(--space-xl); gap: var(--space-md); position: sticky; top: 0; z-index: 50; }
+.topbar-title { font-size: 18px; font-weight: 600; color: var(--color-text-primary); letter-spacing: -0.01em; }
+.topbar-title span { color: var(--color-gold); }
+.topbar-spacer { flex: 1; }
+.topbar-date { font-size: 13px; color: var(--color-text-tertiary); }
+.topbar-actions { display: flex; align-items: center; gap: var(--space-xs); }
+.topbar-btn { width: 36px; height: 36px; border-radius: var(--radius-md); border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-secondary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease; font-size: 16px; }
+.topbar-btn:hover { background: var(--color-surface-hover); border-color: var(--color-border-strong); color: var(--color-text-primary); }
+.topbar-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-gold), var(--color-tier-blue)); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: var(--color-text-on-gold); cursor: pointer; margin-left: var(--space-xs); }
+
+.content-area { padding: var(--space-xl); flex: 1; display: flex; flex-direction: column; gap: var(--space-lg); max-width: 1440px; width: 100%; margin: 0 auto; }
+
+/* ============================================================
+   Competitive Header
+   ============================================================ */
+.comp-header {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xl);
+}
+
+.comp-header-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  background: var(--color-gold-subtle);
+  color: var(--color-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+}
+
+.comp-header-text h2 { font-size: 22px; font-weight: 700; margin-bottom: var(--space-xs); }
+.comp-header-text p { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; }
+
+/* ============================================================
+   Competitor Cards
+   ============================================================ */
+.comp-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+.comp-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.comp-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--color-border-strong); }
+
+.comp-card.ours {
+  border-color: var(--color-border-gold);
+  box-shadow: var(--shadow-gold);
+}
+
+.comp-card.ours::before {
+  content: '极享AI';
+  position: absolute;
+  top: 12px;
+  right: -28px;
+  background: var(--color-gold);
+  color: var(--color-text-on-gold);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 32px;
+  transform: rotate(45deg);
+  letter-spacing: 0.03em;
+}
+
+.comp-card-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: var(--space-md);
+}
+
+.comp-card-logo.gold-bg { background: var(--color-gold-muted); color: var(--color-gold); }
+.comp-card-logo.blue-bg { background: rgba(59,130,246,0.15); color: var(--color-tier-blue); }
+.comp-card-logo.red-bg { background: rgba(239,68,68,0.15); color: var(--color-danger); }
+.comp-card-logo.gray-bg { background: var(--color-surface-elevated); color: var(--color-text-tertiary); }
+
+.comp-card-name { font-size: 18px; font-weight: 700; margin-bottom: var(--space-2xs); }
+.comp-card-tagline { font-size: 13px; color: var(--color-text-tertiary); margin-bottom: var(--space-md); }
+
+.comp-card-stats { display: flex; gap: var(--space-md); margin-bottom: var(--space-md); padding-bottom: var(--space-md); border-bottom: 1px solid var(--color-divider); }
+.comp-card-stat { text-align: center; flex: 1; }
+.comp-card-stat .num { font-size: 18px; font-weight: 700; color: var(--color-text-primary); font-family: var(--font-metric); }
+.comp-card-stat .label { font-size: 11px; color: var(--color-text-tertiary); }
+
+.comp-card-features { display: flex; flex-direction: column; gap: var(--space-sm); }
+.comp-card-feature { display: flex; align-items: center; gap: var(--space-xs); font-size: 13px; color: var(--color-text-secondary); }
+.comp-card-feature i { font-size: 12px; width: 16px; }
+.comp-card-feature .fa-check { color: var(--color-success); }
+.comp-card-feature .fa-times { color: var(--color-text-tertiary); opacity: 0.4; }
+.comp-card-feature .fa-minus { color: var(--color-warning); }
+
+/* ============================================================
+   Comparison Matrix
+   ============================================================ */
+.comp-matrix {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.comp-matrix-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.comp-matrix-title { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: var(--space-xs); }
+
+.comp-matrix-table-wrap { overflow-x: auto; }
+
+.comp-matrix-table { width: 100%; border-collapse: collapse; min-width: 700px; }
+
+.comp-matrix-table thead th {
+  padding: var(--space-md); font-size: 12px; font-weight: 500; text-transform: uppercase;
+  letter-spacing: 0.03em; text-align: center; vertical-align: middle;
+  border-bottom: 1px solid var(--color-divider); white-space: nowrap;
+}
+
+.comp-matrix-table thead th:first-child { text-align: left; color: var(--color-text-secondary); background: var(--color-surface-hover); width: 180px; min-width: 150px; }
+
+.comp-matrix-table thead th.col-gold { background: rgba(212,168,83,0.12); color: var(--color-gold); }
+.comp-matrix-table thead th.col-blue { background: rgba(59,130,246,0.12); color: var(--color-tier-blue); }
+.comp-matrix-table thead th.col-red { background: rgba(239,68,68,0.12); color: var(--color-danger); }
+.comp-matrix-table thead th.col-gray { background: rgba(107,107,130,0.12); color: var(--color-text-tertiary); }
+
+.comp-matrix-table thead th .col-name { display: block; font-size: 13px; font-weight: 600; text-transform: none; letter-spacing: 0; }
+
+.comp-matrix-table tbody tr { border-bottom: 1px solid var(--color-divider); transition: background 0.15s; }
+.comp-matrix-table tbody tr:hover { background: var(--color-surface-hover); }
+
+.comp-matrix-table tbody td { padding: var(--space-sm) var(--space-md); font-size: 14px; text-align: center; vertical-align: middle; height: 44px; }
+
+.comp-matrix-table tbody td:first-child {
+  text-align: left; color: var(--color-text-secondary); font-weight: 500;
+  font-size: 13px; background: var(--color-surface-hover); border-right: 1px solid var(--color-border);
+}
+
+.comp-matrix-table tbody tr.category-row td {
+  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--color-text-tertiary); padding: var(--space-xs) var(--space-md);
+  background: var(--color-bg-primary) !important;
+}
+
+.comp-matrix-table tbody tr.diff-row td:first-child::before {
+  content: ''; position: absolute; left: 0; top: 2px; bottom: 2px;
+  width: 3px; border-radius: 0 2px 2px 0; background: var(--color-gold);
+}
+
+.comp-matrix-table tbody tr.diff-row td { position: relative; }
+
+.check-yes { color: var(--color-success); font-size: 16px; }
+.check-no { color: var(--color-text-tertiary); font-size: 14px; opacity: 0.4; }
+.check-partial { color: var(--color-warning); font-size: 14px; }
+
+.star-icon { color: var(--color-gold); font-size: 10px; margin-left: 4px; vertical-align: middle; }
+
+/* ============================================================
+   SWOT Analysis
+   ============================================================ */
+.swot-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.swot-card { padding: var(--space-xl); border-radius: var(--radius-lg); border: 1px solid var(--color-border); }
+
+.swot-card.s { background: var(--color-surface); border-color: var(--color-border); }
+.swot-card.w { background: var(--color-surface); border-color: var(--color-border); }
+.swot-card.o { background: var(--color-surface); border-color: var(--color-border); }
+.swot-card.t { background: var(--color-surface); border-color: var(--color-border); }
+
+.swot-card .swot-title { font-size: 16px; font-weight: 600; margin-bottom: var(--space-sm); display: flex; align-items: center; gap: var(--space-xs); }
+.swot-card .swot-title .swot-badge { padding: 2px 10px; border-radius: 3px; font-size: 11px; font-weight: 600; letter-spacing: 0.03em; }
+.swot-badge.s { background: rgba(34,197,94,0.15); color: var(--color-success); }
+.swot-badge.w { background: rgba(239,68,68,0.15); color: var(--color-danger); }
+.swot-badge.o { background: rgba(59,130,246,0.15); color: var(--color-info); }
+.swot-badge.t { background: rgba(245,158,11,0.15); color: var(--color-warning); }
+
+.swot-card ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-xs); }
+.swot-card ul li { font-size: 13px; color: var(--color-text-secondary); padding-left: var(--space-md); position: relative; line-height: 1.5; }
+.swot-card ul li::before { content: ''; position: absolute; left: 0; top: 9px; width: 5px; height: 5px; border-radius: 50%; background: var(--color-text-tertiary); }
+.swot-card.s ul li::before { background: var(--color-success); }
+.swot-card.w ul li::before { background: var(--color-danger); }
+.swot-card.o ul li::before { background: var(--color-info); }
+.swot-card.t ul li::before { background: var(--color-warning); }
+
+/* Responsive */
+@media (max-width: 1200px) { .comp-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 1024px) {
+  .sidebar { width: 64px; }
+  .sidebar-brand .brand-text, .nav-item span, .nav-section-title,
+  .nav-item .nav-badge, .sidebar-footer .nav-item span, .user-info { display: none; }
+  .sidebar-brand { justify-content: center; padding: 0; }
+  .nav-item { justify-content: center; padding: 0; }
+  .nav-item.active::before { left: auto; right: 0; top: 0; transform: none; width: 3px; height: 100%; }
+  .nav-item i { width: auto; }
+  .sidebar-footer .nav-item { justify-content: center; padding: 0; }
+  .nav-item.user-item { justify-content: center; }
+  .main-content { margin-left: 64px; }
+  .swot-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .content-area { padding: var(--space-md); }
+  .comp-cards { grid-template-columns: 1fr; }
+  .comp-header { flex-direction: column; }
+  .topbar-date { display: none; }
+}
+@media (max-width: 480px) {
+  .sidebar { width: 0; overflow: hidden; }
+  .main-content { margin-left: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="brand-icon">极</div><div class="brand-text"><span>极享</span>AI</div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">核心管理</div>
+        <a class="nav-item"><i class="fas fa-chart-pie"></i><span>数据驾驶舱</span></a>
+        <a class="nav-item active"><i class="fas fa-th-large"></i><span>产品矩阵</span></a>
+        <a class="nav-item"><i class="fas fa-handshake"></i><span>销售成交</span><span class="nav-badge">12</span></a>
+        <a class="nav-item"><i class="fas fa-user-tie"></i><span>招商代理</span></a>
+        <a class="nav-item"><i class="fas fa-bullhorn"></i><span>营销推广</span></a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">运营管理</div>
+        <a class="nav-item"><i class="fas fa-users"></i><span>客户管理</span></a>
+        <a class="nav-item"><i class="fas fa-file-invoice"></i><span>订单管理</span><span class="nav-badge info">5</span></a>
+        <a class="nav-item"><i class="fas fa-robot"></i><span>AI 智能体</span></a>
+        <a class="nav-item"><i class="fas fa-phone-alt"></i><span>呼叫中心</span></a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">系统</div>
+        <a class="nav-item"><i class="fas fa-cog"></i><span>系统设置</span></a>
+        <a class="nav-item"><i class="fas fa-file-alt"></i><span>操作日志</span></a>
+        <a class="nav-item"><i class="fas fa-question-circle"></i><span>帮助中心</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="nav-item user-item"><div class="user-avatar">张</div><div class="user-info"><div class="user-name">张明远</div><div class="user-role">超级管理员</div></div><i class="fas fa-ellipsis-v" style="font-size:14px;"></i></div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <h1 class="topbar-title"><span>竞品</span>对比</h1>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-date"><i class="far fa-calendar-alt" style="margin-right:6px;"></i>2025年7月15日 周三</div>
+      <div class="topbar-actions">
+        <button class="topbar-btn" title="通知"><i class="far fa-bell"></i></button>
+        <button class="topbar-btn" title="导出"><i class="fas fa-download"></i></button>
+        <div class="topbar-avatar">张</div>
+      </div>
+    </header>
+
+    <div class="content-area">
+
+      <!-- Header -->
+      <section class="comp-header">
+        <div class="comp-header-icon"><i class="fas fa-crosshairs"></i></div>
+        <div class="comp-header-text">
+          <h2>AI 口播行业竞品全景</h2>
+          <p>以下为当前 AI 口播与数字人赛道主要竞争对手的对比分析，涵盖核心功能、定价策略、市场定位等维度。
+          数据来源于公开信息和行业调研，持续更新中。</p>
+        </div>
+      </section>
+
+      <!-- Competitor Cards -->
+      <section class="comp-cards">
+        <div class="comp-card ours">
+          <div class="comp-card-logo gold-bg"><i class="fas fa-robot"></i></div>
+          <div class="comp-card-name">极享AI</div>
+          <div class="comp-card-tagline">一站式 AI 口播智能体平台</div>
+          <div class="comp-card-stats">
+            <div class="comp-card-stat"><div class="num">3,600+</div><div class="label">客户</div></div>
+            <div class="comp-card-stat"><div class="num">4</div><div class="label">产品线</div></div>
+            <div class="comp-card-stat"><div class="num">95.3%</div><div class="label">满意度</div></div>
+          </div>
+          <div class="comp-card-features">
+            <div class="comp-card-feature"><i class="fas fa-check"></i> 全链路 AI 口播能力</div>
+            <div class="comp-card-feature"><i class="fas fa-check"></i> 多层级产品矩阵</div>
+            <div class="comp-card-feature"><i class="fas fa-check"></i> 代理商赋能体系</div>
+            <div class="comp-card-feature"><i class="fas fa-check"></i> 品牌贴牌定制</div>
+          </div>
+        </div>
+
+        <div class="comp-card">
+          <div class="comp-card-logo blue-bg"><i class="fas fa-video"></i></div>
+          <div class="comp-card-name">竞品 A</div>
+          <div class="comp-card-tagline">头部数字人平台</div>
+          <div class="comp-card-stats">
+            <div class="comp-card-stat"><div class="num">8,000+</div><div class="label">客户</div></div>
+            <div class="comp-card-stat"><div class="num">3</div><div class="label">产品线</div></div>
+            <div class="comp-card-stat"><div class="num">88%</div><div class="label">满意度</div></div>
+          </div>
+          <div class="comp-card-features">
+            <div class="comp-card-feature"><i class="fas fa-check"></i> 数字人技术领先</div>
+            <div class="comp-card-feature"><i class="fas fa-check"></i> 高客单价定位</div>
+            <div class="comp-card-feature"><i class="fas fa-times"></i> 缺乏渠道体系</div>
+            <div class="comp-card-feature"><i class="fas fa-minus"></i> 中腰部客户覆盖弱</div>
+          </div>
+        </div>
+
+        <div class="comp-card">
+          <div class="comp-card-logo red-bg"><i class="fas fa-broadcast-tower"></i></div>
+          <div class="comp-card-name">竞品 B</div>
+          <div class="comp-card-tagline">专注短视频工具</div>
+          <div class="comp-card-stats">
+            <div class="comp-card-stat"><div class="num">5,000+</div><div class="label">客户</div></div>
+            <div class="comp-card-stat"><div class="num">2</div><div class="label">产品线</div></div>
+            <div class="comp-card-stat"><div class="num">82%</div><div class="label">满意度</div></div>
+          </div>
+          <div class="comp-card-features">
+            <div class="comp-card-feature"><i class="fas fa-check"></i> 短视频工具矩阵</div>
+            <div class="comp-card-feature"><i class="fas fa-minus"></i> AI 能力较弱</div>
+            <div class="comp-card-feature"><i class="fas fa-times"></i> 无客户管理系统</div>
+            <div class="comp-card-feature"><i class="fas fa-times"></i> 代理商体系缺失</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SWOT -->
+      <section class="swot-grid">
+        <div class="swot-card s"><div class="swot-title"><span class="swot-badge s">S</span> 优势 (Strengths)</div>
+          <ul>
+            <li>全链路产品矩阵覆盖，满足不同层级客户需求</li>
+            <li>成熟的代理商渠道体系和分佣机制</li>
+            <li>AI 口播技术成熟度高，内容生成质量领先</li>
+            <li>品牌贴牌定制能力差异化明显</li>
+          </ul>
+        </div>
+        <div class="swot-card w"><div class="swot-title"><span class="swot-badge w">W</span> 劣势 (Weaknesses)</div>
+          <ul>
+            <li>品牌知名度仍在提升阶段</li>
+            <li>高端数字人形象库规模有待扩充</li>
+            <li>国际市场本地化尚未启动</li>
+            <li>研发团队规模相对头部平台偏小</li>
+          </ul>
+        </div>
+        <div class="swot-card o"><div class="swot-title"><span class="swot-badge o">O</span> 机会 (Opportunities)</div>
+          <ul>
+            <li>短视频电商市场持续增长，AI 口播需求扩大</li>
+            <li>中小企业数字化转型政策利好</li>
+            <li>出海业务多语种口播需求爆发</li>
+            <li>行业垂直解决方案（教培、医疗等）蓝海市场</li>
+          </ul>
+        </div>
+        <div class="swot-card t"><div class="swot-title"><span class="swot-badge t">T</span> 威胁 (Threats)</div>
+          <ul>
+            <li>大厂进入 AI 口播赛道，资源竞争加剧</li>
+            <li>AI 技术快速迭代带来的产品升级压力</li>
+            <li>部分平台通过免费策略抢占市场</li>
+            <li>短视频平台算法变动影响口播内容分发</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Comparison Matrix -->
+      <section class="comp-matrix">
+        <div class="comp-matrix-header">
+          <div class="comp-matrix-title">
+            <i class="fas fa-table" style="color:var(--color-gold);"></i>
+            功能对比矩阵
+            <span style="font-size:12px;color:var(--color-text-tertiary);font-weight:400;">· 共 15 项维度</span>
+          </div>
+          <span style="font-size:12px;color:var(--color-text-tertiary);">★ = 差异项</span>
+        </div>
+
+        <div class="comp-matrix-table-wrap">
+          <table class="comp-matrix-table">
+            <thead>
+              <tr>
+                <th>对比维度</th>
+                <th class="col-gold"><span class="col-name">极享AI</span></th>
+                <th class="col-blue"><span class="col-name">竞品 A</span></th>
+                <th class="col-red"><span class="col-name">竞品 B</span></th>
+                <th class="col-gray"><span class="col-name">竞品 C</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="category-row"><td colspan="5">AI 口播能力</td></tr>
+              <tr>
+                <td>AI 脚本生成</td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-partial"> 基础</i></td>
+              </tr>
+              <tr class="diff-row">
+                <td>多语种语音合成 <span class="star-icon">★</span></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-times check-no"></i></td>
+                <td><i class="fas fa-check check-partial"> 中英</i></td>
+              </tr>
+              <tr class="diff-row">
+                <td>数字人播报 <span class="star-icon">★</span></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-times check-no"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+              </tr>
+              <tr>
+                <td>智能剪辑</td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-partial"> 基础</i></td>
+              </tr>
+
+              <tr class="category-row"><td colspan="5">商业体系</td></tr>
+              <tr class="diff-row">
+                <td>代理渠道体系 <span class="star-icon">★</span></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-times check-no"></i></td>
+                <td><i class="fas fa-times check-no"></i></td>
+                <td><i class="fas fa-check check-partial"> 基础</i></td>
+              </tr>
+              <tr class="diff-row">
+                <td>品牌贴牌定制 <span class="star-icon">★</span></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-partial"> 部分</i></td>
+                <td><i class="fas fa-times check-no"></i></td>
+                <td><i class="fas fa-times check-no"></i></td>
+              </tr>
+              <tr>
+                <td>分佣结算系统</td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-partial"> 基础</i></td>
+                <td><i class="fas fa-times check-no"></i></td>
+                <td><i class="fas fa-times check-no"></i></td>
+              </tr>
+              <tr class="diff-row">
+                <td>独立部署能力 <span class="star-icon">★</span></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-times check-no"></i></td>
+                <td><i class="fas fa-check check-partial"> 企业版</i></td>
+              </tr>
+
+              <tr class="category-row"><td colspan="5">客户管理</td></tr>
+              <tr>
+                <td>客户池管理</td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-times check-no"></i></td>
+                <td><i class="fas fa-check check-partial"> 基础</i></td>
+              </tr>
+              <tr class="diff-row">
+                <td>线索自动分配 <span class="star-icon">★</span></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-times check-no"></i></td>
+                <td><i class="fas fa-times check-no"></i></td>
+                <td><i class="fas fa-times check-no"></i></td>
+              </tr>
+              <tr>
+                <td>数据报表分析</td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-partial"> 基础</i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+              </tr>
+
+              <tr class="category-row"><td colspan="5">产品定价</td></tr>
+              <tr class="diff-row">
+                <td>入门级价格 <span class="star-icon">★</span></td>
+                <td><i class="fas fa-check check-yes"></i> ¥12,800/年</td>
+                <td><i class="fas fa-check check-yes"></i> ¥29,800/年</td>
+                <td><i class="fas fa-check check-yes"></i> ¥9,800/年</td>
+                <td><i class="fas fa-check check-yes"></i> ¥18,000/年</td>
+              </tr>
+              <tr class="diff-row">
+                <td>专业版价格 <span class="star-icon">★</span></td>
+                <td><i class="fas fa-check check-yes"></i> ¥36,000/年</td>
+                <td><i class="fas fa-check check-yes"></i> ¥68,000/年</td>
+                <td><i class="fas fa-check check-yes"></i> ¥28,000/年</td>
+                <td><i class="fas fa-check check-yes"></i> ¥45,000/年</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+// Card hover interactions
+document.querySelectorAll('.comp-card').forEach(card => {
+  card.addEventListener('click', function() {
+    this.querySelector('.comp-card-logo').style.transform = 'scale(1.1)';
+    setTimeout(() => { this.querySelector('.comp-card-logo').style.transform = ''; }, 300);
+  });
+});
+</script>
+
+</body>
+</html>

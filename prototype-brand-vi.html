@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<!--
+  Design System: 极享AI口播智能体
+  Template: dashboard-custom
+  File: prototype-brand-vi.html — VI规范
+  Module: 11 - 品牌资产中心
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极享AI — VI规范</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+  --color-bg-primary: #0F0F1A; --color-bg-secondary: #1A1A2E; --color-surface: #1E1E32;
+  --color-surface-hover: #252540; --color-surface-elevated: #2A2A3C;
+  --color-gold: #D4A853; --color-gold-hover: #E0B96A; --color-gold-active: #C49A42;
+  --color-gold-muted: rgba(212,168,83,0.2); --color-gold-subtle: rgba(212,168,83,0.08);
+  --color-text-primary: #F5F5F7; --color-text-secondary: #A0A0B8; --color-text-tertiary: #6B6B82;
+  --color-text-on-gold: #0F0F1A;
+  --color-border: #2E2E44; --color-border-strong: #3D3D58; --color-border-gold: rgba(212,168,83,0.25);
+  --color-divider: #2A2A40;
+  --color-success: #22C55E; --color-warning: #F59E0B; --color-danger: #EF4444; --color-info: #3B82F6;
+  --color-tier-blue: #3B82F6; --color-tier-green: #22C55E; --color-tier-purple: #A855F7; --color-tier-gold: #F59E0B;
+  --space-2xs:4px;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:20px;--space-xl:24px;--space-2xl:32px;
+  --font-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --radius-sm:4px;--radius-md:8px;--radius-lg:12px;--radius-xl:16px;--radius-pill:20px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.3);--shadow-md:0 4px 12px rgba(0,0,0,.35);--shadow-lg:0 8px 24px rgba(0,0,0,.4);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:16px;-webkit-font-smoothing:antialiased;}
+body{font-family:var(--font-body);background:var(--color-bg-primary);color:var(--color-text-primary);line-height:1.6;min-height:100vh;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--color-border-strong);border-radius:3px;}
+.layout{display:flex;min-height:100vh;}
+.sidebar{width:240px;min-height:100vh;background:var(--color-bg-secondary);border-right:1px solid var(--color-border);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:100;}
+.sidebar-brand{height:64px;display:flex;align-items:center;padding:0 var(--space-lg);border-bottom:1px solid var(--color-divider);gap:var(--space-sm);flex-shrink:0;}
+.sidebar-brand .brand-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--color-gold),var(--color-gold-hover));border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--color-text-on-gold);font-weight:700;flex-shrink:0;}
+.sidebar-brand .brand-text{font-size:16px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.01em;}
+.sidebar-brand .brand-text span{color:var(--color-gold);}
+.sidebar-nav{flex:1;padding:var(--space-md) var(--space-sm);overflow-y:auto;}
+.nav-section{margin-bottom:var(--space-xl);}
+.nav-section-title{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.06em;padding:0 var(--space-sm);margin-bottom:var(--space-xs);}
+.nav-item{display:flex;align-items:center;height:44px;padding:0 var(--space-sm) 0 var(--space-md);border-radius:var(--radius-md);color:var(--color-text-secondary);text-decoration:none;font-size:14px;font-weight:400;cursor:pointer;transition:all 0.15s ease;gap:var(--space-sm);position:relative;}
+.nav-item i{width:20px;text-align:center;font-size:15px;color:var(--color-text-tertiary);transition:color 0.15s ease;}
+.nav-item:hover{background:var(--color-surface-hover);color:var(--color-text-primary);}
+.nav-item:hover i{color:var(--color-text-secondary);}
+.nav-item.active{background:var(--color-gold-subtle);color:var(--color-gold);font-weight:500;}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:20px;background:var(--color-gold);border-radius:0 2px 2px 0;}
+.nav-item.active i{color:var(--color-gold);}
+.nav-item .nav-badge{margin-left:auto;background:var(--color-danger);color:#fff;font-size:11px;font-weight:600;padding:0 6px;height:18px;line-height:18px;border-radius:9px;min-width:18px;text-align:center;}
+.nav-item .nav-badge.info{background:var(--color-info);}
+.sidebar-footer{padding:var(--space-md) var(--space-sm);border-top:1px solid var(--color-divider);flex-shrink:0;}
+.nav-item.user-item{height:48px;padding:var(--space-xs) var(--space-sm);}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--color-gold),var(--color-tier-purple));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--color-text-on-gold);flex-shrink:0;}
+.user-info{flex:1;min-width:0;}
+.user-name{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.2;}
+.user-role{font-size:11px;color:var(--color-text-tertiary);line-height:1.2;}
+.main-content{flex:1;margin-left:240px;min-height:100vh;display:flex;flex-direction:column;}
+.topbar{height:64px;background:var(--color-bg-secondary);border-bottom:1px solid var(--color-border);display:flex;align-items:center;padding:0 var(--space-xl);gap:var(--space-md);position:sticky;top:0;z-index:50;}
+.topbar-title{font-size:18px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.01em;}
+.topbar-title span{color:var(--color-gold);}
+.topbar-spacer{flex:1;}
+.topbar-date{font-size:13px;color:var(--color-text-tertiary);}
+.topbar-actions{display:flex;align-items:center;gap:var(--space-xs);}
+.topbar-btn{width:36px;height:36px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s ease;font-size:16px;position:relative;}
+.topbar-btn:hover{background:var(--color-surface-hover);border-color:var(--color-border-strong);color:var(--color-text-primary);}
+.topbar-btn .dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--color-danger);border-radius:50%;border:2px solid var(--color-bg-secondary);}
+.topbar-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--color-gold),var(--color-tier-blue));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--color-text-on-gold);cursor:pointer;margin-left:var(--space-xs);}
+.content-area{padding:var(--space-xl);flex:1;display:flex;flex-direction:column;gap:var(--space-lg);max-width:1440px;width:100%;margin:0 auto;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-lg);}
+.section-header h2{font-size:20px;font-weight:600;}
+.section-header h2 span{color:var(--color-gold);}
+.btn{display:inline-flex;align-items:center;gap:var(--space-xs);padding:0 var(--space-lg);height:36px;border-radius:var(--radius-md);font-size:14px;font-weight:500;border:none;cursor:pointer;transition:all 0.15s ease;}
+.btn-primary{background:var(--color-gold);color:var(--color-text-on-gold);}
+.btn-primary:hover{background:var(--color-gold-hover);}
+.btn-secondary{background:var(--color-surface);color:var(--color-text-secondary);border:1px solid var(--color-border);}
+.btn-secondary:hover{background:var(--color-surface-hover);border-color:var(--color-border-strong);color:var(--color-text-primary);}
+.btn-sm{height:30px;padding:0 var(--space-md);font-size:13px;}
+.tag{display:inline-flex;align-items:center;font-size:12px;font-weight:500;padding:2px 10px;border-radius:var(--radius-pill);}
+.spec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-md);}
+.spec-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-xl);text-align:center;}
+.spec-card-title{font-size:15px;font-weight:600;margin-bottom:var(--space-md);display:flex;align-items:center;justify-content:center;gap:var(--space-xs);}
+.spec-color-row{display:flex;gap:var(--space-md);justify-content:center;flex-wrap:wrap;}
+.spec-color{width:80px;text-align:center;}
+.spec-color .sc-swatch{width:48px;height:48px;border-radius:var(--radius-md);margin:0 auto var(--space-2xs);border:1px solid var(--color-border);}
+.spec-color .sc-name{font-size:12px;color:var(--color-text-primary);font-weight:500;}
+.spec-color .sc-hex{font-size:11px;color:var(--color-text-tertiary);}
+.two-col-v{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);}
+.font-sample{padding:var(--space-lg);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-divider);}
+.font-sample .fs-name{font-size:13px;color:var(--color-text-tertiary);margin-bottom:var(--space-xs);}
+.font-sample .fs-text{font-size:28px;font-weight:600;color:var(--color-text-primary);margin-bottom:var(--space-2xs);}
+.font-sample .fs-meta{font-size:12px;color:var(--color-text-tertiary);}
+@media(max-width:1024px){
+  .sidebar{width:64px;}.sidebar-brand .brand-text,.nav-item span,.nav-section-title,.nav-item .nav-badge,.sidebar-footer .nav-item span,.user-info{display:none;}
+  .sidebar-brand{justify-content:center;padding:0;}.nav-item{justify-content:center;padding:0;}
+  .nav-item.active::before{left:auto;right:0;top:0;transform:none;width:3px;height:100%;}.nav-item i{width:auto;}
+  .sidebar-footer .nav-item{justify-content:center;padding:0;}
+  .nav-item.user-item{justify-content:center;}.main-content{margin-left:64px;}
+  .spec-grid{grid-template-columns:1fr;}.two-col-v{grid-template-columns:1fr;}
+}
+@media(max-width:768px){.topbar-date{display:none;}}
+@media(max-width:480px){.sidebar{width:0;overflow:hidden;}.main-content{margin-left:0;}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="brand-icon">极</div><div class="brand-text"><span>极享</span>AI</div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section"><div class="nav-section-title">核心管理</div>
+        <a class="nav-item"><i class="fas fa-chart-pie"></i><span>数据驾驶舱</span></a>
+        <a class="nav-item"><i class="fas fa-th-large"></i><span>产品矩阵</span></a>
+        <a class="nav-item"><i class="fas fa-handshake"></i><span>销售成交</span><span class="nav-badge">12</span></a>
+        <a class="nav-item"><i class="fas fa-user-tie"></i><span>招商代理</span></a>
+        <a class="nav-item"><i class="fas fa-bullhorn"></i><span>营销推广</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">运营管理</div>
+        <a class="nav-item"><i class="fas fa-users"></i><span>客户管理</span></a>
+        <a class="nav-item"><i class="fas fa-file-invoice"></i><span>订单管理</span><span class="nav-badge info">5</span></a>
+        <a class="nav-item"><i class="fas fa-truck"></i><span>交付服务中心</span></a>
+        <a class="nav-item"><i class="fas fa-file-contract"></i><span>政策合同中心</span></a>
+        <a class="nav-item active"><i class="fas fa-copyright"></i><span>品牌资产中心</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">数据与增长</div>
+        <a class="nav-item"><i class="fas fa-chart-line"></i><span>数据运营中心</span></a>
+        <a class="nav-item"><i class="fas fa-robot"></i><span>AI 智能体</span></a>
+        <a class="nav-item"><i class="fas fa-phone-alt"></i><span>呼叫中心</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">系统</div>
+        <a class="nav-item"><i class="fas fa-cog"></i><span>系统设置</span></a>
+        <a class="nav-item"><i class="fas fa-file-alt"></i><span>操作日志</span></a>
+        <a class="nav-item"><i class="fas fa-question-circle"></i><span>帮助中心</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer"><div class="nav-item user-item"><div class="user-avatar">张</div><div class="user-info"><div class="user-name">张明远</div><div class="user-role">超级管理员</div></div><i class="fas fa-ellipsis-v" style="font-size:14px;"></i></div></div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <h1 class="topbar-title"><span>VI</span> 规范</h1>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-date"><i class="far fa-calendar-alt" style="margin-right:6px;"></i>2025年7月15日 周三</div>
+      <div class="topbar-actions">
+        <button class="topbar-btn" title="通知"><i class="far fa-bell"></i><span class="dot"></span></button>
+        <button class="topbar-btn" title="消息"><i class="far fa-envelope"></i></button>
+        <button class="topbar-btn" title="下载规范"><i class="fas fa-download"></i></button>
+        <div class="topbar-avatar">张</div>
+      </div>
+    </header>
+
+    <div class="content-area">
+      <div class="section-header">
+        <h2>品牌 VI <span>规范手册</span></h2>
+        <div style="display:flex;gap:var(--space-sm);">
+          <button class="btn btn-secondary"><i class="fas fa-download"></i>下载规范文档</button>
+          <button class="btn btn-primary"><i class="fas fa-edit"></i>编辑规范</button>
+        </div>
+      </div>
+
+      <!-- Logo -->
+      <div class="spec-grid">
+        <div class="spec-card">
+          <div class="spec-card-title"><i class="fas fa-image" style="color:var(--color-gold);"></i>Logo 规范</div>
+          <div style="width:120px;height:120px;margin:0 auto var(--space-md);background:linear-gradient(135deg,var(--color-gold),var(--color-gold-hover));border-radius:var(--radius-xl);display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:700;color:var(--color-text-on-gold);">极</div>
+          <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;">
+            <p>主 Logo 为金色渐变方形 + 品牌名称</p>
+            <p style="margin-top:var(--space-2xs);">最小使用尺寸：32px</p>
+            <p>安全留白：Logo 高度的 100%</p>
+          </div>
+        </div>
+
+        <div class="spec-card">
+          <div class="spec-card-title"><i class="fas fa-palette" style="color:var(--color-gold);"></i>品牌色板</div>
+          <div class="spec-color-row">
+            <div class="spec-color"><div class="sc-swatch" style="background:#D4A853;"></div><div class="sc-name">金色主色</div><div class="sc-hex">#D4A853</div></div>
+            <div class="spec-color"><div class="sc-swatch" style="background:#E0B96A;"></div><div class="sc-name">金色高亮</div><div class="sc-hex">#E0B96A</div></div>
+            <div class="spec-color"><div class="sc-swatch" style="background:#C49A42;"></div><div class="sc-name">金色激活</div><div class="sc-hex">#C49A42</div></div>
+          </div>
+          <div class="spec-color-row" style="margin-top:var(--space-sm);">
+            <div class="spec-color"><div class="sc-swatch" style="background:#0F0F1A;"></div><div class="sc-name">背景色</div><div class="sc-hex">#0F0F1A</div></div>
+            <div class="spec-color"><div class="sc-swatch" style="background:#1A1A2E;"></div><div class="sc-name">副背景</div><div class="sc-hex">#1A1A2E</div></div>
+            <div class="spec-color"><div class="sc-swatch" style="background:#F5F5F7;"></div><div class="sc-name">文字主色</div><div class="sc-hex">#F5F5F7</div></div>
+          </div>
+        </div>
+
+        <div class="spec-card">
+          <div class="spec-card-title"><i class="fas fa-font" style="color:var(--color-gold);"></i>字体规范</div>
+          <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.8;text-align:left;">
+            <p><strong style="color:var(--color-text-primary);">中文标题：</strong>PingFang SC / Noto Sans SC</p>
+            <p><strong style="color:var(--color-text-primary);">英文标题：</strong>Inter / SF Pro Display</p>
+            <p><strong style="color:var(--color-text-primary);">正文：</strong>Inter / -apple-system</p>
+            <p><strong style="color:var(--color-text-primary);">代码/数字：</strong>JetBrains Mono</p>
+            <p style="margin-top:var(--space-2xs);"><span class="tag" style="color:var(--color-gold);background:var(--color-gold-subtle);">禁止使用 宋体 / Times New Roman</span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="two-col-v">
+        <div class="font-sample">
+          <div class="fs-name">中文标题字体</div>
+          <div class="fs-text" style="font-family:'PingFang SC','Noto Sans SC',sans-serif;">极享AI 智能口播</div>
+          <div class="fs-meta">PingFang SC · Bold · 28px</div>
+        </div>
+        <div class="font-sample">
+          <div class="fs-name">英文标题字体</div>
+          <div class="fs-text" style="font-family:'Inter',sans-serif;">JIXIANG AI</div>
+          <div class="fs-meta">Inter · Bold · 28px</div>
+        </div>
+      </div>
+
+      <div class="two-col-v">
+        <div class="spec-card" style="text-align:left;">
+          <div class="spec-card-title" style="justify-content:flex-start;"><i class="fas fa-ruler" style="color:var(--color-gold);"></i>Logo 使用规范</div>
+          <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.8;">
+            <p>✓ Logo 应置于白色或深色背景上</p>
+            <p>✓ 保持 Logo 完整性，不可旋转、拉伸、变形</p>
+            <p>✓ 深色背景使用金色 Logo，浅色背景使用黑色 Logo</p>
+            <p>✗ 禁止更改 Logo 颜色（单色版本除外）</p>
+            <p>✗ 禁止为 Logo 添加阴影、边框等装饰效果</p>
+            <p>✗ 禁止将 Logo 置于复杂背景图像上</p>
+          </div>
+        </div>
+        <div class="spec-card" style="text-align:left;">
+          <div class="spec-card-title" style="justify-content:flex-start;"><i class="fas fa-file-pdf" style="color:var(--color-gold);"></i>规范文档下载</div>
+          <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.8;">
+            <p><i class="far fa-file-pdf" style="color:var(--color-danger);margin-right:var(--space-xs);"></i> VI规范手册 v3.0 (PDF) · 12MB</p>
+            <p><i class="far fa-file-image" style="color:var(--color-tier-blue);margin-right:var(--space-xs);"></i> Logo 源文件 (AI/EPS) · 8MB</p>
+            <p><i class="far fa-file-image" style="color:var(--color-tier-green);margin-right:var(--space-xs);"></i> Logo 透明背景 (PNG/SVG) · 2MB</p>
+            <p><i class="far fa-file-archive" style="color:var(--color-tier-purple);margin-right:var(--space-xs);"></i> 品牌规范素材包 · 25MB</p>
+          </div>
+          <div style="margin-top:var(--space-md);display:flex;gap:var(--space-xs);">
+            <button class="btn btn-sm btn-primary"><i class="fas fa-download"></i>下载全部</button>
+            <button class="btn btn-sm btn-secondary"><i class="fas fa-external-link-alt"></i>在线查看</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

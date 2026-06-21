@@ -1,0 +1,544 @@
+classDiagram
+    %% ==================== Phase 1A (已有) ====================
+    class Product {
+        +string id
+        +string name
+        +number price
+        +ProductTier tier
+        +string description
+        +string[] benefits
+        +string[] deliveryItems
+        +ContentStatus status
+        +number sales
+        +number revenue
+        +string createdAt
+        +string updatedAt
+    }
+
+    class DashboardData {
+        +KPIItem[] kpis
+        +object[] revenue
+        +object[] funnel
+        +OrderRecord[] orders
+        +TodoItem[] todos
+    }
+
+    class Script {
+        +string id
+        +string title
+        +ScriptCategory category
+        +string content
+        +string[] tags
+        +number viewCount
+        +ContentStatus status
+        +string createdAt
+        +string updatedAt
+    }
+
+    %% ==================== 招商代理中心 ====================
+    class Agent {
+        +string id
+        +string name
+        +string phone
+        +string email
+        +AgentLevel level
+        +string region
+        +number totalSales
+        +number totalCommission
+        +number agreementCount
+        +ContentStatus status
+        +string joinedAt
+        +string updatedAt
+    }
+
+    class CommissionSettlement {
+        +string id
+        +string agentId
+        +string agentName
+        +string period
+        +number totalAmount
+        +number commissionAmount
+        +number rate
+        +SettlementStatus status
+        +number orderCount
+        +string paidAt
+        +string remark
+        +string createdAt
+    }
+
+    class CommissionRule {
+        +string id
+        +AgentLevel level
+        +ProductTier productTier
+        +number commissionRate
+        +string condition
+        +ContentStatus status
+        +string createdAt
+    }
+
+    class AgentAgreement {
+        +string id
+        +string agentId
+        +string agentName
+        +string title
+        +AgentLevel level
+        +string startDate
+        +string endDate
+        +number commissionRate
+        +AgreementStatus status
+        +string fileUrl
+        +string remark
+        +string createdAt
+        +string updatedAt
+    }
+
+    class AgentPolicy {
+        +string id
+        +string title
+        +string category
+        +string content
+        +string effectiveDate
+        +string expireDate
+        +ContentStatus status
+        +number sortOrder
+        +string createdAt
+    }
+
+    class GrowthPath {
+        +string id
+        +string title
+        +AgentLevel fromLevel
+        +AgentLevel toLevel
+        +string[] requirements
+        +string[] benefits
+        +string estimatedDuration
+        +number sortOrder
+        +ContentStatus status
+    }
+
+    %% ==================== 获客引流中心 ====================
+    class DailyAction {
+        +string id
+        +string title
+        +AcquisitionChannel channel
+        +string description
+        +TaskStatus status
+        +string assignee
+        +string deadline
+        +string completedAt
+        +string result
+        +string createdAt
+    }
+
+    class ShortVideoPlan {
+        +string id
+        +string title
+        +string platform
+        +string script
+        +string publishDate
+        +ContentStatus status
+        +number views
+        +number likes
+        +number comments
+        +number shares
+        +number leads
+        +string createdAt
+    }
+
+    class LiveStreamPlan {
+        +string id
+        +string title
+        +string platform
+        +string scheduledAt
+        +number duration
+        +string host
+        +ContentStatus status
+        +number peakViewers
+        +number totalViewers
+        +number newFollowers
+        +number leads
+        +string remark
+        +string createdAt
+    }
+
+    class PrivateDomainRecord {
+        +string id
+        +string channel
+        +string title
+        +string content
+        +string publishDate
+        +ContentStatus status
+        +number views
+        +number interactions
+        +number leads
+        +string[] tags
+        +string createdAt
+    }
+
+    class OfflineActivity {
+        +string id
+        +string title
+        +string location
+        +string activityDate
+        +number budget
+        +number actualCost
+        +number contacts
+        +number leads
+        +ContentStatus status
+        +string description
+        +string responsiblePerson
+        +string remark
+        +string createdAt
+    }
+
+    %% ==================== 案例见证中心 ====================
+    class CaseStudy {
+        +string id
+        +string title
+        +CaseCategory category
+        +string customerName
+        +ProductTier customerTier
+        +string coverImage
+        +string summary
+        +string challenge
+        +string solution
+        +string result
+        +object[] metrics
+        +string[] tags
+        +ContentStatus status
+        +string publishedAt
+        +string createdAt
+        +string updatedAt
+    }
+
+    class CaseTemplate {
+        +string id
+        +string title
+        +string description
+        +CaseCategory category
+        +CaseTemplateSection[] sections
+        +ContentStatus status
+        +string createdAt
+    }
+
+    class MaterialCollection {
+        +string id
+        +string caseId
+        +string title
+        +string type
+        +string fileUrl
+        +number fileSize
+        +string source
+        +string[] tags
+        +ContentStatus status
+        +string uploadedAt
+        +string remark
+    }
+
+    class CustomerInterview {
+        +string id
+        +string customerName
+        +string customerTitle
+        +ProductTier tier
+        +string interviewDate
+        +string interviewer
+        +string[] highlights
+        +string transcript
+        +string videoUrl
+        +ContentStatus status
+        +string[] tags
+        +string createdAt
+    }
+
+    %% ==================== 培训赋能中心 ====================
+    class Course {
+        +string id
+        +string title
+        +TrainingType type
+        +string category
+        +string description
+        +number duration
+        +CourseChapter[] chapters
+        +string instructor
+        +ContentStatus status
+        +number enrolledCount
+        +number completionRate
+        +number rating
+        +string coverImage
+        +string createdAt
+        +string updatedAt
+    }
+
+    class TrainingCamp {
+        +string id
+        +string title
+        +string description
+        +string startDate
+        +string endDate
+        +string[] courses
+        +number maxStudents
+        +number enrolledCount
+        +TrainingStatus status
+        +string instructor
+        +string[] requirements
+        +string createdAt
+    }
+
+    class StudentAssignment {
+        +string id
+        +string campId
+        +string campTitle
+        +string studentName
+        +string courseId
+        +string courseTitle
+        +string title
+        +string content
+        +string fileUrl
+        +number score
+        +string comment
+        +string submittedAt
+        +string gradedAt
+        +ContentStatus status
+    }
+
+    class StudentProgress {
+        +string id
+        +string studentName
+        +string campId
+        +string campTitle
+        +string courseId
+        +string courseTitle
+        +number progress
+        +TrainingStatus status
+        +string lastAccessAt
+        +string enrolledAt
+        +string completedAt
+    }
+
+    %% ==================== 交付服务中心 ====================
+    class DeliverySOP {
+        +string id
+        +string title
+        +SOPCategory category
+        +string description
+        +DeliverySOPStep[] steps
+        +string responsibleRole
+        +number estimatedDays
+        +ContentStatus status
+        +string version
+        +string createdAt
+        +string updatedAt
+    }
+
+    class AcceptanceCriteria {
+        +string id
+        +string title
+        +SOPCategory category
+        +AcceptanceItem[] items
+        +ContentStatus status
+        +string createdAt
+    }
+
+    class ServiceDiagnosis {
+        +string id
+        +string customerName
+        +ProductTier customerTier
+        +string issueCategory
+        +string description
+        +Priority severity
+        +string diagnosis
+        +string solution
+        +OrderStatus status
+        +string servicePerson
+        +string createdAt
+        +string resolvedAt
+    }
+
+    class AfterSaleRecord {
+        +string id
+        +string customerName
+        +ProductTier customerTier
+        +string type
+        +string title
+        +string description
+        +Priority priority
+        +OrderStatus status
+        +string assignee
+        +string responseAt
+        +string resolvedAt
+        +number satisfaction
+        +string createdAt
+    }
+
+    %% ==================== 政策合同中心 ====================
+    class PricingStrategy {
+        +string id
+        +string name
+        +ProductTier productTier
+        +number basePrice
+        +DiscountRule[] discountRules
+        +string effectiveStart
+        +string effectiveEnd
+        +PolicyStatus status
+        +string remark
+        +string createdAt
+        +string updatedAt
+    }
+
+    class CommissionPolicy {
+        +string id
+        +string title
+        +AgentLevel[] applicableLevels
+        +object[] commissionRates
+        +string settlementCycle
+        +string[] conditions
+        +string effectiveDate
+        +string expireDate
+        +PolicyStatus status
+        +string createdAt
+    }
+
+    class RefundPolicy {
+        +string id
+        +string title
+        +ProductTier productTier
+        +string refundPeriod
+        +string refundRule
+        +string deductionRule
+        +string[] exceptions
+        +PolicyStatus status
+        +string effectiveDate
+        +string createdAt
+    }
+
+    class ComplianceRecord {
+        +string id
+        +string title
+        +string category
+        +string description
+        +string requirement
+        +string deadline
+        +string responsiblePerson
+        +ContentStatus status
+        +string remark
+        +string createdAt
+    }
+
+    class ContractTemplate {
+        +string id
+        +string title
+        +string category
+        +string version
+        +ContractClause[] clauses
+        +ContentStatus status
+        +string fileUrl
+        +string createdAt
+        +string updatedAt
+    }
+
+    %% ==================== 品牌资产中心 ====================
+    class VISpec {
+        +string id
+        +string title
+        +string category
+        +string description
+        +string[] rules
+        +object[] examples
+        +ContentStatus status
+        +string version
+        +string updatedAt
+    }
+
+    class BrandTemplate {
+        +string id
+        +string title
+        +string category
+        +string thumbnail
+        +string description
+        +string fileUrl
+        +string fileFormat
+        +number fileSize
+        +string usage
+        +string[] tags
+        +ContentStatus status
+        +string createdAt
+    }
+
+    class BrandCertificate {
+        +string id
+        +string title
+        +string type
+        +string certNumber
+        +string issuer
+        +string issueDate
+        +string expireDate
+        +string fileUrl
+        +ContentStatus status
+        +string remark
+        +string createdAt
+    }
+
+    %% ==================== 数据运营中心 ====================
+    class OperationDashboard {
+        +string id
+        +string title
+        +string period
+        +KPIItem[] kpis
+        +ChartData[] charts
+        +string createdAt
+    }
+
+    class DataFunnel {
+        +string id
+        +string name
+        +FunnelStage[] stages
+        +string period
+        +string updatedAt
+    }
+
+    class RankingItem {
+        +string id
+        +number rank
+        +string name
+        +number metric
+        +string metricLabel
+        +number change
+        +string trend
+    }
+
+    class ComplaintAnalysis {
+        +string id
+        +string category
+        +number count
+        +number proportion
+        +string trend
+        +object[] topIssues
+    }
+
+    class OperationReview {
+        +string id
+        +string title
+        +string period
+        +string author
+        +string summary
+        +string[] highlights
+        +string[] issues
+        +object[] actionItems
+        +ContentStatus status
+        +string createdAt
+    }
+
+    %% ==================== 关系 ====================
+    Agent "1" --> "*" CommissionSettlement : 生成
+    Agent "1" --> "*" AgentAgreement : 签署
+    Agent "1" --> "*" CommissionRule : 适用
+    Agent "1" --> "1" GrowthPath : 沿路径成长
+    TrainingCamp "1" --> "*" Course : 包含
+    TrainingCamp "1" --> "*" StudentProgress : 记录
+    TrainingCamp "1" --> "*" StudentAssignment : 提交
+    CaseStudy "1" --> "*" MaterialCollection : 关联素材
+    CaseTemplate "1" --> "*" CaseTemplateSection : 包含
+    ContractTemplate "1" --> "*" ContractClause : 包含
+    DeliverySOP "1" --> "*" DeliverySOPStep : 包含步骤
+    AcceptanceCriteria "1" --> "*" AcceptanceItem : 包含条目
+    PricingStrategy "1" --> "*" DiscountRule : 包含规则

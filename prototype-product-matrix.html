@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<!--
+  Design System: 极享AI口播智能体 (JIXIANG-AI)
+  Template: pricing-page (筛选对比型)
+  File: prototype-product-matrix.html — 产品矩阵中心
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极享AI — 产品矩阵中心</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* ============================================================
+   1. Design Tokens
+   ============================================================ */
+:root {
+  --color-bg-primary: #0F0F1A;
+  --color-bg-secondary: #1A1A2E;
+  --color-surface: #1E1E32;
+  --color-surface-hover: #252540;
+  --color-surface-elevated: #2A2A3C;
+
+  --color-gold: #D4A853;
+  --color-gold-hover: #E0B96A;
+  --color-gold-active: #C49A42;
+  --color-gold-muted: rgba(212,168,83,0.2);
+  --color-gold-subtle: rgba(212,168,83,0.08);
+
+  --color-text-primary: #F5F5F7;
+  --color-text-secondary: #A0A0B8;
+  --color-text-tertiary: #6B6B82;
+  --color-text-on-gold: #0F0F1A;
+
+  --color-border: #2E2E44;
+  --color-border-strong: #3D3D58;
+  --color-border-gold: rgba(212,168,83,0.25);
+  --color-divider: #2A2A40;
+
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+  --color-info: #3B82F6;
+
+  /* Product Tier Colors */
+  --color-tier-blue: #3B82F6;
+  --color-tier-green: #22C55E;
+  --color-tier-purple: #A855F7;
+  --color-tier-gold: #F59E0B;
+
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 20px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --space-3xl: 48px;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  --font-metric: 'Inter', 'SF Pro Display', sans-serif;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 20px;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.35);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
+  --shadow-xl: 0 25px 50px rgba(0,0,0,0.5);
+  --shadow-gold: 0 0 12px rgba(212,168,83,0.2);
+}
+
+/* ============================================================
+   2. Reset & Base
+   ============================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-tertiary); }
+
+/* ============================================================
+   3. Layout
+   ============================================================ */
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar (shared with dashboard) */
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: var(--color-bg-secondary);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+.sidebar-brand {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-lg);
+  border-bottom: 1px solid var(--color-divider);
+  gap: var(--space-sm);
+  flex-shrink: 0;
+}
+
+.sidebar-brand .brand-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-hover));
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--color-text-on-gold);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.sidebar-brand .brand-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.sidebar-brand .brand-text span {
+  color: var(--color-gold);
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: var(--space-md) var(--space-sm);
+  overflow-y: auto;
+}
+
+.nav-section {
+  margin-bottom: var(--space-xl);
+}
+
+.nav-section-title {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0 var(--space-sm);
+  margin-bottom: var(--space-xs);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 var(--space-sm) 0 var(--space-md);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  gap: var(--space-sm);
+  position: relative;
+}
+
+.nav-item i {
+  width: 20px;
+  text-align: center;
+  font-size: 15px;
+  color: var(--color-text-tertiary);
+  transition: color 0.15s ease;
+}
+
+.nav-item:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.nav-item:hover i {
+  color: var(--color-text-secondary);
+}
+
+.nav-item.active {
+  background: var(--color-gold-subtle);
+  color: var(--color-gold);
+  font-weight: 500;
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  background: var(--color-gold);
+  border-radius: 0 2px 2px 0;
+}
+
+.nav-item.active i {
+  color: var(--color-gold);
+}
+
+.nav-item .nav-badge {
+  margin-left: auto;
+  background: var(--color-danger);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 0 6px;
+  height: 18px;
+  line-height: 18px;
+  border-radius: 9px;
+  min-width: 18px;
+  text-align: center;
+}
+
+.sidebar-footer {
+  padding: var(--space-md) var(--space-sm);
+  border-top: 1px solid var(--color-divider);
+  flex-shrink: 0;
+}
+
+.user-avatar-sm {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-tier-purple));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-on-gold);
+  flex-shrink: 0;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  margin-left: 240px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   4. Top Bar
+   ============================================================ */
+.topbar {
+  height: 64px;
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-xl);
+  gap: var(--space-md);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.topbar-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.topbar-title span {
+  color: var(--color-gold);
+}
+
+.topbar-search {
+  position: relative;
+  width: 280px;
+  margin-left: var(--space-xl);
+}
+
+.topbar-search input {
+  width: 100%;
+  height: 36px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0 36px 0 14px;
+  color: var(--color-text-primary);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: all 0.15s;
+}
+
+.topbar-search input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.topbar-search input:focus {
+  border-color: var(--color-border-gold);
+  box-shadow: 0 0 0 2px var(--color-gold-muted);
+}
+
+.topbar-search i {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-tertiary);
+  font-size: 14px;
+}
+
+.topbar-spacer {
+  flex: 1;
+}
+
+.view-toggle {
+  display: flex;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.view-toggle button {
+  padding: 6px 14px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.15s;
+}
+
+.view-toggle button.active {
+  background: var(--color-surface-elevated);
+  color: var(--color-gold);
+}
+
+.view-toggle button:hover:not(.active) {
+  color: var(--color-text-secondary);
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.topbar-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-size: 16px;
+}
+
+.topbar-btn:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-strong);
+  color: var(--color-text-primary);
+}
+
+.topbar-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-tier-blue));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-on-gold);
+  cursor: pointer;
+  margin-left: var(--space-xs);
+}
+
+/* ============================================================
+   5. Content Area
+   ============================================================ */
+.content-area {
+  padding: var(--space-xl);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   6. Filter Bar (Capsule Filters)
+   ============================================================ */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.filter-label {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  font-weight: 500;
+  margin-right: var(--space-xs);
+  white-space: nowrap;
+}
+
+.filter-capsule {
+  padding: 6px 16px;
+  height: 32px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-elevated);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-capsule:hover {
+  border-color: var(--color-border-gold);
+  color: var(--color-text-primary);
+}
+
+.filter-capsule.active {
+  background: var(--color-gold);
+  color: var(--color-text-on-gold);
+  border-color: var(--color-gold);
+  font-weight: 500;
+}
+
+.filter-capsule .capsule-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.filter-capsule .capsule-dot.blue { background: var(--color-tier-blue); }
+.filter-capsule .capsule-dot.green { background: var(--color-tier-green); }
+.filter-capsule .capsule-dot.purple { background: var(--color-tier-purple); }
+.filter-capsule .capsule-dot.gold-dot { background: var(--color-tier-gold); }
+
+.filter-capsule.active .capsule-dot {
+  background: var(--color-text-on-gold);
+}
+
+.filter-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--color-divider);
+  margin: 0 var(--space-xs);
+}
+
+.filter-dropdown {
+  padding: 6px 14px;
+  height: 32px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-elevated);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.filter-dropdown:hover {
+  border-color: var(--color-border-strong);
+  color: var(--color-text-primary);
+}
+
+.filter-dropdown i {
+  font-size: 10px;
+  color: var(--color-text-tertiary);
+}
+
+/* ============================================================
+   7. Product Tier Cards
+   ============================================================ */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+}
+
+.product-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.product-card .tier-top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+
+.product-card .tier-top-bar.blue { background: var(--color-tier-blue); }
+.product-card .tier-top-bar.green { background: var(--color-tier-green); }
+.product-card .tier-top-bar.purple { background: var(--color-tier-purple); }
+.product-card .tier-top-bar.gold-tb { background: var(--color-tier-gold); }
+
+.product-card.featured {
+  border-color: var(--color-border-gold);
+  box-shadow: var(--shadow-gold);
+}
+
+.product-card.featured::after {
+  content: '推荐';
+  position: absolute;
+  top: 12px;
+  right: -24px;
+  background: var(--color-gold);
+  color: var(--color-text-on-gold);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 28px;
+  transform: rotate(45deg);
+  letter-spacing: 0.03em;
+}
+
+.product-card .tier-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: var(--space-md);
+}
+
+.tier-icon.blue { background: rgba(59,130,246,0.15); color: var(--color-tier-blue); }
+.tier-icon.green { background: rgba(34,197,94,0.15); color: var(--color-tier-green); }
+.tier-icon.purple { background: rgba(168,85,247,0.15); color: var(--color-tier-purple); }
+.tier-icon.gold-ti { background: rgba(245,158,11,0.15); color: var(--color-tier-gold); }
+
+.product-card .tier-name {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: var(--space-2xs);
+}
+
+.product-card .tier-name.blue-text { color: var(--color-tier-blue); }
+.product-card .tier-name.green-text { color: var(--color-tier-green); }
+.product-card .tier-name.purple-text { color: var(--color-tier-purple); }
+.product-card .tier-name.gold-text { color: var(--color-tier-gold); }
+
+.product-card .tier-desc {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-md);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.product-card .tier-price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2xs);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.product-card .tier-price .price-value {
+  font-size: 28px;
+  font-weight: 700;
+  font-family: var(--font-metric);
+  letter-spacing: -0.02em;
+}
+
+.product-card .tier-price .price-unit {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+}
+
+.product-card .tier-features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xl);
+}
+
+.product-card .tier-feature {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.product-card .tier-feature i {
+  font-size: 12px;
+  width: 16px;
+}
+
+.product-card .tier-feature .fa-check { color: var(--color-success); }
+.product-card .tier-feature .fa-times { color: var(--color-text-tertiary); opacity: 0.5; }
+
+.product-card .tier-cta {
+  width: 100%;
+  height: 40px;
+  border-radius: var(--radius-md);
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+}
+
+.tier-cta.blue-cta { background: var(--color-tier-blue); color: #fff; }
+.tier-cta.green-cta { background: var(--color-tier-green); color: #0F0F1A; }
+.tier-cta.purple-cta { background: var(--color-tier-purple); color: #fff; }
+.tier-cta.gold-cta { background: var(--color-tier-gold); color: #0F0F1A; }
+
+.tier-cta:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+/* ============================================================
+   8. Compare Actions
+   ============================================================ */
+.compare-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.compare-bar .compare-info {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+}
+
+.compare-bar .compare-info span {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.compare-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 10px 24px;
+  height: 40px;
+  background: var(--color-gold);
+  color: var(--color-text-on-gold);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.compare-btn:hover {
+  background: var(--color-gold-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-gold);
+}
+
+.compare-btn i {
+  font-size: 14px;
+}
+
+/* ============================================================
+   9. Comparison Table
+   ============================================================ */
+.compare-section {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.compare-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.compare-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.compare-section-title .count {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  font-weight: 400;
+}
+
+.compare-table-wrap {
+  overflow-x: auto;
+}
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.compare-table thead th {
+  padding: var(--space-md) var(--space-md);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-align: center;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--color-divider);
+  white-space: nowrap;
+}
+
+.compare-table thead th:first-child {
+  text-align: left;
+  color: var(--color-text-secondary);
+  background: var(--color-surface-hover);
+  width: 180px;
+  min-width: 150px;
+}
+
+/* Tier column headers with 12% alpha */
+.compare-table thead th.col-blue {
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--color-tier-blue);
+}
+.compare-table thead th.col-green {
+  background: rgba(34, 197, 94, 0.12);
+  color: var(--color-tier-green);
+}
+.compare-table thead th.col-purple {
+  background: rgba(168, 85, 247, 0.12);
+  color: var(--color-tier-purple);
+}
+.compare-table thead th.col-gold {
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--color-tier-gold);
+}
+
+.compare-table thead th .col-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.compare-table thead th .col-price {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  margin-top: 4px;
+  text-transform: none;
+  letter-spacing: 0;
+  opacity: 0.7;
+}
+
+.compare-table tbody tr {
+  border-bottom: 1px solid var(--color-divider);
+  transition: background 0.15s;
+}
+
+.compare-table tbody tr:hover {
+  background: var(--color-surface-hover);
+}
+
+.compare-table tbody td {
+  padding: var(--space-sm) var(--space-md);
+  font-size: 14px;
+  text-align: center;
+  vertical-align: middle;
+  height: 44px;
+}
+
+.compare-table tbody td:first-child {
+  text-align: left;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  font-size: 13px;
+  background: var(--color-surface-hover);
+  border-right: 1px solid var(--color-border);
+}
+
+/* Category row */
+.compare-table tbody tr.category-row td {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-tertiary);
+  padding: var(--space-xs) var(--space-md);
+  background: var(--color-bg-primary) !important;
+}
+
+.compare-table tbody tr.category-row td:first-child {
+  color: var(--color-text-tertiary);
+  background: var(--color-bg-primary) !important;
+}
+
+/* Difference rows: 8% tier alpha + 3px left bar */
+.compare-table tbody tr.diff-row td {
+  position: relative;
+}
+
+.compare-table tbody tr.diff-row td:first-child::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 2px;
+  bottom: 2px;
+  width: 3px;
+  border-radius: 0 2px 2px 0;
+}
+
+.compare-table tbody tr.diff-row td.col-blue,
+.compare-table tbody tr.diff-row.col-blue-bg {
+  background: rgba(59, 130, 246, 0.08);
+}
+.compare-table tbody tr.diff-row td.col-green,
+.compare-table tbody tr.diff-row.col-green-bg {
+  background: rgba(34, 197, 94, 0.08);
+}
+.compare-table tbody tr.diff-row td.col-purple,
+.compare-table tbody tr.diff-row.col-purple-bg {
+  background: rgba(168, 85, 247, 0.08);
+}
+.compare-table tbody tr.diff-row td.col-gold,
+.compare-table tbody tr.diff-row.col-gold-bg {
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.compare-table tbody tr.diff-row td:first-child::before {
+  background: var(--color-gold);
+}
+
+.compare-table td .check-yes {
+  color: var(--color-success);
+  font-size: 16px;
+}
+
+.compare-table td .check-no {
+  color: var(--color-text-tertiary);
+  font-size: 14px;
+  opacity: 0.4;
+}
+
+.compare-table td .check-partial {
+  color: var(--color-warning);
+  font-size: 14px;
+}
+
+.diff-icon {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 10px;
+  color: var(--color-gold);
+  vertical-align: middle;
+}
+
+/* ============================================================
+   10. Color Legend
+   ============================================================ */
+.color-legend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.color-legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.color-legend-item .legend-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-sm);
+}
+
+.legend-swatch.blue { background: var(--color-tier-blue); }
+.legend-swatch.green { background: var(--color-tier-green); }
+.legend-swatch.purple { background: var(--color-tier-purple); }
+.legend-swatch.gold-ls { background: var(--color-tier-gold); }
+
+/* ============================================================
+   11. Responsive
+   ============================================================ */
+@media (max-width: 1200px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 64px;
+  }
+  .sidebar-brand .brand-text,
+  .nav-item span,
+  .nav-section-title,
+  .nav-item .nav-badge,
+  .sidebar-footer .nav-item span {
+    display: none;
+  }
+  .sidebar-brand {
+    justify-content: center;
+    padding: 0;
+  }
+  .nav-item {
+    justify-content: center;
+    padding: 0;
+  }
+  .nav-item.active::before {
+    left: auto;
+    right: 0;
+    top: 0;
+    transform: none;
+    width: 3px;
+    height: 100%;
+  }
+  .nav-item i {
+    width: auto;
+  }
+  .main-content {
+    margin-left: 64px;
+  }
+  .topbar-search {
+    width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+  .content-area {
+    padding: var(--space-md);
+  }
+  .filter-bar {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  .filter-label {
+    display: none;
+  }
+  .filter-divider {
+    display: none;
+  }
+  .color-legend {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+  .topbar-search {
+    display: none;
+  }
+  .view-toggle {
+    margin-left: auto;
+  }
+  .compare-table-wrap {
+    margin: 0 calc(-1 * var(--space-md));
+  }
+  .compare-table {
+    min-width: 600px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 0;
+    overflow: hidden;
+  }
+  .main-content {
+    margin-left: 0;
+  }
+  .product-card.featured::after {
+    right: -28px;
+    font-size: 9px;
+    padding: 2px 30px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- ==========================================================
+       Sidebar
+  ========================================================== -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">极</div>
+      <div class="brand-text"><span>极享</span>AI</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">核心管理</div>
+        <a class="nav-item">
+          <i class="fas fa-chart-pie"></i>
+          <span>数据驾驶舱</span>
+        </a>
+        <a class="nav-item active">
+          <i class="fas fa-th-large"></i>
+          <span>产品矩阵</span>
+        </a>
+        <a class="nav-item">
+          <i class="fas fa-handshake"></i>
+          <span>销售成交</span>
+          <span class="nav-badge">12</span>
+        </a>
+        <a class="nav-item">
+          <i class="fas fa-user-tie"></i>
+          <span>招商代理</span>
+        </a>
+        <a class="nav-item">
+          <i class="fas fa-bullhorn"></i>
+          <span>营销推广</span>
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">运营管理</div>
+        <a class="nav-item">
+          <i class="fas fa-users"></i>
+          <span>客户管理</span>
+        </a>
+        <a class="nav-item">
+          <i class="fas fa-file-invoice"></i>
+          <span>订单管理</span>
+        </a>
+        <a class="nav-item">
+          <i class="fas fa-robot"></i>
+          <span>AI 智能体</span>
+        </a>
+        <a class="nav-item">
+          <i class="fas fa-phone-alt"></i>
+          <span>呼叫中心</span>
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">系统</div>
+        <a class="nav-item">
+          <i class="fas fa-cog"></i>
+          <span>系统设置</span>
+        </a>
+        <a class="nav-item">
+          <i class="fas fa-file-alt"></i>
+          <span>操作日志</span>
+        </a>
+        <a class="nav-item">
+          <i class="fas fa-question-circle"></i>
+          <span>帮助中心</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="nav-item" style="height:48px;padding:var(--space-xs) var(--space-sm);">
+        <div class="user-avatar-sm">张</div>
+        <span style="font-size:13px;font-weight:500;color:var(--color-text-primary);">张明远</span>
+        <i class="fas fa-ellipsis-v" style="margin-left:auto;font-size:14px;color:var(--color-text-tertiary);"></i>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==========================================================
+       Main Content
+  ========================================================== -->
+  <main class="main-content">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <h1 class="topbar-title"><span>产品</span>矩阵中心</h1>
+
+      <div class="topbar-search">
+        <input type="text" placeholder="搜索产品、功能、关键词..." />
+        <i class="fas fa-search"></i>
+      </div>
+
+      <div class="topbar-spacer"></div>
+
+      <div class="view-toggle">
+        <button class="active" title="卡片视图"><i class="fas fa-th-large"></i></button>
+        <button title="列表视图"><i class="fas fa-list"></i></button>
+        <button title="对比视图"><i class="fas fa-table"></i></button>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="topbar-btn" title="通知">
+          <i class="far fa-bell"></i>
+        </button>
+        <div class="topbar-avatar">张</div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="content-area">
+
+      <!-- Filter Bar -->
+      <section class="filter-bar">
+        <span class="filter-label">产品等级</span>
+        <button class="filter-capsule active">全部产品</button>
+        <button class="filter-capsule">
+          <span class="capsule-dot blue"></span>899标准版
+        </button>
+        <button class="filter-capsule">
+          <span class="capsule-dot green"></span>代理版
+        </button>
+        <button class="filter-capsule">
+          <span class="capsule-dot purple"></span>贴牌版
+        </button>
+        <button class="filter-capsule">
+          <span class="capsule-dot gold-dot"></span>合伙人版
+        </button>
+
+        <div class="filter-divider"></div>
+
+        <div class="filter-dropdown">
+          价格区间 <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="filter-dropdown">
+          功能分类 <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="filter-dropdown">
+          状态筛选 <i class="fas fa-chevron-down"></i>
+        </div>
+      </section>
+
+      <!-- Product Tier Cards -->
+      <section class="product-grid">
+
+        <!-- 899 标准版 -->
+        <div class="product-card">
+          <div class="tier-top-bar blue"></div>
+          <div class="tier-icon blue"><i class="fas fa-rocket"></i></div>
+          <div class="tier-name blue-text">899 标准版</div>
+          <div class="tier-desc">面向个人创业者及小微团队，提供 AI 口播内容生成与基础客户管理能力。</div>
+          <div class="tier-price">
+            <span class="price-value">¥12,800</span>
+            <span class="price-unit">/ 年</span>
+          </div>
+          <div class="tier-features">
+            <div class="tier-feature"><i class="fas fa-check"></i> AI 口播脚本生成</div>
+            <div class="tier-feature"><i class="fas fa-check"></i> 基础客户池管理</div>
+            <div class="tier-feature"><i class="fas fa-check"></i> 单账号管理</div>
+            <div class="tier-feature"><i class="fas fa-times"></i> 代理商赋能工具</div>
+            <div class="tier-feature"><i class="fas fa-times"></i> 品牌贴牌定制</div>
+          </div>
+          <button class="tier-cta blue-cta">查看详情 <i class="fas fa-arrow-right"></i></button>
+        </div>
+
+        <!-- 代理版 (推荐) -->
+        <div class="product-card featured">
+          <div class="tier-top-bar green"></div>
+          <div class="tier-icon green"><i class="fas fa-handshake"></i></div>
+          <div class="tier-name green-text">代理版</div>
+          <div class="tier-desc">为代理商和渠道伙伴打造，支持多客户管理、分佣体系与团队协作功能。</div>
+          <div class="tier-price">
+            <span class="price-value">¥36,000</span>
+            <span class="price-unit">/ 年</span>
+          </div>
+          <div class="tier-features">
+            <div class="tier-feature"><i class="fas fa-check"></i> 包含 899 全部功能</div>
+            <div class="tier-feature"><i class="fas fa-check"></i> 多客户池管理</div>
+            <div class="tier-feature"><i class="fas fa-check"></i> 分佣结算系统</div>
+            <div class="tier-feature"><i class="fas fa-check"></i> 团队协作空间</div>
+            <div class="tier-feature"><i class="fas fa-times"></i> 品牌贴牌定制</div>
+          </div>
+          <button class="tier-cta green-cta">立即咨询 <i class="fas fa-arrow-right"></i></button>
+        </div>
+
+        <!-- 贴牌版 -->
+        <div class="product-card">
+          <div class="tier-top-bar purple"></div>
+          <div class="tier-icon purple"><i class="fas fa-cubes"></i></div>
+          <div class="tier-name purple-text">贴牌版</div>
+          <div class="tier-desc">支持品牌完全定制，以自有品牌运营全套 AI 口播系统，适合中大型机构。</div>
+          <div class="tier-price">
+            <span class="price-value">¥68,000</span>
+            <span class="price-unit">/ 年</span>
+          </div>
+          <div class="tier-features">
+            <div class="tier-feature"><i class="fas fa-check"></i> 包含代理全部功能</div>
+            <div class="tier-feature"><i class="fas fa-check"></i> 品牌形象全定制</div>
+            <div class="tier-feature"><i class="fas fa-check"></i> 独立部署可选</div>
+            <div class="tier-feature"><i class="fas fa-check"></i> API 开放接口</div>
+            <div class="tier-feature"><i class="fas fa-check"></i> 专属客户成功</div>
+          </div>
+          <button class="tier-cta purple-cta">查看详情 <i class="fas fa-arrow-right"></i></button>
+        </div>
+
+        <!-- 合伙人版 -->
+        <div class="product-card">
+          <div class="tier-top-bar gold-tb"></div>
+          <div class="tier-icon gold-ti"><i class="fas fa-crown"></i></div>
+          <div class="tier-name gold-text">合伙人版</div>
+          <div class="tier-desc">顶级合作伙伴权益，享受最高分润比例、全渠道资源支持与战略级赋能。</div>
+          <div class="tier-price">
+            <span class="price-value">¥128,000</span>
+            <span class="price-unit">/ 年</span>
+          </div>
+          <div class="tier-features">
+            <div class="tier-feature"><i class="fas fa-check"></i> 包含贴牌全部功能</div>
+            <div class="tier-feature"><i class="fas fa-check"></i> 最高分润比例</div>
+            <div class="tier-feature"><i class="fas fa-check"></i> 全渠道资源共享</div>
+            <div class="tier-feature"><i class="fas fa-check"></i> 战略赋能陪跑</div>
+            <div class="tier-feature"><i class="fas fa-check"></i> 优先产品内测</div>
+          </div>
+          <button class="tier-cta gold-cta">立即咨询 <i class="fas fa-arrow-right"></i></button>
+        </div>
+      </section>
+
+      <!-- Compare Bar -->
+      <section class="compare-bar">
+        <div class="compare-info">
+          已选择 <span>4</span> 个方案进行对比
+        </div>
+        <button class="compare-btn" id="compareBtn">
+          <i class="fas fa-arrows-alt-h"></i> 一键对比
+        </button>
+      </section>
+
+      <!-- Color Legend -->
+      <section class="color-legend">
+        <div class="color-legend-item">
+          <span class="legend-swatch blue"></span> 899标准版
+        </div>
+        <div class="color-legend-item">
+          <span class="legend-swatch green"></span> 代理版
+        </div>
+        <div class="color-legend-item">
+          <span class="legend-swatch purple"></span> 贴牌版
+        </div>
+        <div class="color-legend-item">
+          <span class="legend-swatch gold-ls"></span> 合伙人版
+        </div>
+        <div class="color-legend-item" style="margin-left:auto;">
+          <span style="display:inline-block;width:10px;height:2px;background:var(--color-gold);border-radius:2px;"></span> 差异高亮
+        </div>
+      </section>
+
+      <!-- Comparison Table -->
+      <section class="compare-section" id="compareSection">
+        <div class="compare-section-header">
+          <div class="compare-section-title">
+            <i class="fas fa-table" style="color:var(--color-gold);font-size:16px;"></i>
+            功能对比表
+            <span class="count">· 共 18 项功能</span>
+          </div>
+          <span style="font-size:12px;color:var(--color-text-tertiary);">差异行自动高亮</span>
+        </div>
+
+        <div class="compare-table-wrap">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>功能模块</th>
+                <th class="col-blue">
+                  <span class="col-tag" style="color:var(--color-tier-blue);">899 标准版</span>
+                  <span class="col-price">¥12,800/年</span>
+                </th>
+                <th class="col-green">
+                  <span class="col-tag" style="color:var(--color-tier-green);">代理版</span>
+                  <span class="col-price">¥36,000/年</span>
+                </th>
+                <th class="col-purple">
+                  <span class="col-tag" style="color:var(--color-tier-purple);">贴牌版</span>
+                  <span class="col-price">¥68,000/年</span>
+                </th>
+                <th class="col-gold">
+                  <span class="col-tag" style="color:var(--color-tier-gold);">合伙人版</span>
+                  <span class="col-price">¥128,000/年</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Category: AI 能力 -->
+              <tr class="category-row">
+                <td colspan="5">AI 能力</td>
+              </tr>
+              <tr>
+                <td>AI 口播脚本生成</td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+              </tr>
+              <tr>
+                <td>多语种语音合成</td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+              </tr>
+              <tr>
+                <td>AI 智能剪辑</td>
+                <td><i class="fas fa-check check-partial"> <span style="font-size:11px;color:var(--color-text-tertiary);">基础</span></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+              </tr>
+              <tr class="diff-row">
+                <td>
+                  数字人播报
+                  <span class="diff-icon"><i class="fas fa-star"></i></span>
+                </td>
+                <td class="col-blue"><i class="fas fa-times check-no"></i></td>
+                <td class="col-green"><i class="fas fa-check check-partial"> <span style="font-size:11px;color:var(--color-text-tertiary);">标准</span></i></td>
+                <td class="col-purple"><i class="fas fa-check check-yes"></i></td>
+                <td class="col-gold"><i class="fas fa-check check-yes"></i></td>
+              </tr>
+
+              <!-- Category: 客户管理 -->
+              <tr class="category-row">
+                <td colspan="5">客户管理</td>
+              </tr>
+              <tr>
+                <td>客户信息管理</td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+              </tr>
+              <tr>
+                <td>客户池管理</td>
+                <td><i class="fas fa-check check-partial"> <span style="font-size:11px;color:var(--color-text-tertiary);">单池</span></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+              </tr>
+              <tr class="diff-row">
+                <td>
+                  线索自动分配
+                  <span class="diff-icon"><i class="fas fa-star"></i></span>
+                </td>
+                <td class="col-blue"><i class="fas fa-times check-no"></i></td>
+                <td class="col-green"><i class="fas fa-check check-yes"></i></td>
+                <td class="col-purple"><i class="fas fa-check check-yes"></i></td>
+                <td class="col-gold"><i class="fas fa-check check-yes"></i></td>
+              </tr>
+
+              <!-- Category: 商业赋能 -->
+              <tr class="category-row">
+                <td colspan="5">商业赋能</td>
+              </tr>
+              <tr class="diff-row">
+                <td>
+                  分佣结算系统
+                  <span class="diff-icon"><i class="fas fa-star"></i></span>
+                </td>
+                <td class="col-blue"><i class="fas fa-times check-no"></i></td>
+                <td class="col-green"><i class="fas fa-check check-yes"></i></td>
+                <td class="col-purple"><i class="fas fa-check check-yes"></i></td>
+                <td class="col-gold"><i class="fas fa-check check-yes"></i></td>
+              </tr>
+              <tr class="diff-row">
+                <td>
+                  品牌贴牌定制
+                  <span class="diff-icon"><i class="fas fa-star"></i></span>
+                </td>
+                <td class="col-blue"><i class="fas fa-times check-no"></i></td>
+                <td class="col-green"><i class="fas fa-times check-no"></i></td>
+                <td class="col-purple"><i class="fas fa-check check-yes"></i></td>
+                <td class="col-gold"><i class="fas fa-check check-yes"></i></td>
+              </tr>
+              <tr>
+                <td>数据报表分析</td>
+                <td><i class="fas fa-check check-partial"> <span style="font-size:11px;color:var(--color-text-tertiary);">基础</span></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+                <td><i class="fas fa-check check-yes"></i></td>
+              </tr>
+              <tr class="diff-row">
+                <td>
+                  独立部署
+                  <span class="diff-icon"><i class="fas fa-star"></i></span>
+                </td>
+                <td class="col-blue"><i class="fas fa-times check-no"></i></td>
+                <td class="col-green"><i class="fas fa-times check-no"></i></td>
+                <td class="col-purple"><i class="fas fa-check check-yes"></i></td>
+                <td class="col-gold"><i class="fas fa-check check-yes"></i></td>
+              </tr>
+              <tr class="diff-row">
+                <td>
+                  全渠道资源共享
+                  <span class="diff-icon"><i class="fas fa-star"></i></span>
+                </td>
+                <td class="col-blue"><i class="fas fa-times check-no"></i></td>
+                <td class="col-green"><i class="fas fa-times check-no"></i></td>
+                <td class="col-purple"><i class="fas fa-times check-no"></i></td>
+                <td class="col-gold"><i class="fas fa-check check-yes"></i></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script>
+// ============================================================
+// Interactive Features
+// ============================================================
+
+// Filter capsule toggle
+document.querySelectorAll('.filter-capsule').forEach(el => {
+  el.addEventListener('click', function() {
+    document.querySelectorAll('.filter-capsule').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// View toggle
+document.querySelectorAll('.view-toggle button').forEach(el => {
+  el.addEventListener('click', function() {
+    document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// Compare button - scroll to compare table
+document.getElementById('compareBtn').addEventListener('click', function() {
+  const section = document.getElementById('compareSection');
+  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  section.style.boxShadow = '0 0 0 2px var(--color-gold-muted), var(--shadow-md)';
+  setTimeout(() => {
+    section.style.boxShadow = 'none';
+  }, 1500);
+});
+
+// Product card hover - feature badge gradient effect
+document.querySelectorAll('.product-card').forEach(card => {
+  card.addEventListener('mouseenter', function() {
+    const tierColors = {
+      'blue': 'var(--color-tier-blue)',
+      'green': 'var(--color-tier-green)',
+      'purple': 'var(--color-tier-purple)',
+      'gold': 'var(--color-tier-gold)'
+    };
+  });
+});
+</script>
+
+</body>
+</html>

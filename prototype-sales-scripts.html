@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<!--
+  Design System: 极享AI口播智能体 (JIXIANG-AI)
+  Template: web-prototype (话术库)
+  File: prototype-sales-scripts.html — 话术库
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极享AI — 话术库</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+  --color-bg-primary: #0F0F1A; --color-bg-secondary: #1A1A2E; --color-surface: #1E1E32;
+  --color-surface-hover: #252540; --color-surface-elevated: #2A2A3C;
+  --color-gold: #D4A853; --color-gold-hover: #E0B96A; --color-gold-active: #C49A42;
+  --color-gold-muted: rgba(212,168,83,0.2); --color-gold-subtle: rgba(212,168,83,0.08);
+  --color-text-primary: #F5F5F7; --color-text-secondary: #A0A0B8; --color-text-tertiary: #6B6B82;
+  --color-text-on-gold: #0F0F1A;
+  --color-border: #2E2E44; --color-border-strong: #3D3D58; --color-border-gold: rgba(212,168,83,0.25);
+  --color-divider: #2A2A40;
+  --color-success: #22C55E; --color-warning: #F59E0B; --color-danger: #EF4444; --color-info: #3B82F6;
+  --color-tier-blue: #3B82F6; --color-tier-green: #22C55E; --color-tier-purple: #A855F7; --color-tier-gold: #F59E0B;
+  --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 20px;
+  --space-xl: 24px; --space-2xl: 32px; --space-3xl: 48px;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  --font-metric: 'Inter', 'SF Pro Display', sans-serif;
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-xl: 16px; --radius-pill: 20px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3); --shadow-md: 0 4px 12px rgba(0,0,0,0.35);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.4); --shadow-xl: 0 25px 50px rgba(0,0,0,0.5);
+  --shadow-gold: 0 0 12px rgba(212,168,83,0.2);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { font-family: var(--font-sans); background: var(--color-bg-primary); color: var(--color-text-primary); line-height: 1.6; min-height: 100vh; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-tertiary); }
+.layout { display: flex; min-height: 100vh; }
+.sidebar { width: 240px; min-height: 100vh; background: var(--color-bg-secondary); border-right: 1px solid var(--color-border); display: flex; flex-direction: column; position: fixed; left: 0; top: 0; bottom: 0; z-index: 100; }
+.sidebar-brand { height: 64px; display: flex; align-items: center; padding: 0 var(--space-lg); border-bottom: 1px solid var(--color-divider); gap: var(--space-sm); flex-shrink: 0; }
+.sidebar-brand .brand-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--color-gold), var(--color-gold-hover)); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--color-text-on-gold); font-weight: 700; flex-shrink: 0; }
+.sidebar-brand .brand-text { font-size: 16px; font-weight: 600; color: var(--color-text-primary); letter-spacing: -0.01em; }
+.sidebar-brand .brand-text span { color: var(--color-gold); }
+.sidebar-nav { flex: 1; padding: var(--space-md) var(--space-sm); overflow-y: auto; }
+.nav-section { margin-bottom: var(--space-xl); }
+.nav-section-title { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.06em; padding: 0 var(--space-sm); margin-bottom: var(--space-xs); }
+.nav-item { display: flex; align-items: center; height: 44px; padding: 0 var(--space-sm) 0 var(--space-md); border-radius: var(--radius-md); color: var(--color-text-secondary); text-decoration: none; font-size: 14px; font-weight: 400; cursor: pointer; transition: all 0.15s ease; gap: var(--space-sm); position: relative; }
+.nav-item i { width: 20px; text-align: center; font-size: 15px; color: var(--color-text-tertiary); transition: color 0.15s ease; }
+.nav-item:hover { background: var(--color-surface-hover); color: var(--color-text-primary); }
+.nav-item:hover i { color: var(--color-text-secondary); }
+.nav-item.active { background: var(--color-gold-subtle); color: var(--color-gold); font-weight: 500; }
+.nav-item.active::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 20px; background: var(--color-gold); border-radius: 0 2px 2px 0; }
+.nav-item.active i { color: var(--color-gold); }
+.nav-item .nav-badge { margin-left: auto; background: var(--color-danger); color: #fff; font-size: 11px; font-weight: 600; padding: 0 6px; height: 18px; line-height: 18px; border-radius: 9px; min-width: 18px; text-align: center; }
+.nav-item .nav-badge.info { background: var(--color-info); }
+.sidebar-footer { padding: var(--space-md) var(--space-sm); border-top: 1px solid var(--color-divider); flex-shrink: 0; }
+.nav-item.user-item { height: 48px; padding: var(--space-xs) var(--space-sm); }
+.user-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--color-gold), var(--color-tier-purple)); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--color-text-on-gold); flex-shrink: 0; }
+.user-info { flex: 1; min-width: 0; }
+.user-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); line-height: 1.2; }
+.user-role { font-size: 11px; color: var(--color-text-tertiary); line-height: 1.2; }
+.main-content { flex: 1; margin-left: 240px; min-height: 100vh; display: flex; flex-direction: column; }
+.topbar { height: 64px; background: var(--color-bg-secondary); border-bottom: 1px solid var(--color-border); display: flex; align-items: center; padding: 0 var(--space-xl); gap: var(--space-md); position: sticky; top: 0; z-index: 50; }
+.topbar-title { font-size: 18px; font-weight: 600; color: var(--color-text-primary); letter-spacing: -0.01em; }
+.topbar-title span { color: var(--color-gold); }
+.topbar-spacer { flex: 1; }
+.topbar-date { font-size: 13px; color: var(--color-text-tertiary); }
+.topbar-actions { display: flex; align-items: center; gap: var(--space-xs); }
+.topbar-btn { width: 36px; height: 36px; border-radius: var(--radius-md); border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-secondary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease; font-size: 16px; }
+.topbar-btn:hover { background: var(--color-surface-hover); border-color: var(--color-border-strong); color: var(--color-text-primary); }
+.topbar-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-gold), var(--color-tier-blue)); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: var(--color-text-on-gold); cursor: pointer; margin-left: var(--space-xs); }
+.content-area { padding: var(--space-xl); flex: 1; display: flex; flex-direction: column; gap: var(--space-lg); max-width: 1440px; width: 100%; margin: 0 auto; }
+
+/* ============================================================
+   Scripts Library
+   ============================================================ */
+.scripts-header { display: flex; align-items: center; gap: var(--space-xl); flex-wrap: wrap; }
+.scripts-search { position: relative; flex: 1; max-width: 360px; }
+.scripts-search input { width: 100%; height: 40px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 40px 0 14px; color: var(--color-text-primary); font-size: 14px; font-family: var(--font-sans); outline: none; transition: all 0.15s; }
+.scripts-search input::placeholder { color: var(--color-text-tertiary); }
+.scripts-search input:focus { border-color: var(--color-border-gold); box-shadow: 0 0 0 2px var(--color-gold-muted); }
+.scripts-search i { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--color-text-tertiary); font-size: 14px; }
+.scripts-stats { font-size: 13px; color: var(--color-text-tertiary); }
+.scripts-stats span { color: var(--color-text-secondary); font-weight: 500; }
+
+.script-categories { display: flex; gap: var(--space-xs); flex-wrap: wrap; }
+.script-cat { padding: 6px 16px; height: 32px; border-radius: var(--radius-pill); border: 1px solid var(--color-border); background: var(--color-surface-elevated); color: var(--color-text-secondary); font-size: 13px; font-family: var(--font-sans); cursor: pointer; transition: all 0.15s; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
+.script-cat:hover { border-color: var(--color-border-gold); color: var(--color-text-primary); }
+.script-cat.active { background: var(--color-gold); color: var(--color-text-on-gold); border-color: var(--color-gold); font-weight: 500; }
+.script-cat .cat-count { font-size: 11px; background: var(--color-surface); padding: 0 6px; height: 16px; line-height: 16px; border-radius: 8px; color: var(--color-text-tertiary); }
+.script-cat.active .cat-count { background: rgba(15,15,26,0.2); color: var(--color-text-on-gold); }
+
+.scripts-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md); }
+
+.script-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; transition: all 0.2s ease; cursor: pointer; display: flex; flex-direction: column; }
+.script-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--color-border-strong); }
+
+.script-card-top { padding: var(--space-lg) var(--space-lg) var(--space-md); flex: 1; }
+.script-card-top .script-tag { display: inline-block; padding: 2px 10px; border-radius: 3px; font-size: 11px; font-weight: 500; margin-bottom: var(--space-sm); }
+.script-tag.initial { background: rgba(59,130,246,0.15); color: var(--color-tier-blue); }
+.script-tag.objection { background: rgba(245,158,11,0.15); color: var(--color-warning); }
+.script-tag.closing { background: rgba(34,197,94,0.15); color: var(--color-success); }
+.script-tag.followup { background: rgba(168,85,247,0.15); color: var(--color-tier-purple); }
+.script-tag.upgrade { background: rgba(212,168,83,0.15); color: var(--color-gold); }
+
+.script-card-top h4 { font-size: 16px; font-weight: 600; margin-bottom: var(--space-2xs); }
+.script-card-top .script-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: var(--space-sm); }
+.script-card-top .script-preview { font-size: 13px; color: var(--color-text-tertiary); line-height: 1.6; padding: var(--space-sm); background: var(--color-surface-elevated); border-radius: var(--radius-md); border-left: 2px solid var(--color-divider); max-height: 72px; overflow: hidden; position: relative; }
+.script-card-top .script-preview::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 30px; background: linear-gradient(transparent, var(--color-surface-elevated)); }
+
+.script-card-bottom { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm) var(--space-lg); border-top: 1px solid var(--color-divider); background: var(--color-surface-hover); }
+.script-card-bottom .script-meta { font-size: 12px; color: var(--color-text-tertiary); display: flex; align-items: center; gap: var(--space-md); }
+.script-card-bottom .script-meta i { margin-right: 3px; }
+.script-card-bottom .script-actions { margin-left: auto; display: flex; gap: var(--space-xs); }
+.script-btn-sm { width: 32px; height: 32px; border-radius: var(--radius-md); border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-tertiary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s; font-size: 14px; }
+.script-btn-sm:hover { background: var(--color-surface-hover); border-color: var(--color-border-strong); color: var(--color-gold); }
+.script-btn-sm.copied { background: var(--color-success); border-color: var(--color-success); color: #fff; }
+
+@media (max-width: 1200px) { .scripts-grid { grid-template-columns: 1fr; } }
+@media (max-width: 1024px) {
+  .sidebar { width: 64px; }
+  .sidebar-brand .brand-text, .nav-item span, .nav-section-title, .nav-item .nav-badge, .sidebar-footer .nav-item span, .user-info { display: none; }
+  .sidebar-brand { justify-content: center; padding: 0; }
+  .nav-item { justify-content: center; padding: 0; }
+  .nav-item.active::before { left: auto; right: 0; top: 0; transform: none; width: 3px; height: 100%; }
+  .nav-item i { width: auto; }
+  .sidebar-footer .nav-item { justify-content: center; padding: 0; }
+  .nav-item.user-item { justify-content: center; }
+  .main-content { margin-left: 64px; }
+}
+@media (max-width: 768px) {
+  .content-area { padding: var(--space-md); }
+  .scripts-header { flex-direction: column; align-items: stretch; }
+  .scripts-search { max-width: none; }
+  .topbar-date { display: none; }
+}
+@media (max-width: 480px) { .sidebar { width: 0; overflow: hidden; } .main-content { margin-left: 0; } }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="brand-icon">极</div><div class="brand-text"><span>极享</span>AI</div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">核心管理</div>
+        <a class="nav-item"><i class="fas fa-chart-pie"></i><span>数据驾驶舱</span></a>
+        <a class="nav-item"><i class="fas fa-th-large"></i><span>产品矩阵</span></a>
+        <a class="nav-item active"><i class="fas fa-handshake"></i><span>销售成交</span><span class="nav-badge">12</span></a>
+        <a class="nav-item"><i class="fas fa-user-tie"></i><span>招商代理</span></a>
+        <a class="nav-item"><i class="fas fa-bullhorn"></i><span>营销推广</span></a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">运营管理</div>
+        <a class="nav-item"><i class="fas fa-users"></i><span>客户管理</span></a>
+        <a class="nav-item"><i class="fas fa-file-invoice"></i><span>订单管理</span><span class="nav-badge info">5</span></a>
+        <a class="nav-item"><i class="fas fa-robot"></i><span>AI 智能体</span></a>
+        <a class="nav-item"><i class="fas fa-phone-alt"></i><span>呼叫中心</span></a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">系统</div>
+        <a class="nav-item"><i class="fas fa-cog"></i><span>系统设置</span></a>
+        <a class="nav-item"><i class="fas fa-file-alt"></i><span>操作日志</span></a>
+        <a class="nav-item"><i class="fas fa-question-circle"></i><span>帮助中心</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer"><div class="nav-item user-item"><div class="user-avatar">张</div><div class="user-info"><div class="user-name">张明远</div><div class="user-role">超级管理员</div></div><i class="fas fa-ellipsis-v" style="font-size:14px;"></i></div></div>
+  </aside>
+  <main class="main-content">
+    <header class="topbar">
+      <h1 class="topbar-title"><span>话术</span>库</h1>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-date"><i class="far fa-calendar-alt" style="margin-right:6px;"></i>2025年7月15日 周三</div>
+      <div class="topbar-actions">
+        <button class="topbar-btn" title="通知"><i class="far fa-bell"></i></button>
+        <button class="topbar-btn" title="添加话术"><i class="fas fa-plus"></i></button>
+        <div class="topbar-avatar">张</div>
+      </div>
+    </header>
+    <div class="content-area">
+      <div class="scripts-header">
+        <div class="scripts-search"><input type="text" placeholder="搜索话术..." /><i class="fas fa-search"></i></div>
+        <div class="scripts-stats">共 <span>24</span> 条话术 · <span>5</span> 个分类</div>
+      </div>
+      <div class="script-categories">
+        <button class="script-cat active">全部 <span class="cat-count">24</span></button>
+        <button class="script-cat">初次接触 <span class="cat-count">5</span></button>
+        <button class="script-cat">异议处理 <span class="cat-count">7</span></button>
+        <button class="script-cat">促单成交 <span class="cat-count">4</span></button>
+        <button class="script-cat">售后跟进 <span class="cat-count">5</span></button>
+        <button class="script-cat">升单升级 <span class="cat-count">3</span></button>
+      </div>
+      <div class="scripts-grid">
+        <div class="script-card">
+          <div class="script-card-top">
+            <span class="script-tag initial">初次接触</span>
+            <h4>开场白 · 短视频获客场景</h4>
+            <div class="script-desc">用于抖音/快手评论区或私信初次触达潜在客户</div>
+            <div class="script-preview">"您好，我是极享AI 官方顾问。注意到您在短视频方面很有内容产出需求，我们刚刚上线了一套 AI 口播系统，可以帮助您..."</div>
+          </div>
+          <div class="script-card-bottom">
+            <div class="script-meta"><i class="far fa-clock"></i> 30秒 · <i class="far fa-thumbs-up"></i> 89% 转化</div>
+            <div class="script-actions">
+              <button class="script-btn-sm" title="预览"><i class="fas fa-eye"></i></button>
+              <button class="script-btn-sm" title="复制话术"><i class="fas fa-copy"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="script-card">
+          <div class="script-card-top">
+            <span class="script-tag objection">异议处理</span>
+            <h4>价格异议 · "太贵了" 应对</h4>
+            <div class="script-desc">当客户认为 899 标准版定价过高时的标准回应</div>
+            <div class="script-preview">"理解您的顾虑。其实我们的 899 标准版年费折算到每天大约 35 元，而一套 AI 口播系统每天可以帮您生成至少 20 条口播内容..."</div>
+          </div>
+          <div class="script-card-bottom">
+            <div class="script-meta"><i class="far fa-clock"></i> 45秒 · <i class="far fa-thumbs-up"></i> 76% 转化</div>
+            <div class="script-actions">
+              <button class="script-btn-sm" title="预览"><i class="fas fa-eye"></i></button>
+              <button class="script-btn-sm" title="复制话术"><i class="fas fa-copy"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="script-card">
+          <div class="script-card-top">
+            <span class="script-tag objection">异议处理</span>
+            <h4>竞品对比 · "别家更便宜" 应对</h4>
+            <div class="script-desc">客户提到竞品价格更低时的差异化话术</div>
+            <div class="script-preview">"我理解您关注性价比。我们做过详细对比，虽然竞品的入门价格更低，但我们的 899 标准版包含了 AI 脚本生成、客户管理和多平台支持三大核心模块..."</div>
+          </div>
+          <div class="script-card-bottom">
+            <div class="script-meta"><i class="far fa-clock"></i> 50秒 · <i class="far fa-thumbs-up"></i> 82% 转化</div>
+            <div class="script-actions">
+              <button class="script-btn-sm" title="预览"><i class="fas fa-eye"></i></button>
+              <button class="script-btn-sm" title="复制话术"><i class="fas fa-copy"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="script-card">
+          <div class="script-card-top">
+            <span class="script-tag closing">促单成交</span>
+            <h4>限时优惠 · 促成首单</h4>
+            <div class="script-desc">配合限时优惠政策使用的促单话术</div>
+            <div class="script-preview">"本周内签约可享受以下专属权益：免去首年服务费、赠送 AI 口播模板包、一对一运营指导。这些政策仅限本周新签客户..."</div>
+          </div>
+          <div class="script-card-bottom">
+            <div class="script-meta"><i class="far fa-clock"></i> 40秒 · <i class="far fa-thumbs-up"></i> 91% 转化</div>
+            <div class="script-actions">
+              <button class="script-btn-sm" title="预览"><i class="fas fa-eye"></i></button>
+              <button class="script-btn-sm" title="复制话术"><i class="fas fa-copy"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="script-card">
+          <div class="script-card-top">
+            <span class="script-tag followup">售后跟进</span>
+            <h4>激活回访 · 沉睡客户唤醒</h4>
+            <div class="script-desc">对已注册但未活跃使用的客户进行回访激活</div>
+            <div class="script-preview">"王总您好，看到您注册极享AI 后还没有开始使用。我们最近上线了全新的 AI 口播模板库，特别适合您的行业，我花 5 分钟帮您演示一下..."</div>
+          </div>
+          <div class="script-card-bottom">
+            <div class="script-meta"><i class="far fa-clock"></i> 60秒 · <i class="far fa-thumbs-up"></i> 68% 激活</div>
+            <div class="script-actions">
+              <button class="script-btn-sm" title="预览"><i class="fas fa-eye"></i></button>
+              <button class="script-btn-sm" title="复制话术"><i class="fas fa-copy"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="script-card">
+          <div class="script-card-top">
+            <span class="script-tag upgrade">升单升级</span>
+            <h4>从标准版到代理版的升单推荐</h4>
+            <div class="script-desc">对使用 899 标准版 3 个月以上的老客户进行升单</div>
+            <div class="script-preview">"李总，您使用我们的 899 标准版已经 3 个月了，效果很不错吧？根据您的业务增长情况，我建议您了解一下代理版。它支持多客户池管理..."</div>
+          </div>
+          <div class="script-card-bottom">
+            <div class="script-meta"><i class="far fa-clock"></i> 55秒 · <i class="far fa-thumbs-up"></i> 73% 升单</div>
+            <div class="script-actions">
+              <button class="script-btn-sm" title="预览"><i class="fas fa-eye"></i></button>
+              <button class="script-btn-sm" title="复制话术"><i class="fas fa-copy"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+document.querySelectorAll('.script-cat').forEach(el => {
+  el.addEventListener('click', function() { document.querySelectorAll('.script-cat').forEach(c => c.classList.remove('active')); this.classList.add('active'); });
+});
+document.querySelectorAll('.script-btn-sm[title="复制话术"]').forEach(el => {
+  el.addEventListener('click', function(e) { e.stopPropagation(); this.classList.add('copied'); this.innerHTML = '<i class="fas fa-check"></i>'; setTimeout(() => { this.classList.remove('copied'); this.innerHTML = '<i class="fas fa-copy"></i>'; }, 1500); });
+});
+document.querySelectorAll('.script-card').forEach(el => {
+  el.addEventListener('click', function() { this.style.borderColor = 'var(--color-border-gold)'; setTimeout(() => { this.style.borderColor = ''; }, 600); });
+});
+</script>
+</body>
+</html>

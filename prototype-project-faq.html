@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<!--
+  Design System: 极享AI口播智能体 (JIXIANG-AI)
+  Template: web-prototype (FAQ 手风琴式)
+  File: prototype-project-faq.html — FAQ 管理
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极享AI — FAQ 管理</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* ============================================================
+   1. Design Tokens
+   ============================================================ */
+:root {
+  --color-bg-primary: #0F0F1A; --color-bg-secondary: #1A1A2E; --color-surface: #1E1E32;
+  --color-surface-hover: #252540; --color-surface-elevated: #2A2A3C;
+  --color-gold: #D4A853; --color-gold-hover: #E0B96A; --color-gold-active: #C49A42;
+  --color-gold-muted: rgba(212,168,83,0.2); --color-gold-subtle: rgba(212,168,83,0.08);
+  --color-text-primary: #F5F5F7; --color-text-secondary: #A0A0B8; --color-text-tertiary: #6B6B82;
+  --color-text-on-gold: #0F0F1A;
+  --color-border: #2E2E44; --color-border-strong: #3D3D58; --color-border-gold: rgba(212,168,83,0.25);
+  --color-divider: #2A2A40;
+  --color-success: #22C55E; --color-warning: #F59E0B; --color-danger: #EF4444; --color-info: #3B82F6;
+  --color-tier-blue: #3B82F6; --color-tier-green: #22C55E; --color-tier-purple: #A855F7; --color-tier-gold: #F59E0B;
+  --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 20px;
+  --space-xl: 24px; --space-2xl: 32px; --space-3xl: 48px;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  --font-metric: 'Inter', 'SF Pro Display', sans-serif;
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-xl: 16px; --radius-pill: 20px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3); --shadow-md: 0 4px 12px rgba(0,0,0,0.35);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.4); --shadow-xl: 0 25px 50px rgba(0,0,0,0.5);
+  --shadow-gold: 0 0 12px rgba(212,168,83,0.2);
+}
+
+/* ============================================================
+   2. Reset & Base
+   ============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body {
+  font-family: var(--font-sans); background: var(--color-bg-primary);
+  color: var(--color-text-primary); line-height: 1.6; min-height: 100vh;
+}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-tertiary); }
+
+/* ============================================================
+   3. Layout
+   ============================================================ */
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar {
+  width: 240px; min-height: 100vh; background: var(--color-bg-secondary);
+  border-right: 1px solid var(--color-border); display: flex; flex-direction: column;
+  position: fixed; left: 0; top: 0; bottom: 0; z-index: 100;
+}
+.sidebar-brand { height: 64px; display: flex; align-items: center; padding: 0 var(--space-lg); border-bottom: 1px solid var(--color-divider); gap: var(--space-sm); flex-shrink: 0; }
+.sidebar-brand .brand-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--color-gold), var(--color-gold-hover)); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--color-text-on-gold); font-weight: 700; flex-shrink: 0; }
+.sidebar-brand .brand-text { font-size: 16px; font-weight: 600; color: var(--color-text-primary); letter-spacing: -0.01em; }
+.sidebar-brand .brand-text span { color: var(--color-gold); }
+.sidebar-nav { flex: 1; padding: var(--space-md) var(--space-sm); overflow-y: auto; }
+.nav-section { margin-bottom: var(--space-xl); }
+.nav-section-title { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.06em; padding: 0 var(--space-sm); margin-bottom: var(--space-xs); }
+.nav-item { display: flex; align-items: center; height: 44px; padding: 0 var(--space-sm) 0 var(--space-md); border-radius: var(--radius-md); color: var(--color-text-secondary); text-decoration: none; font-size: 14px; font-weight: 400; cursor: pointer; transition: all 0.15s ease; gap: var(--space-sm); position: relative; }
+.nav-item i { width: 20px; text-align: center; font-size: 15px; color: var(--color-text-tertiary); transition: color 0.15s ease; }
+.nav-item:hover { background: var(--color-surface-hover); color: var(--color-text-primary); }
+.nav-item:hover i { color: var(--color-text-secondary); }
+.nav-item.active { background: var(--color-gold-subtle); color: var(--color-gold); font-weight: 500; }
+.nav-item.active::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 20px; background: var(--color-gold); border-radius: 0 2px 2px 0; }
+.nav-item.active i { color: var(--color-gold); }
+.nav-item .nav-badge { margin-left: auto; background: var(--color-danger); color: #fff; font-size: 11px; font-weight: 600; padding: 0 6px; height: 18px; line-height: 18px; border-radius: 9px; min-width: 18px; text-align: center; }
+.nav-item .nav-badge.info { background: var(--color-info); }
+.sidebar-footer { padding: var(--space-md) var(--space-sm); border-top: 1px solid var(--color-divider); flex-shrink: 0; }
+.nav-item.user-item { height: 48px; padding: var(--space-xs) var(--space-sm); }
+.user-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--color-gold), var(--color-tier-purple)); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--color-text-on-gold); flex-shrink: 0; }
+.user-info { flex: 1; min-width: 0; }
+.user-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); line-height: 1.2; }
+.user-role { font-size: 11px; color: var(--color-text-tertiary); line-height: 1.2; }
+
+/* Main Content */
+.main-content { flex: 1; margin-left: 240px; min-height: 100vh; display: flex; flex-direction: column; }
+
+/* Top Bar */
+.topbar { height: 64px; background: var(--color-bg-secondary); border-bottom: 1px solid var(--color-border); display: flex; align-items: center; padding: 0 var(--space-xl); gap: var(--space-md); position: sticky; top: 0; z-index: 50; }
+.topbar-title { font-size: 18px; font-weight: 600; color: var(--color-text-primary); letter-spacing: -0.01em; }
+.topbar-title span { color: var(--color-gold); }
+.topbar-spacer { flex: 1; }
+.topbar-date { font-size: 13px; color: var(--color-text-tertiary); }
+.topbar-actions { display: flex; align-items: center; gap: var(--space-xs); }
+.topbar-btn { width: 36px; height: 36px; border-radius: var(--radius-md); border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-secondary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease; font-size: 16px; }
+.topbar-btn:hover { background: var(--color-surface-hover); border-color: var(--color-border-strong); color: var(--color-text-primary); }
+.topbar-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-gold), var(--color-tier-blue)); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: var(--color-text-on-gold); cursor: pointer; margin-left: var(--space-xs); }
+
+/* Content Area */
+.content-area { padding: var(--space-xl); flex: 1; display: flex; flex-direction: column; gap: var(--space-lg); max-width: 1440px; width: 100%; margin: 0 auto; }
+
+/* ============================================================
+   4. Search & Filter
+   ============================================================ */
+.faq-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.faq-search {
+  position: relative;
+  flex: 1;
+  max-width: 420px;
+}
+
+.faq-search input {
+  width: 100%;
+  height: 40px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0 40px 0 14px;
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: all 0.15s;
+}
+
+.faq-search input::placeholder { color: var(--color-text-tertiary); }
+
+.faq-search input:focus {
+  border-color: var(--color-border-gold);
+  box-shadow: 0 0 0 2px var(--color-gold-muted);
+}
+
+.faq-search i {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-tertiary);
+  font-size: 14px;
+}
+
+.faq-stats {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+}
+
+.faq-stats span { color: var(--color-text-secondary); font-weight: 500; }
+
+/* Category Filters */
+.faq-categories {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.faq-cat {
+  padding: 6px 16px;
+  height: 32px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-elevated);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.faq-cat:hover { border-color: var(--color-border-gold); color: var(--color-text-primary); }
+
+.faq-cat.active {
+  background: var(--color-gold);
+  color: var(--color-text-on-gold);
+  border-color: var(--color-gold);
+  font-weight: 500;
+}
+
+.faq-cat .cat-count {
+  font-size: 11px;
+  background: var(--color-surface);
+  padding: 0 6px;
+  height: 16px;
+  line-height: 16px;
+  border-radius: 8px;
+  color: var(--color-text-tertiary);
+}
+
+.faq-cat.active .cat-count {
+  background: rgba(15,15,26,0.2);
+  color: var(--color-text-on-gold);
+}
+
+/* ============================================================
+   5. Accordion FAQ
+   ============================================================ */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.faq-item {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.faq-item:hover { border-color: var(--color-border-strong); }
+
+.faq-item.open { border-color: var(--color-border-gold); }
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.faq-question:hover { background: var(--color-surface-hover); }
+
+.faq-q-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-gold-muted);
+  color: var(--color-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.faq-q-text {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
+.faq-q-toggle {
+  font-size: 14px;
+  color: var(--color-text-tertiary);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.faq-item.open .faq-q-toggle {
+  transform: rotate(180deg);
+  color: var(--color-gold);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  padding: 0 var(--space-lg);
+}
+
+.faq-item.open .faq-answer {
+  max-height: 400px;
+  padding: 0 var(--space-lg) var(--space-lg);
+}
+
+.faq-a-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-surface-elevated);
+  color: var(--color-success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+  float: left;
+  margin-right: var(--space-sm);
+}
+
+.faq-answer p {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  margin-left: 40px;
+}
+
+.faq-answer .faq-tags {
+  display: flex;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+  margin-left: 40px;
+}
+
+.faq-answer .faq-tag {
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 500;
+  background: var(--color-surface-elevated);
+  color: var(--color-text-tertiary);
+  border: 1px solid var(--color-border);
+}
+
+/* ============================================================
+   6. Add FAQ CTA
+   ============================================================ */
+.faq-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.faq-actions:hover {
+  border-color: var(--color-border-gold);
+  background: var(--color-surface-hover);
+}
+
+.faq-actions i {
+  font-size: 20px;
+  color: var(--color-gold);
+}
+
+.faq-actions span {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+/* ============================================================
+   7. Responsive
+   ============================================================ */
+@media (max-width: 1024px) {
+  .sidebar { width: 64px; }
+  .sidebar-brand .brand-text, .nav-item span, .nav-section-title,
+  .nav-item .nav-badge, .sidebar-footer .nav-item span, .user-info { display: none; }
+  .sidebar-brand { justify-content: center; padding: 0; }
+  .nav-item { justify-content: center; padding: 0; }
+  .nav-item.active::before { left: auto; right: 0; top: 0; transform: none; width: 3px; height: 100%; }
+  .nav-item i { width: auto; }
+  .sidebar-footer .nav-item { justify-content: center; padding: 0; }
+  .nav-item.user-item { justify-content: center; }
+  .main-content { margin-left: 64px; }
+}
+
+@media (max-width: 768px) {
+  .content-area { padding: var(--space-md); }
+  .faq-toolbar { flex-direction: column; align-items: stretch; }
+  .faq-search { max-width: none; }
+  .faq-question { padding: var(--space-md); }
+  .topbar-date { display: none; }
+}
+
+@media (max-width: 480px) {
+  .sidebar { width: 0; overflow: hidden; }
+  .main-content { margin-left: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- ==========================================================
+       Sidebar
+  ========================================================== -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">极</div>
+      <div class="brand-text"><span>极享</span>AI</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">核心管理</div>
+        <a class="nav-item"><i class="fas fa-chart-pie"></i><span>数据驾驶舱</span></a>
+        <a class="nav-item active"><i class="fas fa-th-large"></i><span>产品矩阵</span></a>
+        <a class="nav-item"><i class="fas fa-handshake"></i><span>销售成交</span><span class="nav-badge">12</span></a>
+        <a class="nav-item"><i class="fas fa-user-tie"></i><span>招商代理</span></a>
+        <a class="nav-item"><i class="fas fa-bullhorn"></i><span>营销推广</span></a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">运营管理</div>
+        <a class="nav-item"><i class="fas fa-users"></i><span>客户管理</span></a>
+        <a class="nav-item"><i class="fas fa-file-invoice"></i><span>订单管理</span><span class="nav-badge info">5</span></a>
+        <a class="nav-item"><i class="fas fa-robot"></i><span>AI 智能体</span></a>
+        <a class="nav-item"><i class="fas fa-phone-alt"></i><span>呼叫中心</span></a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">系统</div>
+        <a class="nav-item"><i class="fas fa-cog"></i><span>系统设置</span></a>
+        <a class="nav-item"><i class="fas fa-file-alt"></i><span>操作日志</span></a>
+        <a class="nav-item"><i class="fas fa-question-circle"></i><span>帮助中心</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="nav-item user-item">
+        <div class="user-avatar">张</div>
+        <div class="user-info"><div class="user-name">张明远</div><div class="user-role">超级管理员</div></div>
+        <i class="fas fa-ellipsis-v" style="font-size:14px;"></i>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==========================================================
+       Main Content
+  ========================================================== -->
+  <main class="main-content">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <h1 class="topbar-title"><span>FAQ</span> 管理</h1>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-date"><i class="far fa-calendar-alt" style="margin-right:6px;"></i>2025年7月15日 周三</div>
+      <div class="topbar-actions">
+        <button class="topbar-btn" title="通知"><i class="far fa-bell"></i></button>
+        <button class="topbar-btn" title="添加"><i class="fas fa-plus"></i></button>
+        <div class="topbar-avatar">张</div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="content-area">
+
+      <!-- Search & Stats -->
+      <div class="faq-toolbar">
+        <div class="faq-search">
+          <input type="text" placeholder="搜索常见问题..." />
+          <i class="fas fa-search"></i>
+        </div>
+        <div class="faq-stats">共 <span>36</span> 条 FAQ · <span>8</span> 个分类</div>
+      </div>
+
+      <!-- Category Filters -->
+      <div class="faq-categories">
+        <button class="faq-cat active">全部 <span class="cat-count">36</span></button>
+        <button class="faq-cat">产品功能 <span class="cat-count">8</span></button>
+        <button class="faq-cat">定价与付款 <span class="cat-count">6</span></button>
+        <button class="faq-cat">账号与权限 <span class="cat-count">5</span></button>
+        <button class="faq-cat">技术对接 <span class="cat-count">7</span></button>
+        <button class="faq-cat">代理合作 <span class="cat-count">4</span></button>
+        <button class="faq-cat">售后服务 <span class="cat-count">3</span></button>
+        <button class="faq-cat">常见报错 <span class="cat-count">3</span></button>
+      </div>
+
+      <!-- FAQ List -->
+      <div class="faq-list">
+
+        <div class="faq-item open">
+          <div class="faq-question">
+            <div class="faq-q-icon">Q</div>
+            <div class="faq-q-text">极享AI 支持哪些平台的口播内容生成？</div>
+            <i class="fas fa-chevron-down faq-q-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-a-icon">A</div>
+            <p>目前支持抖音、快手、视频号、小红书、B站、淘宝直播等主流短视频和直播平台。
+            系统会根据不同平台的算法偏好和内容风格，自动优化口播文案的语速、时长和关键词密度。
+            同时支持多账号统一管理和内容排期发布。</p>
+            <div class="faq-tags">
+              <span class="faq-tag">平台支持</span>
+              <span class="faq-tag">内容生成</span>
+              <span class="faq-tag">多账号</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <div class="faq-q-icon">Q</div>
+            <div class="faq-q-text">899 标准版和代理版的主要区别是什么？</div>
+            <i class="fas fa-chevron-down faq-q-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-a-icon">A</div>
+            <p>899 标准版面向个人创业者和单账号运营团队，提供基础的 AI 口播脚本生成和客户管理功能。
+            代理版则面向代理商和渠道伙伴，支持多客户池管理、分佣结算系统和团队协作空间。
+            简单来说，代理版是 899 的全功能升级版，增加了商业赋能工具。</p>
+            <div class="faq-tags">
+              <span class="faq-tag">产品对比</span>
+              <span class="faq-tag">版本升级</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <div class="faq-q-icon">Q</div>
+            <div class="faq-q-text">如何申请成为极享AI的代理商？</div>
+            <i class="fas fa-chevron-down faq-q-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-a-icon">A</div>
+            <p>您可以通过以下方式申请成为代理商：1）在官网「招商代理」页面提交申请表单；
+            2）拨打招商热线 400-xxx-xxxx 联系渠道经理；3）通过已合作的代理商进行推荐。
+            审核周期一般为 3-5 个工作日，通过后享受专属渠道政策、培训体系和市场推广支持。</p>
+            <div class="faq-tags">
+              <span class="faq-tag">代理申请</span>
+              <span class="faq-tag">渠道合作</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <div class="faq-q-icon">Q</div>
+            <div class="faq-q-text">AI 生成的脚本内容是否涉及版权问题？</div>
+            <i class="fas fa-chevron-down faq-q-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-a-icon">A</div>
+            <p>极享AI 的大模型基于合法授权的训练数据，生成的脚本内容为原创输出，版权归属于使用方。
+            系统内置敏感词检测和合规审核机制，避免生成侵权或违规内容。
+            建议用户在发布前根据平台规则进行二次审校，确保内容合规。</p>
+            <div class="faq-tags">
+              <span class="faq-tag">版权</span>
+              <span class="faq-tag">合规</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <div class="faq-q-icon">Q</div>
+            <div class="faq-q-text">贴牌版支持哪些品牌定制功能？</div>
+            <i class="fas fa-chevron-down faq-q-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-a-icon">A</div>
+            <p>贴牌版提供完整的品牌定制能力，包括：自定义品牌 Logo、品牌色系、域名绑定、
+            自有品牌 UI 界面、品牌水印、定制化短信/邮件通知模板等。
+            同时也支持 API 接口定制和功能模块的按需裁剪，满足不同场景的个性化需求。</p>
+            <div class="faq-tags">
+              <span class="faq-tag">贴牌定制</span>
+              <span class="faq-tag">品牌</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <div class="faq-q-icon">Q</div>
+            <div class="faq-q-text">如何导出客户数据和订单记录？</div>
+            <i class="fas fa-chevron-down faq-q-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-a-icon">A</div>
+            <p>在客户管理和订单管理模块中，均提供数据导出功能。支持导出格式包括：Excel（.xlsx）、
+            CSV（.csv）和 PDF 报表。您可以选择导出的字段范围和时间区间，导出结果将通过邮件发送
+            或在页面直接下载。高级版本支持自动化定期导出和 API 数据接口对接。</p>
+            <div class="faq-tags">
+              <span class="faq-tag">数据导出</span>
+              <span class="faq-tag">报表</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <div class="faq-q-icon">Q</div>
+            <div class="faq-q-text">AI 数字人播报需要额外付费吗？</div>
+            <i class="fas fa-chevron-down faq-q-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-a-icon">A</div>
+            <p>数字人播报功能根据版本不同有所差异。899 标准版不含数字人功能；
+            代理版包含标准版数字人播报（基于模板形象）；贴牌版及以上版本支持自定义数字人形象克隆，
+            提供更丰富的表情动作和场景适配。具体价格请参考产品矩阵中心的对比表。</p>
+            <div class="faq-tags">
+              <span class="faq-tag">数字人</span>
+              <span class="faq-tag">付费</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Add FAQ -->
+      <div class="faq-actions">
+        <i class="fas fa-plus-circle"></i>
+        <span>添加新 FAQ</span>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+// Accordion toggle
+document.querySelectorAll('.faq-question').forEach(el => {
+  el.addEventListener('click', function() {
+    const item = this.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    // Close all others
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+// Category filter toggle
+document.querySelectorAll('.faq-cat').forEach(el => {
+  el.addEventListener('click', function() {
+    document.querySelectorAll('.faq-cat').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// Add FAQ click effect
+document.querySelector('.faq-actions').addEventListener('click', function() {
+  this.style.borderColor = 'var(--color-gold)';
+  this.style.background = 'var(--color-gold-subtle)';
+  setTimeout(() => {
+    this.style.borderColor = '';
+    this.style.background = '';
+  }, 800);
+});
+</script>
+
+</body>
+</html>

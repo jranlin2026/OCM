@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<!--
+  Design System: 极享AI口播智能体 (JIXIANG-AI)
+  Template: dashboard-custom
+  File: prototype-delivery-acceptance.html — 交付验收
+  Module: 9 - 交付服务中心
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极享AI — 交付验收</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+  --color-bg-primary: #0F0F1A; --color-bg-secondary: #1A1A2E; --color-surface: #1E1E32;
+  --color-surface-hover: #252540; --color-surface-elevated: #2A2A3C;
+  --color-gold: #D4A853; --color-gold-hover: #E0B96A; --color-gold-active: #C49A42;
+  --color-gold-muted: rgba(212,168,83,0.2); --color-gold-subtle: rgba(212,168,83,0.08);
+  --color-text-primary: #F5F5F7; --color-text-secondary: #A0A0B8; --color-text-tertiary: #6B6B82;
+  --color-text-on-gold: #0F0F1A;
+  --color-border: #2E2E44; --color-border-strong: #3D3D58; --color-border-gold: rgba(212,168,83,0.25);
+  --color-divider: #2A2A40;
+  --color-success: #22C55E; --color-warning: #F59E0B; --color-danger: #EF4444; --color-info: #3B82F6;
+  --color-tier-blue: #3B82F6; --color-tier-green: #22C55E; --color-tier-purple: #A855F7; --color-tier-gold: #F59E0B;
+  --space-2xs:4px;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:20px;--space-xl:24px;--space-2xl:32px;
+  --font-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --radius-sm:4px;--radius-md:8px;--radius-lg:12px;--radius-xl:16px;--radius-pill:20px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.3);--shadow-md:0 4px 12px rgba(0,0,0,.35);--shadow-lg:0 8px 24px rgba(0,0,0,.4);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:16px;-webkit-font-smoothing:antialiased;}
+body{font-family:var(--font-body);background:var(--color-bg-primary);color:var(--color-text-primary);line-height:1.6;min-height:100vh;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--color-border-strong);border-radius:3px;}
+.layout{display:flex;min-height:100vh;}
+.sidebar{width:240px;min-height:100vh;background:var(--color-bg-secondary);border-right:1px solid var(--color-border);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:100;}
+.sidebar-brand{height:64px;display:flex;align-items:center;padding:0 var(--space-lg);border-bottom:1px solid var(--color-divider);gap:var(--space-sm);flex-shrink:0;}
+.sidebar-brand .brand-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--color-gold),var(--color-gold-hover));border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--color-text-on-gold);font-weight:700;flex-shrink:0;}
+.sidebar-brand .brand-text{font-size:16px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.01em;}
+.sidebar-brand .brand-text span{color:var(--color-gold);}
+.sidebar-nav{flex:1;padding:var(--space-md) var(--space-sm);overflow-y:auto;}
+.nav-section{margin-bottom:var(--space-xl);}
+.nav-section-title{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.06em;padding:0 var(--space-sm);margin-bottom:var(--space-xs);}
+.nav-item{display:flex;align-items:center;height:44px;padding:0 var(--space-sm) 0 var(--space-md);border-radius:var(--radius-md);color:var(--color-text-secondary);text-decoration:none;font-size:14px;font-weight:400;cursor:pointer;transition:all 0.15s ease;gap:var(--space-sm);position:relative;}
+.nav-item i{width:20px;text-align:center;font-size:15px;color:var(--color-text-tertiary);transition:color 0.15s ease;}
+.nav-item:hover{background:var(--color-surface-hover);color:var(--color-text-primary);}
+.nav-item:hover i{color:var(--color-text-secondary);}
+.nav-item.active{background:var(--color-gold-subtle);color:var(--color-gold);font-weight:500;}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:20px;background:var(--color-gold);border-radius:0 2px 2px 0;}
+.nav-item.active i{color:var(--color-gold);}
+.nav-item .nav-badge{margin-left:auto;background:var(--color-danger);color:#fff;font-size:11px;font-weight:600;padding:0 6px;height:18px;line-height:18px;border-radius:9px;min-width:18px;text-align:center;}
+.nav-item .nav-badge.info{background:var(--color-info);}
+.sidebar-footer{padding:var(--space-md) var(--space-sm);border-top:1px solid var(--color-divider);flex-shrink:0;}
+.nav-item.user-item{height:48px;padding:var(--space-xs) var(--space-sm);}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--color-gold),var(--color-tier-purple));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--color-text-on-gold);flex-shrink:0;}
+.user-info{flex:1;min-width:0;}
+.user-name{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.2;}
+.user-role{font-size:11px;color:var(--color-text-tertiary);line-height:1.2;}
+.main-content{flex:1;margin-left:240px;min-height:100vh;display:flex;flex-direction:column;}
+.topbar{height:64px;background:var(--color-bg-secondary);border-bottom:1px solid var(--color-border);display:flex;align-items:center;padding:0 var(--space-xl);gap:var(--space-md);position:sticky;top:0;z-index:50;}
+.topbar-title{font-size:18px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.01em;}
+.topbar-title span{color:var(--color-gold);}
+.topbar-spacer{flex:1;}
+.topbar-date{font-size:13px;color:var(--color-text-tertiary);}
+.topbar-actions{display:flex;align-items:center;gap:var(--space-xs);}
+.topbar-btn{width:36px;height:36px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s ease;font-size:16px;position:relative;}
+.topbar-btn:hover{background:var(--color-surface-hover);border-color:var(--color-border-strong);color:var(--color-text-primary);}
+.topbar-btn .dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--color-danger);border-radius:50%;border:2px solid var(--color-bg-secondary);}
+.topbar-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--color-gold),var(--color-tier-blue));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--color-text-on-gold);cursor:pointer;margin-left:var(--space-xs);}
+.content-area{padding:var(--space-xl);flex:1;display:flex;flex-direction:column;gap:var(--space-lg);max-width:1440px;width:100%;margin:0 auto;}
+/* Components */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-lg);}
+.section-header h2{font-size:20px;font-weight:600;}
+.section-header h2 span{color:var(--color-gold);}
+.btn{display:inline-flex;align-items:center;gap:var(--space-xs);padding:0 var(--space-lg);height:36px;border-radius:var(--radius-md);font-size:14px;font-weight:500;border:none;cursor:pointer;transition:all 0.15s ease;}
+.btn-primary{background:var(--color-gold);color:var(--color-text-on-gold);}
+.btn-primary:hover{background:var(--color-gold-hover);}
+.btn-secondary{background:var(--color-surface);color:var(--color-text-secondary);border:1px solid var(--color-border);}
+.btn-secondary:hover{background:var(--color-surface-hover);border-color:var(--color-border-strong);color:var(--color-text-primary);}
+.btn-success{background:var(--color-success);color:#fff;}
+.btn-success:hover{background:#16a34a;}
+.btn-danger{background:var(--color-danger);color:#fff;}
+.btn-danger:hover{background:#dc2626;}
+.btn-sm{height:30px;padding:0 var(--space-md);font-size:13px;}
+.tag{display:inline-flex;align-items:center;font-size:12px;font-weight:500;padding:2px 10px;border-radius:var(--radius-pill);}
+.tag-green{color:var(--color-tier-green);background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);}
+.tag-blue{color:var(--color-tier-blue);background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);}
+.tag-gold{color:var(--color-tier-gold);background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);}
+.tag-red{color:var(--color-danger);background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);}
+.tag-gray{color:var(--color-text-tertiary);background:var(--color-surface-hover);}
+.tabs-row{display:flex;gap:var(--space-2xs);border-bottom:1px solid var(--color-divider);margin-bottom:var(--space-xl);}
+.tab-item{padding:var(--space-sm) var(--space-lg);font-size:14px;color:var(--color-text-tertiary);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;margin-bottom:-1px;font-weight:500;}
+.tab-item:hover{color:var(--color-text-secondary);}
+.tab-item.active{color:var(--color-gold);border-bottom-color:var(--color-gold);}
+.tab-item .tab-count{margin-left:var(--space-xs);background:var(--color-surface-elevated);padding:0 6px;border-radius:var(--radius-sm);font-size:12px;color:var(--color-text-tertiary);}
+/* Stats bar */
+.status-bar{display:flex;gap:var(--space-md);margin-bottom:var(--space-lg);}
+.status-stat{flex:1;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-md) var(--space-lg);display:flex;align-items:center;gap:var(--space-md);}
+.status-stat .ss-icon{width:40px;height:40px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.status-stat .ss-icon.gold{background:var(--color-gold-muted);color:var(--color-gold);}
+.status-stat .ss-icon.green{background:rgba(34,197,94,0.12);color:var(--color-success);}
+.status-stat .ss-icon.blue{background:rgba(59,130,246,0.12);color:var(--color-info);}
+.status-stat .ss-icon.red{background:rgba(239,68,68,0.12);color:var(--color-danger);}
+.status-stat .ss-info{flex:1;}
+.status-stat .ss-label{font-size:12px;color:var(--color-text-tertiary);}
+.status-stat .ss-value{font-size:22px;font-weight:700;color:var(--color-text-primary);line-height:1.2;}
+/* Checklist */
+.checklist-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden;transition:all 0.2s;}
+.checklist-card:hover{border-color:var(--color-border-strong);box-shadow:var(--shadow-md);}
+.checklist-header{padding:var(--space-lg);border-bottom:1px solid var(--color-divider);display:flex;align-items:center;justify-content:space-between;}
+.checklist-header .cl-title{font-size:16px;font-weight:600;display:flex;align-items:center;gap:var(--space-sm);}
+.checklist-body{padding:var(--space-lg);}
+.checklist-item{display:flex;align-items:flex-start;gap:var(--space-sm);padding:var(--space-sm) 0;border-bottom:1px solid var(--color-divider);}
+.checklist-item:last-child{border-bottom:none;}
+.cl-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--color-border-strong);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;}
+.cl-check.checked{border-color:var(--color-success);background:var(--color-success);color:#fff;font-size:10px;}
+.cl-check.checked::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;}
+.cl-check.failed{border-color:var(--color-danger);background:rgba(239,68,68,0.15);color:var(--color-danger);}
+.cl-check.failed::after{content:'\f00d';font-family:'Font Awesome 6 Free';font-weight:900;}
+.cl-content{flex:1;}
+.cl-text{font-size:14px;color:var(--color-text-primary);font-weight:500;}
+.cl-desc{font-size:12px;color:var(--color-text-tertiary);margin-top:2px;}
+.cl-actions{display:flex;gap:var(--space-xs);margin-top:var(--space-sm);}
+.cl-action-btn{font-size:12px;padding:2px 10px;height:28px;border-radius:var(--radius-sm);border:none;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:var(--space-2xs);}
+.cl-action-btn.approve{background:rgba(34,197,94,0.15);color:var(--color-success);}
+.cl-action-btn.approve:hover{background:rgba(34,197,94,0.25);}
+.cl-action-btn.reject{background:rgba(239,68,68,0.15);color:var(--color-danger);}
+.cl-action-btn.reject:hover{background:rgba(239,68,68,0.25);}
+.cl-action-btn.neutral{background:var(--color-surface-elevated);color:var(--color-text-secondary);}
+.cl-action-btn.neutral:hover{background:var(--color-surface-hover);}
+.cl-note{display:flex;gap:var(--space-xs);margin-top:var(--space-xs);}
+.cl-note-input{flex:1;height:32px;padding:0 var(--space-sm);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-sm);color:var(--color-text-primary);font-size:12px;}
+.cl-note-input:focus{outline:none;border-color:var(--color-gold);}
+@media(max-width:1024px){
+  .sidebar{width:64px;}.sidebar-brand .brand-text,.nav-item span,.nav-section-title,.nav-item .nav-badge,.sidebar-footer .nav-item span,.user-info{display:none;}
+  .sidebar-brand{justify-content:center;padding:0;}.nav-item{justify-content:center;padding:0;}
+  .nav-item.active::before{left:auto;right:0;top:0;transform:none;width:3px;height:100%;}
+  .nav-item i{width:auto;}.sidebar-footer .nav-item{justify-content:center;padding:0;}
+  .nav-item.user-item{justify-content:center;}.main-content{margin-left:64px;}
+  .status-bar{flex-wrap:wrap;}.status-stat{flex:1 1 45%;}
+}
+@media(max-width:768px){.status-stat{flex:1 1 100%;}.topbar-date{display:none;}}
+@media(max-width:480px){.sidebar{width:0;overflow:hidden;}.main-content{margin-left:0;}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="brand-icon">极</div><div class="brand-text"><span>极享</span>AI</div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section"><div class="nav-section-title">核心管理</div>
+        <a class="nav-item"><i class="fas fa-chart-pie"></i><span>数据驾驶舱</span></a>
+        <a class="nav-item"><i class="fas fa-th-large"></i><span>产品矩阵</span></a>
+        <a class="nav-item"><i class="fas fa-handshake"></i><span>销售成交</span><span class="nav-badge">12</span></a>
+        <a class="nav-item"><i class="fas fa-user-tie"></i><span>招商代理</span></a>
+        <a class="nav-item"><i class="fas fa-bullhorn"></i><span>营销推广</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">运营管理</div>
+        <a class="nav-item"><i class="fas fa-users"></i><span>客户管理</span></a>
+        <a class="nav-item"><i class="fas fa-file-invoice"></i><span>订单管理</span><span class="nav-badge info">5</span></a>
+        <a class="nav-item active"><i class="fas fa-truck"></i><span>交付服务中心</span></a>
+        <a class="nav-item"><i class="fas fa-file-contract"></i><span>政策合同中心</span></a>
+        <a class="nav-item"><i class="fas fa-copyright"></i><span>品牌资产中心</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">数据与增长</div>
+        <a class="nav-item"><i class="fas fa-chart-line"></i><span>数据运营中心</span></a>
+        <a class="nav-item"><i class="fas fa-robot"></i><span>AI 智能体</span></a>
+        <a class="nav-item"><i class="fas fa-phone-alt"></i><span>呼叫中心</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">系统</div>
+        <a class="nav-item"><i class="fas fa-cog"></i><span>系统设置</span></a>
+        <a class="nav-item"><i class="fas fa-file-alt"></i><span>操作日志</span></a>
+        <a class="nav-item"><i class="fas fa-question-circle"></i><span>帮助中心</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer"><div class="nav-item user-item"><div class="user-avatar">张</div><div class="user-info"><div class="user-name">张明远</div><div class="user-role">超级管理员</div></div><i class="fas fa-ellipsis-v" style="font-size:14px;"></i></div></div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <h1 class="topbar-title"><span>交付</span>验收</h1>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-date"><i class="far fa-calendar-alt" style="margin-right:6px;"></i>2025年7月15日 周三</div>
+      <div class="topbar-actions">
+        <button class="topbar-btn" title="通知"><i class="far fa-bell"></i><span class="dot"></span></button>
+        <button class="topbar-btn" title="消息"><i class="far fa-envelope"></i></button>
+        <button class="topbar-btn" title="导出"><i class="fas fa-download"></i></button>
+        <div class="topbar-avatar">张</div>
+      </div>
+    </header>
+
+    <div class="content-area">
+      <div class="section-header">
+        <h2>验收 <span>检查清单</span></h2>
+        <div style="display:flex;gap:var(--space-sm);">
+          <button class="btn btn-secondary"><i class="fas fa-filter"></i>筛选</button>
+          <button class="btn btn-primary"><i class="fas fa-plus"></i>新建验收单</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <section class="status-bar">
+        <div class="status-stat">
+          <div class="ss-icon blue"><i class="fas fa-clock"></i></div>
+          <div class="ss-info"><div class="ss-label">待验收</div><div class="ss-value">8</div></div>
+        </div>
+        <div class="status-stat">
+          <div class="ss-icon green"><i class="fas fa-check-circle"></i></div>
+          <div class="ss-info"><div class="ss-label">已通过</div><div class="ss-value">24</div></div>
+        </div>
+        <div class="status-stat">
+          <div class="ss-icon red"><i class="fas fa-exclamation-circle"></i></div>
+          <div class="ss-info"><div class="ss-label">需整改</div><div class="ss-value">5</div></div>
+        </div>
+        <div class="status-stat">
+          <div class="ss-icon gold"><i class="fas fa-chart-line"></i></div>
+          <div class="ss-info"><div class="ss-label">验收通过率</div><div class="ss-value">82.8<span class="ss-label" style="font-size:14px;">%</span></div></div>
+        </div>
+      </section>
+
+      <!-- Tabs -->
+      <section class="tabs-row">
+        <div class="tab-item active">全部 <span class="tab-count">37</span></div>
+        <div class="tab-item">待验收 <span class="tab-count">8</span></div>
+        <div class="tab-item">已通过 <span class="tab-count">24</span></div>
+        <div class="tab-item">需整改 <span class="tab-count">5</span></div>
+      </section>
+
+      <!-- Checklist Cards -->
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-md);">
+
+        <!-- Card 1: 待验收 -->
+        <div class="checklist-card">
+          <div class="checklist-header">
+            <div class="cl-title"><i class="fas fa-robot" style="color:var(--color-tier-blue);"></i>AI 口播入门版 · 899</div>
+            <span class="tag tag-blue">待验收</span>
+          </div>
+          <div class="checklist-body">
+            <div class="checklist-item">
+              <div class="cl-check"></div>
+              <div class="cl-content">
+                <div class="cl-text">账号开通与基础配置</div>
+                <div class="cl-desc">平台账号创建、套餐激活、基础设置</div>
+              </div>
+            </div>
+            <div class="checklist-item">
+              <div class="cl-check checked"></div>
+              <div class="cl-content">
+                <div class="cl-text">AI 模型训练完成</div>
+                <div class="cl-desc">上传素材 ≥ 10条，训练完成并可用</div>
+              </div>
+            </div>
+            <div class="checklist-item">
+              <div class="cl-check"></div>
+              <div class="cl-content">
+                <div class="cl-text">测试视频输出</div>
+                <div class="cl-desc">生成 3 条测试视频，质量达标</div>
+              </div>
+            </div>
+            <div class="checklist-item">
+              <div class="cl-check"></div>
+              <div class="cl-content">
+                <div class="cl-text">客户确认签收</div>
+                <div class="cl-desc">客户已完成试用确认，无异议</div>
+                <div class="cl-actions">
+                  <button class="cl-action-btn approve"><i class="fas fa-check"></i>通过</button>
+                  <button class="cl-action-btn reject"><i class="fas fa-times"></i>整改</button>
+                  <button class="cl-action-btn neutral"><i class="fas fa-comment"></i>备注</button>
+                </div>
+                <div class="cl-note">
+                  <input class="cl-note-input" placeholder="添加验收备注..." value="客户反馈视频声音略有卡顿，需要优化">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: 已通过 -->
+        <div class="checklist-card">
+          <div class="checklist-header">
+            <div class="cl-title"><i class="fas fa-graduation-cap" style="color:var(--color-tier-purple);"></i>训练营全能型 · 7月班</div>
+            <span class="tag tag-green">已通过</span>
+          </div>
+          <div class="checklist-body">
+            <div class="checklist-item">
+              <div class="cl-check checked"></div>
+              <div class="cl-content"><div class="cl-text">课程内容交付</div><div class="cl-desc">14天课程全部完成，回放已上传</div></div>
+            </div>
+            <div class="checklist-item">
+              <div class="cl-check checked"></div>
+              <div class="cl-content"><div class="cl-text">学员作业批改</div><div class="cl-desc">全部学员作业已批改反馈</div></div>
+            </div>
+            <div class="checklist-item">
+              <div class="cl-check checked"></div>
+              <div class="cl-content"><div class="cl-text">结营证书发放</div><div class="cl-desc">通过学员已发放电子结业证书</div></div>
+            </div>
+            <div class="checklist-item">
+              <div class="cl-check checked"></div>
+              <div class="cl-content"><div class="cl-text">客户满意度</div><div class="cl-desc">满意度评分 4.8/5.0，已确认签收</div>
+                <div class="cl-actions" style="margin-top:var(--space-xs);">
+                  <span style="font-size:12px;color:var(--color-text-tertiary);">2025-07-14 由 王丽华 验收</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: 需整改 -->
+        <div class="checklist-card">
+          <div class="checklist-header">
+            <div class="cl-title"><i class="fas fa-building" style="color:var(--color-tier-gold);"></i>B 端企业定制 · 华创教育</div>
+            <span class="tag tag-red">需整改</span>
+          </div>
+          <div class="checklist-body">
+            <div class="checklist-item">
+              <div class="cl-check checked"></div>
+              <div class="cl-content"><div class="cl-text">私有化部署完成</div><div class="cl-desc">服务器部署、环境配置、域名绑定</div></div>
+            </div>
+            <div class="checklist-item">
+              <div class="cl-check checked"></div>
+              <div class="cl-content"><div class="cl-text">API 对接完成</div><div class="cl-desc">与客户 CRM 系统完成接口联调</div></div>
+            </div>
+            <div class="checklist-item">
+              <div class="cl-check failed"></div>
+              <div class="cl-content"><div class="cl-text">企业培训完成</div><div class="cl-desc">管理员培训、操作手册交付</div>
+                <div class="cl-actions">
+                  <button class="cl-action-btn reject" style="background:rgba(239,68,68,0.15);color:var(--color-danger);"><i class="fas fa-exclamation"></i>未达标</button>
+                </div>
+                <div class="cl-note">
+                  <input class="cl-note-input" value="培训到场率仅60%，需安排补训" style="color:var(--color-danger);">
+                </div>
+              </div>
+            </div>
+            <div class="checklist-item">
+              <div class="cl-check failed"></div>
+              <div class="cl-content"><div class="cl-text">验收文档签收</div><div class="cl-desc">验收报告、SLA 协议签署</div>
+                <div class="cl-actions">
+                  <button class="cl-action-btn neutral"><i class="fas fa-redo"></i>重新提交</button>
+                  <button class="cl-action-btn reject" style="background:rgba(239,68,68,0.15);color:var(--color-danger);"><i class="fas fa-times"></i>驳回</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: 待验收 -->
+        <div class="checklist-card">
+          <div class="checklist-header">
+            <div class="cl-title"><i class="fas fa-video" style="color:var(--color-tier-green);"></i>AI 短视频入门 · 星火传媒</div>
+            <span class="tag tag-blue">待验收</span>
+          </div>
+          <div class="checklist-body">
+            <div class="checklist-item">
+              <div class="cl-check checked"></div>
+              <div class="cl-content"><div class="cl-text">账号授权完成</div><div class="cl-desc">抖音账号绑定、授权已生效</div></div>
+            </div>
+            <div class="checklist-item">
+              <div class="cl-check"></div>
+              <div class="cl-content"><div class="cl-text">模板配置完成</div><div class="cl-desc">5 套口播模板已配置并可正常使用</div></div>
+            </div>
+            <div class="checklist-item">
+              <div class="cl-check"></div>
+              <div class="cl-content"><div class="cl-text">内容生成测试</div><div class="cl-desc">AI 自动生成 10 条视频测试</div>
+                <div class="cl-actions">
+                  <button class="cl-action-btn approve"><i class="fas fa-check"></i>通过</button>
+                  <button class="cl-action-btn reject"><i class="fas fa-times"></i>整改</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Confirm Button Bar -->
+      <div style="display:flex;justify-content:center;gap:var(--space-md);padding:var(--space-xl);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);">
+        <span style="font-size:14px;color:var(--color-text-secondary);display:flex;align-items:center;gap:var(--space-sm);">
+          <i class="fas fa-check-circle" style="color:var(--color-success);"></i>
+          已选择 <strong style="color:var(--color-text-primary);">2</strong> 项验收单
+        </span>
+        <button class="btn btn-success"><i class="fas fa-check"></i>批量通过</button>
+        <button class="btn btn-secondary"><i class="fas fa-redo"></i>批量驳回</button>
+        <button class="btn btn-primary"><i class="fas fa-file-export"></i>生成验收报告</button>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

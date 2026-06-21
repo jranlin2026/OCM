@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<!--
+  Design System: 极享AI口播智能体 (JIXIANG-AI)
+  Template: dashboard (操作日志)
+  File: prototype-settings-logs.html — 操作日志
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极享AI — 操作日志</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{--color-bg-primary:#0F0F1A;--color-bg-secondary:#1A1A2E;--color-surface:#1E1E32;--color-surface-hover:#252540;--color-surface-elevated:#2A2A3C;--color-gold:#D4A853;--color-gold-hover:#E0B96A;--color-gold-active:#C49A42;--color-gold-muted:rgba(212,168,83,0.2);--color-gold-subtle:rgba(212,168,83,0.08);--color-text-primary:#F5F5F7;--color-text-secondary:#A0A0B8;--color-text-tertiary:#6B6B82;--color-text-on-gold:#0F0F1A;--color-border:#2E2E44;--color-border-strong:#3D3D58;--color-border-gold:rgba(212,168,83,0.25);--color-divider:#2A2A40;--color-success:#22C55E;--color-warning:#F59E0B;--color-danger:#EF4444;--color-info:#3B82F6;--color-tier-blue:#3B82F6;--color-tier-green:#22C55E;--color-tier-purple:#A855F7;--space-2xs:4px;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:20px;--space-xl:24px;--space-2xl:32px;--font-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--font-mono:'JetBrains Mono','SF Mono','Fira Code',monospace;--radius-sm:4px;--radius-md:8px;--radius-lg:12px;--radius-xl:16px;--radius-pill:20px;--shadow-sm:0 1px 3px rgba(0,0,0,0.3);--shadow-md:0 4px 12px rgba(0,0,0,0.35);--shadow-lg:0 8px 24px rgba(0,0,0,0.4);--shadow-gold:0 0 12px rgba(212,168,83,0.2)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--font-sans);background:var(--color-bg-primary);color:var(--color-text-primary);line-height:1.6;min-height:100vh}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--color-border-strong);border-radius:3px}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:240px;min-height:100vh;background:var(--color-bg-secondary);border-right:1px solid var(--color-border);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:100}
+.sidebar-brand{height:64px;display:flex;align-items:center;padding:0 var(--space-lg);border-bottom:1px solid var(--color-divider);gap:var(--space-sm);flex-shrink:0}
+.sidebar-brand .brand-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--color-gold),var(--color-gold-hover));border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--color-text-on-gold);font-weight:700;flex-shrink:0}
+.sidebar-brand .brand-text{font-size:16px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.01em}
+.sidebar-brand .brand-text span{color:var(--color-gold)}
+.sidebar-nav{flex:1;padding:var(--space-md) var(--space-sm);overflow-y:auto}
+.nav-section{margin-bottom:var(--space-xl)}
+.nav-section-title{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.06em;padding:0 var(--space-sm);margin-bottom:var(--space-xs)}
+.nav-item{display:flex;align-items:center;height:44px;padding:0 var(--space-sm) 0 var(--space-md);border-radius:var(--radius-md);color:var(--color-text-secondary);font-size:14px;cursor:pointer;transition:all 0.15s ease;gap:var(--space-sm);position:relative}
+.nav-item i{width:20px;text-align:center;font-size:15px;color:var(--color-text-tertiary);transition:color 0.15s ease}
+.nav-item:hover{background:var(--color-surface-hover);color:var(--color-text-primary)}
+.nav-item:hover i{color:var(--color-text-secondary)}
+.nav-item.active{background:var(--color-gold-subtle);color:var(--color-gold);font-weight:500}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:20px;background:var(--color-gold);border-radius:0 2px 2px 0}
+.nav-item.active i{color:var(--color-gold)}
+.nav-item .nav-badge{margin-left:auto;background:var(--color-danger);color:#fff;font-size:11px;font-weight:600;padding:0 6px;height:18px;line-height:18px;border-radius:9px;min-width:18px;text-align:center}
+.sidebar-footer{padding:var(--space-md) var(--space-sm);border-top:1px solid var(--color-divider);flex-shrink:0}
+.user-mini{display:flex;align-items:center;height:48px;padding:var(--space-xs) var(--space-sm);gap:var(--space-sm);cursor:pointer;border-radius:var(--radius-md);transition:background 0.15s ease}
+.user-mini:hover{background:var(--color-surface-hover)}
+.user-mini-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--color-gold),var(--color-tier-purple));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--color-text-on-gold);flex-shrink:0}
+.user-mini-info{flex:1;min-width:0}.user-mini-name{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.2}.user-mini-role{font-size:11px;color:var(--color-text-tertiary);line-height:1.2}
+.main-content{flex:1;margin-left:240px;min-height:100vh;display:flex;flex-direction:column}
+.topbar{height:64px;background:var(--color-bg-secondary);border-bottom:1px solid var(--color-border);display:flex;align-items:center;padding:0 var(--space-xl);gap:var(--space-md);position:sticky;top:0;z-index:50}
+.topbar-title{font-size:18px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.01em}
+.topbar-title span{color:var(--color-gold)}.topbar-spacer{flex:1}
+.topbar-date{font-size:13px;color:var(--color-text-tertiary)}
+.topbar-actions{display:flex;align-items:center;gap:var(--space-xs)}
+.topbar-btn{width:36px;height:36px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s ease;font-size:16px;position:relative}
+.topbar-btn:hover{background:var(--color-surface-hover);border-color:var(--color-border-strong);color:var(--color-text-primary)}
+.topbar-btn .dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--color-danger);border-radius:50%;border:2px solid var(--color-bg-secondary)}
+.topbar-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--color-gold),var(--color-tier-blue));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--color-text-on-gold);cursor:pointer;margin-left:var(--space-xs)}
+.content-area{padding:var(--space-xl);flex:1;display:flex;flex-direction:column;gap:var(--space-lg);max-width:1440px;width:100%;margin:0 auto}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-xs)}
+.page-header h1{font-size:22px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.02em}
+.page-header h1 span{color:var(--color-gold)}
+.page-header p{font-size:14px;color:var(--color-text-secondary);margin-top:var(--space-2xs)}
+.header-actions{display:flex;gap:var(--space-sm);align-items:center}
+.btn-primary{height:36px;padding:0 var(--space-lg);border-radius:var(--radius-md);border:none;background:var(--color-gold);color:var(--color-text-on-gold);font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s ease;display:flex;align-items:center;gap:var(--space-xs);font-family:var(--font-sans)}
+.btn-primary:hover{background:var(--color-gold-hover);box-shadow:var(--shadow-gold)}
+
+/* Filters */
+.filter-row{display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}
+.filter-select{height:36px;padding:0 var(--space-md);border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-secondary);font-size:13px;outline:none;cursor:pointer;transition:all 0.15s ease;font-family:var(--font-sans);appearance:none;-webkit-appearance:none;padding-right:36px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B6B82' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.filter-select:hover{border-color:var(--color-border-strong);color:var(--color-text-primary)}
+.filter-select:focus{border-color:var(--color-border-gold)}
+.filter-date{padding:0 var(--space-md);height:36px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-secondary);font-size:13px;outline:none;font-family:var(--font-sans);cursor:pointer;transition:all 0.15s ease}
+.filter-date:focus{border-color:var(--color-border-gold)}
+
+/* Log Table */
+.log-table{width:100%;border-collapse:collapse;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden}
+.log-table th{padding:var(--space-sm) var(--space-md);text-align:left;font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid var(--color-divider);background:var(--color-bg-primary)}
+.log-table td{padding:var(--space-sm) var(--space-md);border-bottom:1px solid var(--color-divider);font-size:13px;color:var(--color-text-secondary);vertical-align:middle}
+.log-table tr:last-child td{border-bottom:none}
+.log-table tr:hover td{background:var(--color-surface-hover)}
+.log-table .log-time{font-family:var(--font-mono);font-size:12px;color:var(--color-text-tertiary);white-space:nowrap}
+.log-table .log-user{font-weight:500;color:var(--color-text-primary)}
+.log-table .log-action{color:var(--color-text-primary)}
+.log-table .log-detail{font-size:12px;color:var(--color-text-tertiary);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.log-type{padding:2px 10px;border-radius:var(--radius-pill);font-size:11px;font-weight:500;display:inline-block;white-space:nowrap}
+.log-type.create{background:rgba(34,197,94,0.1);color:var(--color-success);border:1px solid rgba(34,197,94,0.2)}
+.log-type.update{background:rgba(59,130,246,0.1);color:var(--color-tier-blue);border:1px solid rgba(59,130,246,0.2)}
+.log-type.delete{background:rgba(239,68,68,0.1);color:var(--color-danger);border:1px solid rgba(239,68,68,0.2)}
+.log-type.login{background:rgba(168,85,247,0.1);color:var(--color-tier-purple);border:1px solid rgba(168,85,247,0.2)}
+.pagination{display:flex;align-items:center;justify-content:center;gap:var(--space-2xs);margin-top:var(--space-md)}
+.page-btn{width:32px;height:32px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);font-size:13px;cursor:pointer;transition:all 0.15s ease;display:flex;align-items:center;justify-content:center}
+.page-btn:hover{background:var(--color-surface-hover);border-color:var(--color-border-strong);color:var(--color-text-primary)}
+.page-btn.active{background:var(--color-gold-muted);border-color:var(--color-border-gold);color:var(--color-gold)}
+.page-btn.disabled{opacity:0.3;cursor:not-allowed}
+.page-info{font-size:12px;color:var(--color-text-tertiary);margin:0 var(--space-sm)}
+
+@media(max-width:768px){
+  .sidebar{width:60px}
+  .sidebar-brand .brand-text,.sidebar-nav .nav-item span,.sidebar-nav .nav-section-title,.sidebar-nav .nav-item .nav-badge,.sidebar-footer .user-mini-info,.sidebar-footer .user-mini i{display:none}
+  .sidebar-brand{justify-content:center;padding:0}
+  .sidebar-nav .nav-item{justify-content:center;padding:0;height:48px}
+  .sidebar-nav .nav-item i{margin:0}
+  .sidebar-nav .nav-item.active::before{left:auto;right:0;top:0;transform:none;width:3px;height:100%}
+  .sidebar-footer .user-mini{justify-content:center}
+  .main-content{margin-left:60px}
+  .log-table{display:block;overflow-x:auto}
+  .filter-date{width:140px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="brand-icon">极</div><div class="brand-text"><span>极享</span>AI</div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section"><div class="nav-section-title">核心管理</div>
+        <a class="nav-item"><i class="fas fa-chart-pie"></i><span>数据驾驶舱</span></a>
+        <a class="nav-item"><i class="fas fa-th-large"></i><span>产品矩阵</span></a>
+        <a class="nav-item"><i class="fas fa-handshake"></i><span>销售成交</span><span class="nav-badge">12</span></a>
+        <a class="nav-item"><i class="fas fa-user-tie"></i><span>招商代理</span></a>
+        <a class="nav-item"><i class="fas fa-bullhorn"></i><span>营销推广</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">内容中心</div>
+        <a class="nav-item"><i class="fas fa-images"></i><span>内容素材中心</span></a>
+        <a class="nav-item"><i class="fas fa-star"></i><span>案例见证中心</span></a>
+        <a class="nav-item"><i class="fas fa-graduation-cap"></i><span>培训赋能中心</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">运营管理</div>
+        <a class="nav-item"><i class="fas fa-users"></i><span>客户管理</span></a>
+        <a class="nav-item"><i class="fas fa-file-invoice"></i><span>订单管理</span></a>
+        <a class="nav-item"><i class="fas fa-robot"></i><span>AI 智能体</span></a>
+        <a class="nav-item"><i class="fas fa-phone-alt"></i><span>呼叫中心</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">系统</div>
+        <a class="nav-item"><i class="fas fa-cog"></i><span>系统设置</span></a>
+        <a class="nav-item active"><i class="fas fa-file-alt"></i><span>操作日志</span></a>
+        <a class="nav-item"><i class="fas fa-question-circle"></i><span>帮助中心</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer"><div class="user-mini"><div class="user-mini-avatar">张</div><div class="user-mini-info"><div class="user-mini-name">张明远</div><div class="user-mini-role">运营总监</div></div><i class="fas fa-ellipsis-v" style="font-size:14px;color:var(--color-text-tertiary)"></i></div></div>
+  </aside>
+  <main class="main-content">
+    <header class="topbar">
+      <div class="topbar-title"><span>操作</span>日志</div>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-date"><i class="far fa-calendar-alt"></i> 2025年3月24日 周一</div>
+      <div class="topbar-actions"><button class="topbar-btn"><i class="far fa-bell"></i><span class="dot"></span></button><button class="topbar-btn"><i class="far fa-question-circle"></i></button><div class="topbar-avatar">张</div></div>
+    </header>
+    <div class="content-area">
+      <div class="page-header">
+        <div><h1>操作<span>日志</span></h1><p>记录系统内所有用户操作行为，支持追溯审查</p></div>
+        <div class="header-actions"><button class="btn-primary"><i class="fas fa-download"></i> 导出日志</button></div>
+      </div>
+
+      <div class="filter-row">
+        <select class="filter-select"><option>全部操作类型</option><option>创建</option><option>修改</option><option>删除</option><option>登录</option></select>
+        <select class="filter-select"><option>全部用户</option><option>张明远</option><option>李思琪</option><option>王小明</option></select>
+        <select class="filter-select"><option>全部模块</option><option>产品矩阵</option><option>内容素材</option><option>案例见证</option><option>培训赋能</option><option>系统设置</option></select>
+        <input class="filter-date" type="text" placeholder="开始日期" value="2025-03-01" onfocus="this.type='date'" onblur="this.type='text'">
+        <input class="filter-date" type="text" placeholder="结束日期" value="2025-03-24" onfocus="this.type='date'" onblur="this.type='text'">
+        <button class="topbar-btn" style="width:36px"><i class="fas fa-search"></i></button>
+        <button class="topbar-btn" style="width:auto;padding:0 var(--space-sm);font-size:12px"><i class="fas fa-undo"></i> 重置</button>
+      </div>
+
+      <table class="log-table">
+        <thead>
+          <tr><th>时间</th><th>用户</th><th>操作类型</th><th>操作内容</th><th>详情</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="log-time">2025-03-24 10:32:15</td><td class="log-user">张明远</td><td><span class="log-type create">创建</span></td><td class="log-action">新增朋友圈素材「AI口播新工具」</td><td class="log-detail">内容素材中心 · 朋友圈素材 · ID: MOM-20250324-001</td></tr>
+          <tr><td class="log-time">2025-03-24 09:45:28</td><td class="log-user">李思琪</td><td><span class="log-type update">修改</span></td><td class="log-action">更新案例「王女士：从口播小白到达人」</td><td class="log-detail">案例见证中心 · 案例库 · 修改了成果数据部分</td></tr>
+          <tr><td class="log-time">2025-03-24 09:12:03</td><td class="log-user">王小明</td><td><span class="log-type update">修改</span></td><td class="log-action">批改作业「第3课：用AI生成口播文案」</td><td class="log-detail">培训赋能中心 · 作业系统 · 作业ID: HW-20250324-008</td></tr>
+          <tr><td class="log-time">2025-03-24 08:30:45</td><td class="log-user">张明远</td><td><span class="log-type login">登录</span></td><td class="log-action">用户登录系统</td><td class="log-detail">IP: 192.168.1.100 · 设备: Chrome Windows</td></tr>
+          <tr><td class="log-time">2025-03-23 18:22:10</td><td class="log-user">赵晓东</td><td><span class="log-type create">创建</span></td><td class="log-action">新建训练营「7天日更达人集训营」</td><td class="log-detail">培训赋能中心 · 训练营 · 第5期 · 4月8日开营</td></tr>
+          <tr><td class="log-time">2025-03-23 16:15:33</td><td class="log-user">李思琪</td><td><span class="log-type delete">删除</span></td><td class="log-action">删除过期海报模板「春节促销海报」</td><td class="log-detail">内容素材中心 · 海报模板 · ID: POSTER-202401-022</td></tr>
+          <tr><td class="log-time">2025-03-23 14:50:22</td><td class="log-user">张明远</td><td><span class="log-type update">修改</span></td><td class="log-action">修改角色权限「运营人员」权限配置</td><td class="log-detail">系统设置 · 角色权限 · 新增了培训管理模块权限</td></tr>
+          <tr><td class="log-time">2025-03-23 11:08:07</td><td class="log-user">陈思思</td><td><span class="log-type login">登录</span></td><td class="log-action">用户登录系统</td><td class="log-detail">IP: 192.168.1.85 · 设备: Safari macOS</td></tr>
+          <tr><td class="log-time">2025-03-23 10:30:00</td><td class="log-user">王小明</td><td><span class="log-type create">创建</span></td><td class="log-action">新建短视频脚本「AI口播如何帮助实体店引流」</td><td class="log-detail">内容素材中心 · 短视频脚本 · 时长 2分30秒</td></tr>
+          <tr><td class="log-time">2025-03-22 17:45:18</td><td class="log-user">张明远</td><td><span class="log-type update">修改</span></td><td class="log-action">更新案例收集表单字段配置</td><td class="log-detail">案例见证中心 · 案例收集 · 新增了「客户评价」字段</td></tr>
+          <tr><td class="log-time">2025-03-22 15:20:05</td><td class="log-user">李思琪</td><td><span class="log-type create">创建</span></td><td class="log-action">新增直播脚本「开场：福利钩子式开场」</td><td class="log-detail">内容素材中心 · 直播脚本 · 开场话术分类</td></tr>
+          <tr><td class="log-time">2025-03-22 14:00:30</td><td class="log-user">赵晓东</td><td><span class="log-type login">登录</span></td><td class="log-action">用户登录系统</td><td class="log-detail">IP: 192.168.1.92 · 设备: Chrome Windows</td></tr>
+        </tbody>
+      </table>
+
+      <div class="pagination">
+        <button class="page-btn disabled"><i class="fas fa-chevron-left"></i></button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">4</button>
+        <span class="page-info">共 128 条</span>
+        <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<!--
+  Design System: 极享AI口播智能体 (JIXIANG-AI)
+  Template: dashboard (演示视频)
+  File: prototype-materials-videos.html — 演示视频
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极享AI — 演示视频</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+  --color-bg-primary: #0F0F1A;
+  --color-bg-secondary: #1A1A2E;
+  --color-surface: #1E1E32;
+  --color-surface-hover: #252540;
+  --color-surface-elevated: #2A2A3C;
+  --color-gold: #D4A853;
+  --color-gold-hover: #E0B96A;
+  --color-gold-active: #C49A42;
+  --color-gold-muted: rgba(212,168,83,0.2);
+  --color-gold-subtle: rgba(212,168,83,0.08);
+  --color-text-primary: #F5F5F7;
+  --color-text-secondary: #A0A0B8;
+  --color-text-tertiary: #6B6B82;
+  --color-text-on-gold: #0F0F1A;
+  --color-border: #2E2E44;
+  --color-border-strong: #3D3D58;
+  --color-border-gold: rgba(212,168,83,0.25);
+  --color-divider: #2A2A40;
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+  --color-info: #3B82F6;
+  --color-tier-blue: #3B82F6;
+  --color-tier-green: #22C55E;
+  --color-tier-purple: #A855F7;
+  --color-tier-gold: #F59E0B;
+  --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 20px; --space-xl: 24px; --space-2xl: 32px; --space-3xl: 48px;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-xl: 16px; --radius-pill: 20px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3); --shadow-md: 0 4px 12px rgba(0,0,0,0.35); --shadow-lg: 0 8px 24px rgba(0,0,0,0.4); --shadow-xl: 0 25px 50px rgba(0,0,0,0.5); --shadow-gold: 0 0 12px rgba(212,168,83,0.2);
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { font-size:16px; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+body { font-family:var(--font-sans); background:var(--color-bg-primary); color:var(--color-text-primary); line-height:1.6; min-height:100vh; }
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--color-border-strong); border-radius:3px; }
+a { color:inherit; text-decoration:none; }
+
+.layout { display:flex; min-height:100vh; }
+.sidebar { width:240px; min-height:100vh; background:var(--color-bg-secondary); border-right:1px solid var(--color-border); display:flex; flex-direction:column; position:fixed; left:0; top:0; bottom:0; z-index:100; }
+.sidebar-brand { height:64px; display:flex; align-items:center; padding:0 var(--space-lg); border-bottom:1px solid var(--color-divider); gap:var(--space-sm); flex-shrink:0; }
+.sidebar-brand .brand-icon { width:32px; height:32px; background:linear-gradient(135deg,var(--color-gold),var(--color-gold-hover)); border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center; font-size:16px; color:var(--color-text-on-gold); font-weight:700; flex-shrink:0; }
+.sidebar-brand .brand-text { font-size:16px; font-weight:600; color:var(--color-text-primary); letter-spacing:-0.01em; }
+.sidebar-brand .brand-text span { color:var(--color-gold); }
+.sidebar-nav { flex:1; padding:var(--space-md) var(--space-sm); overflow-y:auto; }
+.nav-section { margin-bottom:var(--space-xl); }
+.nav-section-title { font-size:11px; font-weight:500; color:var(--color-text-tertiary); text-transform:uppercase; letter-spacing:0.06em; padding:0 var(--space-sm); margin-bottom:var(--space-xs); }
+.nav-item { display:flex; align-items:center; height:44px; padding:0 var(--space-sm) 0 var(--space-md); border-radius:var(--radius-md); color:var(--color-text-secondary); text-decoration:none; font-size:14px; font-weight:400; cursor:pointer; transition:all 0.15s ease; gap:var(--space-sm); position:relative; }
+.nav-item i { width:20px; text-align:center; font-size:15px; color:var(--color-text-tertiary); transition:color 0.15s ease; }
+.nav-item:hover { background:var(--color-surface-hover); color:var(--color-text-primary); }
+.nav-item:hover i { color:var(--color-text-secondary); }
+.nav-item.active { background:var(--color-gold-subtle); color:var(--color-gold); font-weight:500; }
+.nav-item.active::before { content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); width:3px; height:20px; background:var(--color-gold); border-radius:0 2px 2px 0; }
+.nav-item.active i { color:var(--color-gold); }
+.nav-item .nav-badge { margin-left:auto; background:var(--color-danger); color:#fff; font-size:11px; font-weight:600; padding:0 6px; height:18px; line-height:18px; border-radius:9px; min-width:18px; text-align:center; }
+.sidebar-footer { padding:var(--space-md) var(--space-sm); border-top:1px solid var(--color-divider); flex-shrink:0; }
+.user-mini { display:flex; align-items:center; height:48px; padding:var(--space-xs) var(--space-sm); gap:var(--space-sm); cursor:pointer; border-radius:var(--radius-md); transition:background 0.15s ease; }
+.user-mini:hover { background:var(--color-surface-hover); }
+.user-mini-avatar { width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,var(--color-gold),var(--color-tier-purple)); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; color:var(--color-text-on-gold); flex-shrink:0; }
+.user-mini-info { flex:1; min-width:0; }
+.user-mini-name { font-size:13px; font-weight:500; color:var(--color-text-primary); line-height:1.2; }
+.user-mini-role { font-size:11px; color:var(--color-text-tertiary); line-height:1.2; }
+
+.main-content { flex:1; margin-left:240px; min-height:100vh; display:flex; flex-direction:column; }
+.topbar { height:64px; background:var(--color-bg-secondary); border-bottom:1px solid var(--color-border); display:flex; align-items:center; padding:0 var(--space-xl); gap:var(--space-md); position:sticky; top:0; z-index:50; }
+.topbar-title { font-size:18px; font-weight:600; color:var(--color-text-primary); letter-spacing:-0.01em; }
+.topbar-title span { color:var(--color-gold); }
+.topbar-spacer { flex:1; }
+.topbar-date { font-size:13px; color:var(--color-text-tertiary); }
+.topbar-actions { display:flex; align-items:center; gap:var(--space-xs); }
+.topbar-btn { width:36px; height:36px; border-radius:var(--radius-md); border:1px solid var(--color-border); background:var(--color-surface); color:var(--color-text-secondary); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.15s ease; font-size:16px; position:relative; }
+.topbar-btn:hover { background:var(--color-surface-hover); border-color:var(--color-border-strong); color:var(--color-text-primary); }
+.topbar-btn .dot { position:absolute; top:6px; right:6px; width:8px; height:8px; background:var(--color-danger); border-radius:50%; border:2px solid var(--color-bg-secondary); }
+.topbar-avatar { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,var(--color-gold),var(--color-tier-blue)); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; color:var(--color-text-on-gold); cursor:pointer; margin-left:var(--space-xs); }
+
+.content-area { padding:var(--space-xl); flex:1; display:flex; flex-direction:column; gap:var(--space-lg); max-width:1440px; width:100%; margin:0 auto; }
+.page-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--space-xs); }
+.page-header h1 { font-size:22px; font-weight:600; color:var(--color-text-primary); letter-spacing:-0.02em; }
+.page-header h1 span { color:var(--color-gold); }
+.page-header p { font-size:14px; color:var(--color-text-secondary); margin-top:var(--space-2xs); }
+.header-actions { display:flex; gap:var(--space-sm); align-items:center; }
+.btn-primary { height:36px; padding:0 var(--space-lg); border-radius:var(--radius-md); border:none; background:var(--color-gold); color:var(--color-text-on-gold); font-size:13px; font-weight:600; cursor:pointer; transition:all 0.15s ease; display:flex; align-items:center; gap:var(--space-xs); font-family:var(--font-sans); }
+.btn-primary:hover { background:var(--color-gold-hover); box-shadow:var(--shadow-gold); }
+.btn-primary i { font-size:13px; }
+
+/* Filter */
+.filter-bar { display:flex; align-items:center; gap:var(--space-sm); flex-wrap:wrap; }
+.filter-tab { padding:var(--space-xs) var(--space-md); border-radius:var(--radius-pill); border:1px solid var(--color-border); background:transparent; color:var(--color-text-secondary); font-size:13px; font-weight:500; cursor:pointer; transition:all 0.15s ease; }
+.filter-tab:hover { border-color:var(--color-border-strong); color:var(--color-text-primary); background:var(--color-surface); }
+.filter-tab.active { background:var(--color-gold-muted); border-color:var(--color-border-gold); color:var(--color-gold); }
+.filter-tab i { margin-right:var(--space-2xs); font-size:12px; }
+.filter-search { position:relative; margin-left:auto; }
+.filter-search input { width:240px; height:36px; padding:0 var(--space-sm) 0 36px; border-radius:var(--radius-md); border:1px solid var(--color-border); background:var(--color-surface); color:var(--color-text-primary); font-size:13px; outline:none; transition:all 0.15s ease; font-family:var(--font-sans); }
+.filter-search input::placeholder { color:var(--color-text-tertiary); }
+.filter-search input:focus { border-color:var(--color-border-gold); background:var(--color-surface-hover); }
+.filter-search i { position:absolute; left:var(--space-sm); top:50%; transform:translateY(-50%); color:var(--color-text-tertiary); font-size:14px; }
+
+/* Video Grid */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+}
+.video-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.video-card:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.video-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--color-surface-elevated);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.video-thumb svg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0; left: 0;
+}
+.video-play-btn {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  color: var(--color-text-on-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  position: relative;
+  z-index: 2;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(212,168,83,0.4);
+  border: 2px solid rgba(255,255,255,0.2);
+}
+.video-card:hover .video-play-btn {
+  transform: scale(1.1);
+  box-shadow: 0 6px 24px rgba(212,168,83,0.5);
+}
+.video-duration {
+  position: absolute;
+  bottom: var(--space-xs);
+  right: var(--space-xs);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  z-index: 2;
+  font-family: var(--font-mono);
+}
+.video-info {
+  padding: var(--space-md);
+}
+.video-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-xs);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+}
+.video-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+}
+.video-meta i {
+  font-size: 12px;
+  margin-right: var(--space-2xs);
+}
+.video-tags {
+  display: flex;
+  gap: var(--space-2xs);
+  flex-wrap: wrap;
+  margin-top: var(--space-xs);
+}
+.video-tag {
+  font-size: 10px;
+  padding: 1px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-gold-subtle);
+  color: var(--color-gold);
+  border: 1px solid var(--color-border-gold);
+}
+
+@media (max-width:1200px) { .video-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width:768px) {
+  .sidebar { width:60px; }
+  .sidebar-brand .brand-text, .sidebar-nav .nav-item span, .sidebar-nav .nav-section-title, .sidebar-nav .nav-item .nav-badge, .sidebar-footer .user-mini-info, .sidebar-footer .user-mini i { display:none; }
+  .sidebar-brand { justify-content:center; padding:0; }
+  .sidebar-nav .nav-item { justify-content:center; padding:0; height:48px; }
+  .sidebar-nav .nav-item i { margin:0; }
+  .sidebar-nav .nav-item.active::before { left:auto; right:0; top:0; transform:none; width:3px; height:100%; }
+  .sidebar-footer .user-mini { justify-content:center; }
+  .main-content { margin-left:60px; }
+  .video-grid { grid-template-columns: 1fr; }
+  .filter-search { width:100%; margin-left:0; margin-top:var(--space-xs); }
+  .filter-search input { width:100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">极</div>
+      <div class="brand-text"><span>极享</span>AI</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">核心管理</div>
+        <a class="nav-item"><i class="fas fa-chart-pie"></i><span>数据驾驶舱</span></a>
+        <a class="nav-item"><i class="fas fa-th-large"></i><span>产品矩阵</span></a>
+        <a class="nav-item"><i class="fas fa-handshake"></i><span>销售成交</span><span class="nav-badge">12</span></a>
+        <a class="nav-item"><i class="fas fa-user-tie"></i><span>招商代理</span></a>
+        <a class="nav-item"><i class="fas fa-bullhorn"></i><span>营销推广</span></a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">内容中心</div>
+        <a class="nav-item active"><i class="fas fa-images"></i><span>内容素材中心</span></a>
+        <a class="nav-item"><i class="fas fa-star"></i><span>案例见证中心</span></a>
+        <a class="nav-item"><i class="fas fa-graduation-cap"></i><span>培训赋能中心</span></a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">运营管理</div>
+        <a class="nav-item"><i class="fas fa-users"></i><span>客户管理</span></a>
+        <a class="nav-item"><i class="fas fa-file-invoice"></i><span>订单管理</span></a>
+        <a class="nav-item"><i class="fas fa-robot"></i><span>AI 智能体</span></a>
+        <a class="nav-item"><i class="fas fa-phone-alt"></i><span>呼叫中心</span></a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">系统</div>
+        <a class="nav-item"><i class="fas fa-cog"></i><span>系统设置</span></a>
+        <a class="nav-item"><i class="fas fa-file-alt"></i><span>操作日志</span></a>
+        <a class="nav-item"><i class="fas fa-question-circle"></i><span>帮助中心</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-mini">
+        <div class="user-mini-avatar">张</div>
+        <div class="user-mini-info">
+          <div class="user-mini-name">张明远</div>
+          <div class="user-mini-role">运营总监</div>
+        </div>
+        <i class="fas fa-ellipsis-v" style="font-size:14px;color:var(--color-text-tertiary);"></i>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div class="topbar-title"><span>内容</span>素材中心</div>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-date"><i class="far fa-calendar-alt"></i> 2025年3月24日 周一</div>
+      <div class="topbar-actions">
+        <button class="topbar-btn"><i class="far fa-bell"></i><span class="dot"></span></button>
+        <button class="topbar-btn"><i class="far fa-question-circle"></i></button>
+        <div class="topbar-avatar">张</div>
+      </div>
+    </header>
+
+    <div class="content-area">
+      <div class="page-header">
+        <div>
+          <h1>演示<span>视频</span></h1>
+          <p>产品演示、教程讲解、案例展示等视频素材库</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn-primary"><i class="fas fa-upload"></i> 上传视频</button>
+        </div>
+      </div>
+
+      <div class="filter-bar">
+        <button class="filter-tab active"><i class="fas fa-list"></i>全部</button>
+        <button class="filter-tab"><i class="fas fa-cog"></i>产品演示</button>
+        <button class="filter-tab"><i class="fas fa-graduation-cap"></i>教学培训</button>
+        <button class="filter-tab"><i class="fas fa-star"></i>客户案例</button>
+        <button class="filter-tab"><i class="fas fa-bullhorn"></i>营销推广</button>
+        <button class="filter-tab"><i class="fas fa-play-circle"></i>直播回放</button>
+        <div class="filter-search">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="搜索视频标题...">
+        </div>
+      </div>
+
+      <div class="video-grid">
+        <div class="video-card">
+          <div class="video-thumb">
+            <svg viewBox="0 0 320 180"><rect width="320" height="180" fill="#252540"/><rect x="20" y="20" width="280" height="16" rx="4" fill="#2e2e44"/><rect x="20" y="46" width="200" height="10" rx="4" fill="#2e2e44"/><rect x="20" y="66" width="160" height="10" rx="4" fill="#2e2e44"/><rect x="20" y="96" width="280" height="40" rx="6" fill="#2e2e44"/><rect x="35" y="108" width="80" height="8" rx="4" fill="#3d3d58"/><rect x="135" y="108" width="60" height="8" rx="4" fill="#3d3d58"/><rect x="35" y="122" width="140" height="8" rx="4" fill="#3d3d58"/></svg>
+            <div class="video-play-btn"><i class="fas fa-play"></i></div>
+            <span class="video-duration">12:30</span>
+          </div>
+          <div class="video-info">
+            <div class="video-title">极享AI口播智能体产品全景演示</div>
+            <div class="video-meta">
+              <span><i class="far fa-eye"></i> 1,832次</span>
+              <span><i class="far fa-calendar-alt"></i> 2025-03-20</span>
+            </div>
+            <div class="video-tags">
+              <span class="video-tag">产品演示</span>
+              <span class="video-tag">MP4</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumb">
+            <svg viewBox="0 0 320 180"><rect width="320" height="180" fill="#252540"/><rect x="30" y="30" width="260" height="60" rx="8" fill="#2e2e44"/><rect x="45" y="45" width="80" height="10" rx="4" fill="#3d3d58"/><rect x="45" y="62" width="160" height="10" rx="4" fill="#3d3d58"/><rect x="45" y="79" width="120" height="6" rx="3" fill="#3d3d58"/><circle cx="60" cy="130" r="25" fill="#2e2e44"/><rect x="95" y="118" width="140" height="8" rx="4" fill="#2e2e44"/><rect x="95" y="132" width="100" height="8" rx="4" fill="#2e2e44"/></svg>
+            <div class="video-play-btn"><i class="fas fa-play"></i></div>
+            <span class="video-duration">08:15</span>
+          </div>
+          <div class="video-info">
+            <div class="video-title">新手入门：10分钟掌握AI口播核心功能</div>
+            <div class="video-meta">
+              <span><i class="far fa-eye"></i> 3,521次</span>
+              <span><i class="far fa-calendar-alt"></i> 2025-03-18</span>
+            </div>
+            <div class="video-tags">
+              <span class="video-tag">教学培训</span>
+              <span class="video-tag">MP4</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumb">
+            <svg viewBox="0 0 320 180"><rect width="320" height="180" fill="#252540"/><rect x="20" y="20" width="280" height="140" rx="8" fill="#2e2e44"/><rect x="35" y="35" width="120" height="10" rx="4" fill="#3d3d58"/><rect x="35" y="55" width="200" height="8" rx="4" fill="#3d3d58"/><rect x="35" y="73" width="160" height="8" rx="4" fill="#3d3d58"/><rect x="35" y="100" width="250" height="1" fill="#3d3d58"/><rect x="35" y="112" width="100" height="8" rx="4" fill="#3d3d58"/><rect x="35" y="130" width="80" height="8" rx="4" fill="#3d3d58"/></svg>
+            <div class="video-play-btn"><i class="fas fa-play"></i></div>
+            <span class="video-duration">15:40</span>
+          </div>
+          <div class="video-info">
+            <div class="video-title">客户案例：某教育机构使用AI口播3个月效果复盘</div>
+            <div class="video-meta">
+              <span><i class="far fa-eye"></i> 2,156次</span>
+              <span><i class="far fa-calendar-alt"></i> 2025-03-15</span>
+            </div>
+            <div class="video-tags">
+              <span class="video-tag">客户案例</span>
+              <span class="video-tag">MP4</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumb">
+            <svg viewBox="0 0 320 180"><rect width="320" height="180" fill="#252540"/><rect x="40" y="25" width="240" height="30" rx="6" fill="#2e2e44"/><rect x="50" y="33" width="100" height="14" rx="4" fill="#D4A853" opacity="0.3"/><rect x="40" y="75" width="240" height="8" rx="4" fill="#2e2e44"/><rect x="40" y="93" width="220" height="8" rx="4" fill="#2e2e44"/><rect x="40" y="111" width="180" height="8" rx="4" fill="#2e2e44"/><rect x="40" y="140" width="240" height="20" rx="10" fill="#D4A853" opacity="0.2"/></svg>
+            <div class="video-play-btn"><i class="fas fa-play"></i></div>
+            <span class="video-duration">06:50</span>
+          </div>
+          <div class="video-info">
+            <div class="video-title">合伙人招募宣讲会完整录播</div>
+            <div class="video-meta">
+              <span><i class="far fa-eye"></i> 4,328次</span>
+              <span><i class="far fa-calendar-alt"></i> 2025-03-12</span>
+            </div>
+            <div class="video-tags">
+              <span class="video-tag">营销推广</span>
+              <span class="video-tag">MP4</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumb">
+            <svg viewBox="0 0 320 180"><rect width="320" height="180" fill="#252540"/><rect x="20" y="20" width="60" height="60" rx="8" fill="#2e2e44"/><rect x="95" y="28" width="200" height="10" rx="4" fill="#2e2e44"/><rect x="95" y="46" width="160" height="10" rx="4" fill="#2e2e44"/><rect x="95" y="64" width="120" height="10" rx="4" fill="#2e2e44"/><rect x="20" y="95" width="280" height="8" rx="4" fill="#2e2e44"/><rect x="20" y="113" width="240" height="8" rx="4" fill="#2e2e44"/><rect x="20" y="131" width="200" height="8" rx="4" fill="#2e2e44"/><rect x="20" y="155" width="200" height="12" rx="6" fill="#22C55E" opacity="0.2"/></svg>
+            <div class="video-play-btn"><i class="fas fa-play"></i></div>
+            <span class="video-duration">22:10</span>
+          </div>
+          <div class="video-info">
+            <div class="video-title">直播实战：从0到1搭建高转化直播间</div>
+            <div class="video-meta">
+              <span><i class="far fa-eye"></i> 1,672次</span>
+              <span><i class="far fa-calendar-alt"></i> 2025-03-10</span>
+            </div>
+            <div class="video-tags">
+              <span class="video-tag">直播回放</span>
+              <span class="video-tag">MP4</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumb">
+            <svg viewBox="0 0 320 180"><rect width="320" height="180" fill="#252540"/><circle cx="160" cy="70" r="40" fill="#2e2e44"/><circle cx="160" cy="70" r="25" fill="#3d3d58"/><rect x="60" y="120" width="200" height="8" rx="4" fill="#2e2e44"/><rect x="80" y="138" width="160" height="8" rx="4" fill="#2e2e44"/><rect x="100" y="156" width="120" height="8" rx="4" fill="#2e2e44"/></svg>
+            <div class="video-play-btn"><i class="fas fa-play"></i></div>
+            <span class="video-duration">04:25</span>
+          </div>
+          <div class="video-info">
+            <div class="video-title">AI语音克隆功能介绍与效果展示</div>
+            <div class="video-meta">
+              <span><i class="far fa-eye"></i> 5,891次</span>
+              <span><i class="far fa-calendar-alt"></i> 2025-03-08</span>
+            </div>
+            <div class="video-tags">
+              <span class="video-tag">产品演示</span>
+              <span class="video-tag">MP4</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<!--
+  Design System: 极享AI口播智能体 (JIXIANG-AI)
+  Template: dashboard (训练营)
+  File: prototype-training-camps.html — 训练营
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极享AI — 训练营</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{--color-bg-primary:#0F0F1A;--color-bg-secondary:#1A1A2E;--color-surface:#1E1E32;--color-surface-hover:#252540;--color-surface-elevated:#2A2A3C;--color-gold:#D4A853;--color-gold-hover:#E0B96A;--color-gold-active:#C49A42;--color-gold-muted:rgba(212,168,83,0.2);--color-gold-subtle:rgba(212,168,83,0.08);--color-text-primary:#F5F5F7;--color-text-secondary:#A0A0B8;--color-text-tertiary:#6B6B82;--color-text-on-gold:#0F0F1A;--color-border:#2E2E44;--color-border-strong:#3D3D58;--color-border-gold:rgba(212,168,83,0.25);--color-divider:#2A2A40;--color-success:#22C55E;--color-warning:#F59E0B;--color-danger:#EF4444;--color-info:#3B82F6;--color-tier-blue:#3B82F6;--color-tier-green:#22C55E;--color-tier-purple:#A855F7;--space-2xs:4px;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:20px;--space-xl:24px;--space-2xl:32px;--font-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--font-mono:'JetBrains Mono','SF Mono','Fira Code',monospace;--radius-sm:4px;--radius-md:8px;--radius-lg:12px;--radius-xl:16px;--radius-pill:20px;--shadow-sm:0 1px 3px rgba(0,0,0,0.3);--shadow-md:0 4px 12px rgba(0,0,0,0.35);--shadow-lg:0 8px 24px rgba(0,0,0,0.4);--shadow-gold:0 0 12px rgba(212,168,83,0.2)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--font-sans);background:var(--color-bg-primary);color:var(--color-text-primary);line-height:1.6;min-height:100vh}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--color-border-strong);border-radius:3px}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:240px;min-height:100vh;background:var(--color-bg-secondary);border-right:1px solid var(--color-border);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:100}
+.sidebar-brand{height:64px;display:flex;align-items:center;padding:0 var(--space-lg);border-bottom:1px solid var(--color-divider);gap:var(--space-sm);flex-shrink:0}
+.sidebar-brand .brand-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--color-gold),var(--color-gold-hover));border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--color-text-on-gold);font-weight:700;flex-shrink:0}
+.sidebar-brand .brand-text{font-size:16px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.01em}
+.sidebar-brand .brand-text span{color:var(--color-gold)}
+.sidebar-nav{flex:1;padding:var(--space-md) var(--space-sm);overflow-y:auto}
+.nav-section{margin-bottom:var(--space-xl)}
+.nav-section-title{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.06em;padding:0 var(--space-sm);margin-bottom:var(--space-xs)}
+.nav-item{display:flex;align-items:center;height:44px;padding:0 var(--space-sm) 0 var(--space-md);border-radius:var(--radius-md);color:var(--color-text-secondary);font-size:14px;cursor:pointer;transition:all 0.15s ease;gap:var(--space-sm);position:relative}
+.nav-item i{width:20px;text-align:center;font-size:15px;color:var(--color-text-tertiary);transition:color 0.15s ease}
+.nav-item:hover{background:var(--color-surface-hover);color:var(--color-text-primary)}
+.nav-item:hover i{color:var(--color-text-secondary)}
+.nav-item.active{background:var(--color-gold-subtle);color:var(--color-gold);font-weight:500}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:20px;background:var(--color-gold);border-radius:0 2px 2px 0}
+.nav-item.active i{color:var(--color-gold)}
+.nav-item .nav-badge{margin-left:auto;background:var(--color-danger);color:#fff;font-size:11px;font-weight:600;padding:0 6px;height:18px;line-height:18px;border-radius:9px;min-width:18px;text-align:center}
+.sidebar-footer{padding:var(--space-md) var(--space-sm);border-top:1px solid var(--color-divider);flex-shrink:0}
+.user-mini{display:flex;align-items:center;height:48px;padding:var(--space-xs) var(--space-sm);gap:var(--space-sm);cursor:pointer;border-radius:var(--radius-md);transition:background 0.15s ease}
+.user-mini:hover{background:var(--color-surface-hover)}
+.user-mini-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--color-gold),var(--color-tier-purple));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--color-text-on-gold);flex-shrink:0}
+.user-mini-info{flex:1;min-width:0}.user-mini-name{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.2}.user-mini-role{font-size:11px;color:var(--color-text-tertiary);line-height:1.2}
+.main-content{flex:1;margin-left:240px;min-height:100vh;display:flex;flex-direction:column}
+.topbar{height:64px;background:var(--color-bg-secondary);border-bottom:1px solid var(--color-border);display:flex;align-items:center;padding:0 var(--space-xl);gap:var(--space-md);position:sticky;top:0;z-index:50}
+.topbar-title{font-size:18px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.01em}
+.topbar-title span{color:var(--color-gold)}.topbar-spacer{flex:1}
+.topbar-date{font-size:13px;color:var(--color-text-tertiary)}
+.topbar-actions{display:flex;align-items:center;gap:var(--space-xs)}
+.topbar-btn{width:36px;height:36px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s ease;font-size:16px;position:relative}
+.topbar-btn:hover{background:var(--color-surface-hover);border-color:var(--color-border-strong);color:var(--color-text-primary)}
+.topbar-btn .dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--color-danger);border-radius:50%;border:2px solid var(--color-bg-secondary)}
+.topbar-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--color-gold),var(--color-tier-blue));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--color-text-on-gold);cursor:pointer;margin-left:var(--space-xs)}
+.content-area{padding:var(--space-xl);flex:1;display:flex;flex-direction:column;gap:var(--space-lg);max-width:1440px;width:100%;margin:0 auto}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-xs)}
+.page-header h1{font-size:22px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.02em}
+.page-header h1 span{color:var(--color-gold)}
+.page-header p{font-size:14px;color:var(--color-text-secondary);margin-top:var(--space-2xs)}
+.header-actions{display:flex;gap:var(--space-sm);align-items:center}
+.btn-primary{height:36px;padding:0 var(--space-lg);border-radius:var(--radius-md);border:none;background:var(--color-gold);color:var(--color-text-on-gold);font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s ease;display:flex;align-items:center;gap:var(--space-xs);font-family:var(--font-sans)}
+.btn-primary:hover{background:var(--color-gold-hover);box-shadow:var(--shadow-gold)}
+
+/* Camp Grid */
+.camp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-lg)}
+.camp-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);overflow:hidden;transition:all 0.2s ease;cursor:pointer}
+.camp-card:hover{background:var(--color-surface-hover);border-color:var(--color-border-strong);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.camp-header{padding:var(--space-xl);position:relative;overflow:hidden}
+.camp-header::before{content:'';position:absolute;top:0;right:0;width:120px;height:120px;border-radius:50%;opacity:0.08;transform:translate(30%,-30%)}
+.camp-card.type-3d .camp-header::before{background:var(--color-tier-blue)}
+.camp-card.type-7d .camp-header::before{background:var(--color-tier-green)}
+.camp-card.type-14d .camp-header::before{background:var(--color-tier-purple)}
+.camp-card.type-30d .camp-header::before{background:var(--color-gold)}
+.camp-duration{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:var(--space-xs)}
+.camp-card.type-3d .camp-duration{color:var(--color-tier-blue)}
+.camp-card.type-7d .camp-duration{color:var(--color-tier-green)}
+.camp-card.type-14d .camp-duration{color:var(--color-tier-purple)}
+.camp-card.type-30d .camp-duration{color:var(--color-gold)}
+.camp-name{font-size:20px;font-weight:700;color:var(--color-text-primary);margin-bottom:var(--space-xs);letter-spacing:-0.02em}
+.camp-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.camp-body{padding:0 var(--space-xl) var(--space-xl)}
+.camp-stats{display:flex;gap:var(--space-xl);margin-bottom:var(--space-md)}
+.camp-stat{text-align:center}
+.camp-stat-value{font-size:24px;font-weight:700;color:var(--color-text-primary);font-family:var(--font-metric,'Inter',sans-serif);letter-spacing:-0.02em}
+.camp-stat-label{font-size:11px;color:var(--color-text-tertiary);margin-top:2px}
+.camp-footer{display:flex;align-items:center;justify-content:space-between;padding:var(--space-md) var(--space-xl);border-top:1px solid var(--color-divider)}
+.camp-date{font-size:12px;color:var(--color-text-tertiary)}
+.camp-date i{font-size:12px;margin-right:var(--space-2xs)}
+.camp-status-badge{font-size:11px;padding:3px 12px;border-radius:var(--radius-pill);font-weight:500}
+.camp-status-badge.open{background:rgba(34,197,94,0.1);color:var(--color-success);border:1px solid rgba(34,197,94,0.2)}
+.camp-status-badge.full{background:rgba(239,68,68,0.1);color:var(--color-danger);border:1px solid rgba(239,68,68,0.2)}
+.camp-status-badge.closed{background:rgba(107,107,130,0.1);color:var(--color-text-tertiary);border:1px solid var(--color-border)}
+
+@media(max-width:992px){.camp-grid{grid-template-columns:1fr}}
+@media(max-width:768px){
+  .sidebar{width:60px}
+  .sidebar-brand .brand-text,.sidebar-nav .nav-item span,.sidebar-nav .nav-section-title,.sidebar-nav .nav-item .nav-badge,.sidebar-footer .user-mini-info,.sidebar-footer .user-mini i{display:none}
+  .sidebar-brand{justify-content:center;padding:0}
+  .sidebar-nav .nav-item{justify-content:center;padding:0;height:48px}
+  .sidebar-nav .nav-item i{margin:0}
+  .sidebar-nav .nav-item.active::before{left:auto;right:0;top:0;transform:none;width:3px;height:100%}
+  .sidebar-footer .user-mini{justify-content:center}
+  .main-content{margin-left:60px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="brand-icon">极</div><div class="brand-text"><span>极享</span>AI</div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section"><div class="nav-section-title">核心管理</div>
+        <a class="nav-item"><i class="fas fa-chart-pie"></i><span>数据驾驶舱</span></a>
+        <a class="nav-item"><i class="fas fa-th-large"></i><span>产品矩阵</span></a>
+        <a class="nav-item"><i class="fas fa-handshake"></i><span>销售成交</span><span class="nav-badge">12</span></a>
+        <a class="nav-item"><i class="fas fa-user-tie"></i><span>招商代理</span></a>
+        <a class="nav-item"><i class="fas fa-bullhorn"></i><span>营销推广</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">内容中心</div>
+        <a class="nav-item"><i class="fas fa-images"></i><span>内容素材中心</span></a>
+        <a class="nav-item"><i class="fas fa-star"></i><span>案例见证中心</span></a>
+        <a class="nav-item active"><i class="fas fa-graduation-cap"></i><span>培训赋能中心</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">运营管理</div>
+        <a class="nav-item"><i class="fas fa-users"></i><span>客户管理</span></a>
+        <a class="nav-item"><i class="fas fa-file-invoice"></i><span>订单管理</span></a>
+        <a class="nav-item"><i class="fas fa-robot"></i><span>AI 智能体</span></a>
+        <a class="nav-item"><i class="fas fa-phone-alt"></i><span>呼叫中心</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">系统</div>
+        <a class="nav-item"><i class="fas fa-cog"></i><span>系统设置</span></a>
+        <a class="nav-item"><i class="fas fa-file-alt"></i><span>操作日志</span></a>
+        <a class="nav-item"><i class="fas fa-question-circle"></i><span>帮助中心</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer"><div class="user-mini"><div class="user-mini-avatar">张</div><div class="user-mini-info"><div class="user-mini-name">张明远</div><div class="user-mini-role">运营总监</div></div><i class="fas fa-ellipsis-v" style="font-size:14px;color:var(--color-text-tertiary)"></i></div></div>
+  </aside>
+  <main class="main-content">
+    <header class="topbar">
+      <div class="topbar-title"><span>培训</span>赋能中心</div>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-date"><i class="far fa-calendar-alt"></i> 2025年3月24日 周一</div>
+      <div class="topbar-actions"><button class="topbar-btn"><i class="far fa-bell"></i><span class="dot"></span></button><button class="topbar-btn"><i class="far fa-question-circle"></i></button><div class="topbar-avatar">张</div></div>
+    </header>
+    <div class="content-area">
+      <div class="page-header">
+        <div><h1>训练<span>营</span></h1><p>不同周期的实战训练营，助力快速成长</p></div>
+        <div class="header-actions"><button class="btn-primary"><i class="fas fa-plus"></i> 创建训练营</button></div>
+      </div>
+
+      <div class="camp-grid">
+        <div class="camp-card type-3d">
+          <div class="camp-header">
+            <div class="camp-duration">3天 · 体验营</div>
+            <div class="camp-name">AI口播快速入门</div>
+            <div class="camp-desc">零基础也能参加，3天掌握AI口播核心技能，产出你的第一个AI口播视频</div>
+          </div>
+          <div class="camp-body">
+            <div class="camp-stats">
+              <div class="camp-stat"><div class="camp-stat-value">128</div><div class="camp-stat-label">已报名</div></div>
+              <div class="camp-stat"><div class="camp-stat-value">3</div><div class="camp-stat-label">天课时</div></div>
+              <div class="camp-stat"><div class="camp-stat-value">92%</div><div class="camp-stat-label">好评率</div></div>
+            </div>
+          </div>
+          <div class="camp-footer">
+            <span class="camp-date"><i class="far fa-calendar-alt"></i> 第8期 · 4月1日开营</span>
+            <span class="camp-status-badge open"><i class="fas fa-circle" style="font-size:8px;margin-right:4px"></i>报名中</span>
+          </div>
+        </div>
+
+        <div class="camp-card type-7d">
+          <div class="camp-header">
+            <div class="camp-duration">7天 · 集训营</div>
+            <div class="camp-name">日更达人养成计划</div>
+            <div class="camp-desc">7天高强度集训，每天产出1条口播视频，导师1对1点评，快速提升内容质量</div>
+          </div>
+          <div class="camp-body">
+            <div class="camp-stats">
+              <div class="camp-stat"><div class="camp-stat-value">86</div><div class="camp-stat-label">已报名</div></div>
+              <div class="camp-stat"><div class="camp-stat-value">7</div><div class="camp-stat-label">天课时</div></div>
+              <div class="camp-stat"><div class="camp-stat-value">95%</div><div class="camp-stat-label">好评率</div></div>
+            </div>
+          </div>
+          <div class="camp-footer">
+            <span class="camp-date"><i class="far fa-calendar-alt"></i> 第5期 · 4月8日开营</span>
+            <span class="camp-status-badge open"><i class="fas fa-circle" style="font-size:8px;margin-right:4px"></i>报名中</span>
+          </div>
+        </div>
+
+        <div class="camp-card type-14d">
+          <div class="camp-header">
+            <div class="camp-duration">14天 · 进阶营</div>
+            <div class="camp-name">流量变现实战营</div>
+            <div class="camp-desc">从内容创作到商业变现的完整闭环，涵盖广告接单、直播带货、私域转化三大变现路径</div>
+          </div>
+          <div class="camp-body">
+            <div class="camp-stats">
+              <div class="camp-stat"><div class="camp-stat-value">54</div><div class="camp-stat-label">已报名</div></div>
+              <div class="camp-stat"><div class="camp-stat-value">14</div><div class="camp-stat-label">天课时</div></div>
+              <div class="camp-stat"><div class="camp-stat-value">97%</div><div class="camp-stat-label">好评率</div></div>
+            </div>
+          </div>
+          <div class="camp-footer">
+            <span class="camp-date"><i class="far fa-calendar-alt"></i> 第3期 · 4月15日开营</span>
+            <span class="camp-status-badge full"><i class="fas fa-times-circle" style="font-size:8px;margin-right:4px"></i>名额已满</span>
+          </div>
+        </div>
+
+        <div class="camp-card type-30d">
+          <div class="camp-header">
+            <div class="camp-duration">30天 · 王牌营</div>
+            <div class="camp-name">服务商孵化计划</div>
+            <div class="camp-desc">面向有志成为服务商的学员，系统培训团队管理、客户开发、规模化运营等核心能力</div>
+          </div>
+          <div class="camp-body">
+            <div class="camp-stats">
+              <div class="camp-stat"><div class="camp-stat-value">32</div><div class="camp-stat-label">已报名</div></div>
+              <div class="camp-stat"><div class="camp-stat-value">30</div><div class="camp-stat-label">天课时</div></div>
+              <div class="camp-stat"><div class="camp-stat-value">100%</div><div class="camp-stat-label">好评率</div></div>
+            </div>
+          </div>
+          <div class="camp-footer">
+            <span class="camp-date"><i class="far fa-calendar-alt"></i> 第2期 · 5月6日开营</span>
+            <span class="camp-status-badge closed"><i class="fas fa-lock" style="font-size:8px;margin-right:4px"></i>即将开放</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

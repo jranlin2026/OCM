@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<!--
+  Design System: 极享AI口播智能体
+  Template: dashboard-custom
+  File: prototype-data-review.html — 月度复盘
+  Module: 12 - 数据运营中心
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极享AI — 月度复盘</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+  --color-bg-primary: #0F0F1A; --color-bg-secondary: #1A1A2E; --color-surface: #1E1E32;
+  --color-surface-hover: #252540; --color-surface-elevated: #2A2A3C;
+  --color-gold: #D4A853; --color-gold-hover: #E0B96A; --color-gold-active: #C49A42;
+  --color-gold-muted: rgba(212,168,83,0.2); --color-gold-subtle: rgba(212,168,83,0.08);
+  --color-text-primary: #F5F5F7; --color-text-secondary: #A0A0B8; --color-text-tertiary: #6B6B82;
+  --color-text-on-gold: #0F0F1A;
+  --color-border: #2E2E44; --color-border-strong: #3D3D58; --color-border-gold: rgba(212,168,83,0.25);
+  --color-divider: #2A2A40;
+  --color-success: #22C55E; --color-warning: #F59E0B; --color-danger: #EF4444; --color-info: #3B82F6;
+  --color-tier-blue: #3B82F6; --color-tier-green: #22C55E; --color-tier-purple: #A855F7; --color-tier-gold: #F59E0B;
+  --space-2xs:4px;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:20px;--space-xl:24px;--space-2xl:32px;
+  --font-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --radius-sm:4px;--radius-md:8px;--radius-lg:12px;--radius-xl:16px;--radius-pill:20px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.3);--shadow-md:0 4px 12px rgba(0,0,0,.35);--shadow-lg:0 8px 24px rgba(0,0,0,.4);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:16px;-webkit-font-smoothing:antialiased;}
+body{font-family:var(--font-body);background:var(--color-bg-primary);color:var(--color-text-primary);line-height:1.6;min-height:100vh;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--color-border-strong);border-radius:3px;}
+.layout{display:flex;min-height:100vh;}
+.sidebar{width:240px;min-height:100vh;background:var(--color-bg-secondary);border-right:1px solid var(--color-border);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:100;}
+.sidebar-brand{height:64px;display:flex;align-items:center;padding:0 var(--space-lg);border-bottom:1px solid var(--color-divider);gap:var(--space-sm);flex-shrink:0;}
+.sidebar-brand .brand-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--color-gold),var(--color-gold-hover));border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--color-text-on-gold);font-weight:700;flex-shrink:0;}
+.sidebar-brand .brand-text{font-size:16px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.01em;}
+.sidebar-brand .brand-text span{color:var(--color-gold);}
+.sidebar-nav{flex:1;padding:var(--space-md) var(--space-sm);overflow-y:auto;}
+.nav-section{margin-bottom:var(--space-xl);}
+.nav-section-title{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.06em;padding:0 var(--space-sm);margin-bottom:var(--space-xs);}
+.nav-item{display:flex;align-items:center;height:44px;padding:0 var(--space-sm) 0 var(--space-md);border-radius:var(--radius-md);color:var(--color-text-secondary);text-decoration:none;font-size:14px;font-weight:400;cursor:pointer;transition:all 0.15s ease;gap:var(--space-sm);position:relative;}
+.nav-item i{width:20px;text-align:center;font-size:15px;color:var(--color-text-tertiary);transition:color 0.15s ease;}
+.nav-item:hover{background:var(--color-surface-hover);color:var(--color-text-primary);}
+.nav-item:hover i{color:var(--color-text-secondary);}
+.nav-item.active{background:var(--color-gold-subtle);color:var(--color-gold);font-weight:500;}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:20px;background:var(--color-gold);border-radius:0 2px 2px 0;}
+.nav-item.active i{color:var(--color-gold);}
+.nav-item .nav-badge{margin-left:auto;background:var(--color-danger);color:#fff;font-size:11px;font-weight:600;padding:0 6px;height:18px;line-height:18px;border-radius:9px;min-width:18px;text-align:center;}
+.nav-item .nav-badge.info{background:var(--color-info);}
+.sidebar-footer{padding:var(--space-md) var(--space-sm);border-top:1px solid var(--color-divider);flex-shrink:0;}
+.nav-item.user-item{height:48px;padding:var(--space-xs) var(--space-sm);}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--color-gold),var(--color-tier-purple));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--color-text-on-gold);flex-shrink:0;}
+.user-info{flex:1;min-width:0;}
+.user-name{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.2;}
+.user-role{font-size:11px;color:var(--color-text-tertiary);line-height:1.2;}
+.main-content{flex:1;margin-left:240px;min-height:100vh;display:flex;flex-direction:column;}
+.topbar{height:64px;background:var(--color-bg-secondary);border-bottom:1px solid var(--color-border);display:flex;align-items:center;padding:0 var(--space-xl);gap:var(--space-md);position:sticky;top:0;z-index:50;}
+.topbar-title{font-size:18px;font-weight:600;color:var(--color-text-primary);letter-spacing:-0.01em;}
+.topbar-title span{color:var(--color-gold);}
+.topbar-spacer{flex:1;}
+.topbar-date{font-size:13px;color:var(--color-text-tertiary);}
+.topbar-actions{display:flex;align-items:center;gap:var(--space-xs);}
+.topbar-btn{width:36px;height:36px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s ease;font-size:16px;position:relative;}
+.topbar-btn:hover{background:var(--color-surface-hover);border-color:var(--color-border-strong);color:var(--color-text-primary);}
+.topbar-btn .dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--color-danger);border-radius:50%;border:2px solid var(--color-bg-secondary);}
+.topbar-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--color-gold),var(--color-tier-blue));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--color-text-on-gold);cursor:pointer;margin-left:var(--space-xs);}
+.content-area{padding:var(--space-xl);flex:1;display:flex;flex-direction:column;gap:var(--space-lg);max-width:1440px;width:100%;margin:0 auto;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-lg);}
+.section-header h2{font-size:20px;font-weight:600;}
+.section-header h2 span{color:var(--color-gold);}
+.btn{display:inline-flex;align-items:center;gap:var(--space-xs);padding:0 var(--space-lg);height:36px;border-radius:var(--radius-md);font-size:14px;font-weight:500;border:none;cursor:pointer;transition:all 0.15s ease;}
+.btn-primary{background:var(--color-gold);color:var(--color-text-on-gold);}
+.btn-primary:hover{background:var(--color-gold-hover);}
+.btn-secondary{background:var(--color-surface);color:var(--color-text-secondary);border:1px solid var(--color-border);}
+.btn-secondary:hover{background:var(--color-surface-hover);border-color:var(--color-border-strong);color:var(--color-text-primary);}
+.btn-sm{height:30px;padding:0 var(--space-md);font-size:13px;}
+.tag{display:inline-flex;align-items:center;font-size:12px;font-weight:500;padding:2px 10px;border-radius:var(--radius-pill);}
+.tag-green{color:var(--color-tier-green);background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);}
+.tag-red{color:var(--color-danger);background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);}
+.metric-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-lg);position:relative;overflow:hidden;transition:all 0.2s;}
+.metric-card:hover{background:var(--color-surface-hover);border-color:var(--color-border-strong);box-shadow:var(--shadow-md);}
+.metric-card .color-bar{position:absolute;top:0;left:0;width:4px;height:100%;border-radius:0 2px 2px 0;}
+.color-bar.gold{background:var(--color-gold);}
+.color-bar.green{background:var(--color-success);}
+.color-bar.blue{background:var(--color-info);}
+.color-bar.purple{background:var(--color-tier-purple);}
+.metric-card .metric-label{font-size:12px;color:var(--color-text-secondary);font-weight:500;margin-bottom:var(--space-xs);padding-left:var(--space-sm);}
+.metric-card .metric-value{font-size:28px;font-weight:700;line-height:1;padding-left:var(--space-sm);margin-bottom:var(--space-2xs);}
+.metric-card .metric-comp{display:flex;align-items:center;gap:var(--space-sm);padding-left:var(--space-sm);font-size:12px;}
+.metric-comp .mc-up{color:var(--color-success);}
+.metric-comp .mc-down{color:var(--color-danger);}
+.metric-comp .mc-label{color:var(--color-text-tertiary);}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-md);}
+.report-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-xl);}
+.report-card h3{font-size:16px;font-weight:600;margin-bottom:var(--space-md);padding-bottom:var(--space-sm);border-bottom:1px solid var(--color-divider);display:flex;align-items:center;gap:var(--space-sm);}
+.report-section{margin-bottom:var(--space-lg);}
+.report-section h4{font-size:14px;font-weight:600;color:var(--color-gold);margin-bottom:var(--space-sm);}
+.report-section p,.report-section li{font-size:14px;color:var(--color-text-secondary);line-height:1.7;}
+.report-section ul{padding-left:var(--space-lg);}
+.report-section li{margin-bottom:var(--space-2xs);}
+@media(max-width:1024px){
+  .sidebar{width:64px;}.sidebar-brand .brand-text,.nav-item span,.nav-section-title,.nav-item .nav-badge,.sidebar-footer .nav-item span,.user-info{display:none;}
+  .sidebar-brand{justify-content:center;padding:0;}.nav-item{justify-content:center;padding:0;}
+  .nav-item.active::before{left:auto;right:0;top:0;transform:none;width:3px;height:100%;}.nav-item i{width:auto;}
+  .sidebar-footer .nav-item{justify-content:center;padding:0;}
+  .nav-item.user-item{justify-content:center;}.main-content{margin-left:64px;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:768px){.stats-grid{grid-template-columns:1fr;}.topbar-date{display:none;}}
+@media(max-width:480px){.sidebar{width:0;overflow:hidden;}.main-content{margin-left:0;}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="brand-icon">极</div><div class="brand-text"><span>极享</span>AI</div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section"><div class="nav-section-title">核心管理</div>
+        <a class="nav-item"><i class="fas fa-chart-pie"></i><span>数据驾驶舱</span></a>
+        <a class="nav-item"><i class="fas fa-th-large"></i><span>产品矩阵</span></a>
+        <a class="nav-item"><i class="fas fa-handshake"></i><span>销售成交</span><span class="nav-badge">12</span></a>
+        <a class="nav-item"><i class="fas fa-user-tie"></i><span>招商代理</span></a>
+        <a class="nav-item"><i class="fas fa-bullhorn"></i><span>营销推广</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">运营管理</div>
+        <a class="nav-item"><i class="fas fa-users"></i><span>客户管理</span></a>
+        <a class="nav-item"><i class="fas fa-file-invoice"></i><span>订单管理</span><span class="nav-badge info">5</span></a>
+        <a class="nav-item"><i class="fas fa-truck"></i><span>交付服务中心</span></a>
+        <a class="nav-item"><i class="fas fa-file-contract"></i><span>政策合同中心</span></a>
+        <a class="nav-item"><i class="fas fa-copyright"></i><span>品牌资产中心</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">数据与增长</div>
+        <a class="nav-item active"><i class="fas fa-chart-line"></i><span>数据运营中心</span></a>
+        <a class="nav-item"><i class="fas fa-robot"></i><span>AI 智能体</span></a>
+        <a class="nav-item"><i class="fas fa-phone-alt"></i><span>呼叫中心</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-title">系统</div>
+        <a class="nav-item"><i class="fas fa-cog"></i><span>系统设置</span></a>
+        <a class="nav-item"><i class="fas fa-file-alt"></i><span>操作日志</span></a>
+        <a class="nav-item"><i class="fas fa-question-circle"></i><span>帮助中心</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer"><div class="nav-item user-item"><div class="user-avatar">张</div><div class="user-info"><div class="user-name">张明远</div><div class="user-role">超级管理员</div></div><i class="fas fa-ellipsis-v" style="font-size:14px;"></i></div></div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <h1 class="topbar-title"><span>月度</span>复盘</h1>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-date"><i class="far fa-calendar-alt" style="margin-right:6px;"></i>2025年7月15日 周三</div>
+      <div class="topbar-actions">
+        <button class="topbar-btn" title="通知"><i class="far fa-bell"></i><span class="dot"></span></button>
+        <button class="topbar-btn" title="消息"><i class="far fa-envelope"></i></button>
+        <button class="topbar-btn" title="导出报告"><i class="fas fa-file-export"></i></button>
+        <div class="topbar-avatar">张</div>
+      </div>
+    </header>
+
+    <div class="content-area">
+      <div class="section-header">
+        <h2>2025年7月 <span>月度经营复盘</span></h2>
+        <div style="display:flex;gap:var(--space-sm);">
+          <button class="btn btn-secondary"><i class="fas fa-chevron-left"></i>6月</button>
+          <button class="btn btn-primary"><i class="fas fa-file-export"></i>生成复盘报告</button>
+        </div>
+      </div>
+
+      <section class="stats-grid">
+        <div class="metric-card"><div class="color-bar gold"></div><div class="metric-label">本月成交金额</div><div class="metric-value" style="color:var(--color-gold);">¥128.6K</div><div class="metric-comp"><span class="mc-up"><i class="fas fa-arrow-up"></i> +18.3%</span><span class="mc-label">环比</span><span class="mc-up"><i class="fas fa-arrow-up"></i> +32.1%</span><span class="mc-label">同比</span></div></div>
+        <div class="metric-card"><div class="color-bar green"></div><div class="metric-label">本月成交单数</div><div class="metric-value">47</div><div class="metric-comp"><span class="mc-up"><i class="fas fa-arrow-up"></i> +12.5%</span><span class="mc-label">环比</span><span class="mc-up"><i class="fas fa-arrow-up"></i> +28.6%</span><span class="mc-label">同比</span></div></div>
+        <div class="metric-card"><div class="color-bar blue"></div><div class="metric-label">新客数</div><div class="metric-value">32</div><div class="metric-comp"><span class="mc-up"><i class="fas fa-arrow-up"></i> +8.2%</span><span class="mc-label">环比</span><span class="mc-up"><i class="fas fa-arrow-up"></i> +15.4%</span><span class="mc-label">同比</span></div></div>
+        <div class="metric-card"><div class="color-bar purple"></div><div class="metric-label">退款率</div><div class="metric-value" style="color:var(--color-warning);">1.8%</div><div class="metric-comp"><span class="mc-down"><i class="fas fa-arrow-up"></i> +0.3%</span><span class="mc-label">环比</span><span class="mc-down"><i class="fas fa-arrow-down"></i> -0.5%</span><span class="mc-label">同比</span></div></div>
+      </section>
+
+      <div class="report-card">
+        <h3><i class="fas fa-file-alt" style="color:var(--color-gold);"></i>7月经营复盘报告</h3>
+        <div class="report-section">
+          <h4>一、总体经营概况</h4>
+          <p>2025年7月（截至7月15日），公司实现成交金额 ¥128.6K，环比增长18.3%，同比增长32.1%。本月共成交47单，客单价 ¥2,736，整体经营指标稳中向好。新增客户32家，客户转化率22.4%，较上月提升3.1个百分点。</p>
+        </div>
+        <div class="report-section">
+          <h4>二、产品线分析</h4>
+          <ul>
+            <li><strong>899 系列</strong>：成交 22 单，金额 ¥19.8K，占比 15.4%。入门级产品走量稳定，但客单价偏低。</li>
+            <li><strong>训练营系列</strong>：成交 15 单，金额 ¥52.7K，占比 41.0%。主力产品线，增长势头良好。</li>
+            <li><strong>B端定制版</strong>：成交 8 单，金额 ¥48.6K，占比 37.8%。高客单价产品，本月新增2家客户。</li>
+            <li><strong>B端代运营</strong>：成交 2 单，金额 ¥7.5K，占比 5.8%。新业务线，尚在培育期。</li>
+          </ul>
+        </div>
+        <div class="report-section">
+          <h4>三、渠道表现</h4>
+          <ul>
+            <li><strong>抖音直投</strong>：带来线索 542 条，成交 18 单，转化率 3.3%，ROI 1:4.2。</li>
+            <li><strong>代理商引入</strong>：带来线索 286 条，成交 15 单，转化率 5.2%，为最高效渠道。</li>
+            <li><strong>自然流量</strong>：带来线索 198 条，成交 8 单，转化率 4.0%。</li>
+            <li><strong>转介绍</strong>：带来线索 68 条，成交 6 单，转化率 8.8%，转化率最高的渠道。</li>
+          </ul>
+        </div>
+        <div class="report-section">
+          <h4>四、问题与改进</h4>
+          <ul>
+            <li>AI口播入门版退款率上升至 5.6%，需优化产品 onboarding 流程，加强客户预期管理。</li>
+            <li>B端定制版交付周期延长至 15 天，需要增加实施人员或优化交付流程。</li>
+            <li>新增线索中 35% 未在24小时内跟进，建议加强 CRM 系统自动化提醒功能。</li>
+          </ul>
+        </div>
+        <div class="report-section" style="margin-bottom:0;">
+          <h4>五、下月计划</h4>
+          <ul>
+            <li>目标：成交金额 ¥180K，环比增长 40%</li>
+            <li>重点推广训练营高阶实战产品，预计贡献 30% 营收</li>
+            <li>启动"夏日冲刺"营销活动，预计带来额外 200+ 线索</li>
+            <li>完成 3 家 B端客户的回访和续费跟进</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>
