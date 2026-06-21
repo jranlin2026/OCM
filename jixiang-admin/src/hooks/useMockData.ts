@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
 import { dashboardData } from '@/mocks/dashboard';
 import { products } from '@/mocks/products';
+import { faqs } from '@/mocks/project';
 import {
   ProductTier,
   ContentStatus,
   ScriptCategory,
   Priority,
   OrderStatus,
-  FaqItem,
   Competitor,
   GuideStep,
   Script,
@@ -76,97 +76,8 @@ export function useProducts() {
 
 /* ============= FAQ ============= */
 
-export function useFAQs(): FaqItem[] {
-  return useMemo(() => [
-    {
-      id: 'FAQ-001',
-      question: '极享AI平台支持哪些直播平台？',
-      answer: '目前支持抖音、快手、视频号、淘宝直播四大主流平台。我们提供适配各平台的话术模板和数据分析工具，帮助您在不同平台都能高效运营。',
-      category: '平台支持',
-      sortOrder: 1,
-      status: ContentStatus.PUBLISHED,
-      tags: ['平台', '直播', '兼容'],
-      createdAt: '2024-06-01',
-      updatedAt: '2024-12-10',
-    },
-    {
-      id: 'FAQ-002',
-      question: '标准版和代理版的主要区别是什么？',
-      answer: '标准版面向个人创业者，提供基础的AI话术生成和数据报表功能；代理版面向中小团队，增加了客户诊断工具、竞品对比分析和自动报价方案等高级功能，同时支持多人协作的团队管理后台。',
-      category: '产品对比',
-      sortOrder: 2,
-      status: ContentStatus.PUBLISHED,
-      tags: ['产品', '版本', '功能'],
-      createdAt: '2024-06-01',
-      updatedAt: '2024-12-08',
-    },
-    {
-      id: 'FAQ-003',
-      question: '购买后多久可以开始使用？',
-      answer: '标准版购买后即时开通，10分钟内即可开始使用。代理版、贴牌版和合伙人版需要1-3个工作日的部署和配置时间，我们的客户成功团队会全程协助您完成搭建。',
-      category: '售后服务',
-      sortOrder: 3,
-      status: ContentStatus.PUBLISHED,
-      tags: ['购买', '开通', '部署'],
-      createdAt: '2024-06-05',
-      updatedAt: '2024-12-06',
-    },
-    {
-      id: 'FAQ-004',
-      question: 'AI生成的话术是否可以自定义修改？',
-      answer: '完全可以。AI生成的初稿话术支持全文自定义编辑，您可以根据自己的产品和风格进行调整。系统还会记录您的修改偏好，持续优化后续生成的推荐内容。',
-      category: '功能使用',
-      sortOrder: 4,
-      status: ContentStatus.PUBLISHED,
-      tags: ['AI', '话术', '自定义'],
-      createdAt: '2024-07-01',
-      updatedAt: '2024-12-05',
-    },
-    {
-      id: 'FAQ-005',
-      question: '代理商的佣金如何结算？',
-      answer: '代理商佣金按月结算，每月5日前生成上月结算单，15日前完成打款。佣金比例根据代理等级和业绩阶梯式计算，具体比例可在代理商后台查看。',
-      category: '代理政策',
-      sortOrder: 5,
-      status: ContentStatus.PUBLISHED,
-      tags: ['代理', '佣金', '结算'],
-      createdAt: '2024-07-15',
-      updatedAt: '2024-12-03',
-    },
-    {
-      id: 'FAQ-006',
-      question: '是否支持多人同时使用一个账号？',
-      answer: '标准版仅支持单人使用。代理版支持最多5个子账号，贴牌版支持20个子账号，合伙人版不限子账号数量。所有版本均支持权限分级管理。',
-      category: '账号管理',
-      sortOrder: 6,
-      status: ContentStatus.PUBLISHED,
-      tags: ['账号', '多人', '权限'],
-      createdAt: '2024-08-01',
-      updatedAt: '2024-11-28',
-    },
-    {
-      id: 'FAQ-007',
-      question: '数据报表的更新频率是怎样的？',
-      answer: '核心数据实时更新，详细报表每日凌晨自动生成。支持自定义时间范围的数据导出，格式包括CSV和Excel。',
-      category: '数据功能',
-      sortOrder: 7,
-      status: ContentStatus.PUBLISHED,
-      tags: ['数据', '报表', '导出'],
-      createdAt: '2024-09-01',
-      updatedAt: '2024-11-20',
-    },
-    {
-      id: 'FAQ-008',
-      question: '合同到期后数据如何处理？',
-      answer: '合同到期后，您有30天的数据导出期，可以下载所有历史数据。超过30天未续费，系统将按照数据隐私政策对数据进行匿名化处理。建议在合同到期前及时续费或导出数据。',
-      category: '售后服务',
-      sortOrder: 8,
-      status: ContentStatus.PUBLISHED,
-      tags: ['合同', '数据', '续费'],
-      createdAt: '2024-10-01',
-      updatedAt: '2024-11-15',
-    },
-  ], []);
+export function useFAQs() {
+  return useMemo(() => faqs, []);
 }
 
 /* ============= 竞品对比 ============= */
