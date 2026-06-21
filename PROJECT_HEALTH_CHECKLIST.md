@@ -140,3 +140,20 @@ rg "TODO|FIXME|any|@ts-ignore|dangerouslySetInnerHTML|console\.log" jixiang-admi
 | 操作日志 | 已完成本地审计骨架 | 写操作接 API 后统一记录服务端审计日志 |
 | API 接入 | 文档草案已有，需更新细节 | 拆 `src/services` 模块并逐页替换 mock 数据 |
 | Mock 数据治理 | 待优化 | 优先拆分 `useMockData.ts`，避免单文件继续膨胀 |
+
+### 2026-06-21 13:51 本地推进记录
+
+- `useMockData.ts` 已开始按业务拆分 mock 数据：
+  - `src/mocks/dashboard.ts`
+  - `src/mocks/products.ts`
+  - `src/mocks/project.ts`（FAQ 第一批）
+- 测试覆盖已增强：
+  - 操作日志关键词与级别筛选。
+  - auth store 登录、登录失败、登出持久化流程。
+  - 57 条业务路由 Topbar 标题映射。
+- 当前本地质量基线：
+  - `npm.cmd run test`：6 个测试文件 / 19 个用例通过。
+  - `npm.cmd run lint`：通过。
+  - `npm.cmd run build`：通过。
+- 已补 `jixiang-admin/.env.example`，声明 `VITE_API_BASE_URL=/api`。
+- 注意：13:42 后 GitHub 443 TCP 连接失败，本地新提交暂未推送，待网络恢复后执行 `git push origin main`。
