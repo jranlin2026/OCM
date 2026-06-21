@@ -11,7 +11,7 @@
 | 仓库保存 | 通过 | 已推送 `main`，提交 `29e93c5 Initial project save` | 已具备版本管理基线 |
 | 构建 | 通过，带警告 | `npm.cmd run build` 成功 | 可打包，但首包过大 |
 | Lint | 通过 | `npm.cmd run lint` 成功 | 基础代码规范可用 |
-| 依赖安全 | 有风险 | `npm.cmd audit --audit-level=moderate` 报 Vite/esbuild 漏洞 | 需要规划 Vite 升级 |
+| 依赖安全 | 通过 | Vite 已升级到 8.0.16，`npm.cmd audit --audit-level=moderate` 为 0 vulnerabilities | 安全基线已恢复 |
 | 页面覆盖 | 较完整 | 14 个业务模块，128 个 TSX 页面/组件文件 | 已超过普通原型阶段 |
 | 数据来源 | 待改造 | 47 个 mock hook，业务页面未接真实 API | 主要瓶颈是数据层 |
 | 测试体系 | 缺失 | 未发现 test/vitest/jest/playwright 配置 | 上线前必须补测试 |
@@ -24,7 +24,7 @@
 | 明确交付范围 | 待做 | 产品/项目负责人 | 标记哪些模块是首期可交付，哪些只是展示原型 |
 | API 接入方案 | 已完成第一版 | 前后端负责人 | 已新增 `API_CONTRACT.md`，后续按后端评审调整 |
 | 权限与登录 | 待做 | 前端/后端 | 设计账号、角色、菜单权限、接口鉴权与登录态持久化 |
-| 安全漏洞处理 | 待做 | 前端负责人 | 评估 Vite 5 -> 新版本升级影响，优先消除 esbuild dev-server 漏洞 |
+| 安全漏洞处理 | 已完成 | 前端负责人 | 已升级 Vite 8.0.16 与 `@vitejs/plugin-react` 6.0.2，并通过 lint/build/audit |
 | 测试基线 | 待做 | 前端负责人 | 添加 Vitest/Testing Library 或 Playwright，至少覆盖路由、核心表格、搜索筛选 |
 | 部署配置 | 待做 | 运维/前端 | 确认构建产物托管方式、环境变量、API 代理、404 fallback |
 | 数据字典 | 已完成第一版 | 产品/后端 | 已新增 `DATA_DICTIONARY.md`，后续随接口和数据库模型细化 |
@@ -46,7 +46,7 @@
 
 | 检查项 | 状态 | 动作 |
 | --- | --- | --- |
-| 依赖升级策略 | 待规划 | 分两阶段升级：先 Vite 安全补丁，再 React/MUI 大版本评估 |
+| 依赖升级策略 | 进行中 | Vite 安全升级已完成；React/MUI 大版本后续单独评估 |
 | UI 设计系统沉淀 | 进行中 | 已有 `theme/tokens.ts`，后续补组件规范和页面模板 |
 | 错误处理 | 待做 | API 层补统一错误、loading、空状态、重试策略 |
 | 国际化/编码 | 观察 | 浏览器中文正常，PowerShell 输出中文会乱码；文档和源码需统一 UTF-8 |
@@ -90,7 +90,7 @@ rg "TODO|FIXME|any|@ts-ignore|dangerouslySetInnerHTML|console\.log" jixiang-admi
 3. 已完成第一版：加最小 CI：lint + build。
 4. 已完成第一版：形成实体数据字典。
 5. 已完成第一版：新建 API contract 文档，和后端对齐接口。
-6. 拆分 `useMockData.ts`。
-7. 处理 Vite/esbuild 安全告警。
+6. 已完成：处理 Vite/esbuild 安全告警。
+7. 拆分 `useMockData.ts`。
 8. 做路由懒加载和分包，降低首包。
 9. 做桌面端主流程 QA；移动端单独排期。

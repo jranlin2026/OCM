@@ -7,6 +7,11 @@
 
 ## 快速启动
 
+环境要求：
+
+- Node.js `^20.19.0` 或 `>=22.12.0`
+- npm 11 或兼容版本
+
 ```powershell
 cd jixiang-admin
 npm.cmd install
@@ -77,4 +82,3 @@ npm.cmd run build
 ```
 
 GitHub Actions 会在 `main` 分支 push 或 pull request 时自动执行 lint 和 build。
-
