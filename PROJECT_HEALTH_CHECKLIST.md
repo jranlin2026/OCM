@@ -22,12 +22,12 @@
 | 检查项 | 状态 | 负责人建议 | 动作 |
 | --- | --- | --- | --- |
 | 明确交付范围 | 待做 | 产品/项目负责人 | 标记哪些模块是首期可交付，哪些只是展示原型 |
-| API 接入方案 | 待做 | 前后端负责人 | 将 `src/services/api.ts` 扩展为模块化接口层，逐步替换 `useMockData.ts` |
+| API 接入方案 | 已完成第一版 | 前后端负责人 | 已新增 `API_CONTRACT.md`，后续按后端评审调整 |
 | 权限与登录 | 待做 | 前端/后端 | 设计账号、角色、菜单权限、接口鉴权与登录态持久化 |
 | 安全漏洞处理 | 待做 | 前端负责人 | 评估 Vite 5 -> 新版本升级影响，优先消除 esbuild dev-server 漏洞 |
 | 测试基线 | 待做 | 前端负责人 | 添加 Vitest/Testing Library 或 Playwright，至少覆盖路由、核心表格、搜索筛选 |
 | 部署配置 | 待做 | 运维/前端 | 确认构建产物托管方式、环境变量、API 代理、404 fallback |
-| 数据字典 | 待做 | 产品/后端 | 从 mock 数据中抽取实体：产品、订单、代理、合同、培训、数据看板等 |
+| 数据字典 | 已完成第一版 | 产品/后端 | 已新增 `DATA_DICTIONARY.md`，后续随接口和数据库模型细化 |
 | 首期交付范围 | 已完成第一版 | 项目负责人 | 已新增 `DELIVERY_SCOPE.md`，后续按评审结果更新 |
 
 ## 3. P1 重要优化
@@ -59,6 +59,8 @@
 - 静态原型：根目录 `prototype-*.html`，共 56 个
 - 项目入口文档：`README.md`
 - 首期范围文档：`DELIVERY_SCOPE.md`
+- API 合同草案：`API_CONTRACT.md`
+- 数据字典草案：`DATA_DICTIONARY.md`
 - 核心页面目录：`dashboard`、`products`、`project`、`sales`、`agent`、`acquisition`、`cases`、`training`、`materials`、`delivery`、`policies`、`brand`、`data`、`settings`
 - 关键共享层：
   - 主题：`jixiang-admin/src/theme`
@@ -86,8 +88,9 @@ rg "TODO|FIXME|any|@ts-ignore|dangerouslySetInnerHTML|console\.log" jixiang-admi
 1. 已完成：补根目录 README，固定启动、构建、部署、目录说明。
 2. 已完成第一版：确认首期模块范围，给每个模块标记：可演示 / 待接 API / 仅原型。
 3. 已完成第一版：加最小 CI：lint + build。
-4. 拆分 `useMockData.ts`，同步形成实体数据字典。
-5. 新建 API contract 文档，和后端对齐接口。
-6. 处理 Vite/esbuild 安全告警。
-7. 做路由懒加载和分包，降低首包。
-8. 做桌面端主流程 QA；移动端单独排期。
+4. 已完成第一版：形成实体数据字典。
+5. 已完成第一版：新建 API contract 文档，和后端对齐接口。
+6. 拆分 `useMockData.ts`。
+7. 处理 Vite/esbuild 安全告警。
+8. 做路由懒加载和分包，降低首包。
+9. 做桌面端主流程 QA；移动端单独排期。
